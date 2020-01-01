@@ -64,9 +64,9 @@ class Post extends Component {
         let comments = [];
         comments.push({username: 'username 1', id: '.1', text: 'comment 1'});
         comments.push({username: 'username 2', id: '.2', text: 'comment 2'});
-        comments.push({username: 'username 1.1', id: '.1.1', text: 'comment 1-1'});
         comments.push({username: 'username 1.2.1', id: '.1.2.1', text: 'comment 1-2-1'});
         comments.push({username: 'username 1.2', id: '.1.2', text: 'comment 1-2'});
+        comments.push({username: 'username 1.1', id: '.1.1', text: 'comment 1-1'});
         this.setState({comments: comments});
     }
 
