@@ -10,7 +10,8 @@ import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import MediaQuery from "react-responsive/src/Component";
 import SearchIcon from '@material-ui/icons/Search';
-import {useMediaQuery} from "@material-ui/core";
+import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
 
 const Img = styled.img`
 max-width: 20%;
@@ -19,13 +20,15 @@ margin-right: 3%;
 
 class Navbar extends Component {
     onAlertsClick = (e) => {
+        this.props.history.push('/alerts')
     };
 
     onProfileClick = (e) => {
+        this.props.history.push('/u/'+this.props.username)
     };
 
     onSmallSearchClick = (e) => {
-
+        this.props.history.push('/search')
     };
 
     render() {
@@ -74,4 +77,8 @@ class Navbar extends Component {
     }
 }
 
-export default Navbar;
+const mapStateToProps = (state) => ({
+    username: state.auth.username
+})
+
+export default withRouter(connect(mapStateToProps)(Navbar));
