@@ -1,174 +1,38 @@
 import React, {Component} from 'react'
-import {Dropdown, DropdownDivider, DropdownItem, DropdownSearchInput} from 'semantic-ui-react'
+import {Dropdown, DropdownDivider, DropdownItem} from 'semantic-ui-react'
+import {connect} from "react-redux";
+import {withRouter} from 'react-router-dom'
+import {loadChannels} from "../redux/action_creators/navbarActions";
 
-const channels = [
-    {
-        text: 'Sports',
-        id: '2',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Jokes',
-        id: '3',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Home',
-        id: '1',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Sports',
-        id: '2',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Jokes',
-        id: '3',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Home',
-        id: '1',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Sports',
-        id: '2',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Jokes',
-        id: '3',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Home',
-        id: '1',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Sports',
-        id: '2',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Jokes',
-        id: '3',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Home',
-        id: '1',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Sports',
-        id: '2',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Jokes',
-        id: '3',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Home',
-        id: '1',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Sports',
-        id: '2',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Jokes',
-        id: '3',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Home',
-        id: '1',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Sports',
-        id: '2',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Jokes',
-        id: '3',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Home',
-        id: '1',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Sports',
-        id: '2',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Jokes',
-        id: '3',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Home',
-        id: '1',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Sports',
-        id: '2',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Jokes',
-        id: '3',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Home',
-        id: '1',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Sports',
-        id: '2',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-    {
-        text: 'Jokes',
-        id: '3',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
-    },
-];
-
-class ChannelDD extends Component{
-    onChannelClick = (id) => {
-        //push that channel url and change selected channel
+class ChannelDD extends Component {
+    onChannelClick = (name) => {
+        this.props.history.push('/r/' + name)
     };
+
+    onHomeClick = () => {
+        this.props.history.push('/')
+    };
+
+    componentDidMount() {
+        this.props.loadChannels()
+    }
 
     render() {
         return (
             <Dropdown
-                {...channels[0]}
+                text={this.props.inChannel.name}
                 labeled
-                button
+                button={!this.props.compact}
                 className='icon'
                 scrolling
             >
                 <Dropdown.Menu>
-                    <DropdownItem icon={'home'} text={'Home'} onClick={this.onChannelClick.bind(this,'home')}/>
+                    <DropdownItem icon={'home'} text={'Home'} onClick={this.onHomeClick}/>
                     <DropdownDivider/>
                     <Dropdown.Header content='Followed channels'/>
-                    {channels.map((option) => (
-                        <Dropdown.Item key={option.id} {...option} onClick={this.onChannelClick.bind(this,option.id)}/>
+                    {this.props.channels.map((option) => (
+                        <Dropdown.Item key={option.name} image={option.image} text={option.name}
+                                       onClick={this.onChannelClick.bind(this, option.name)}/>
                     ))}
                 </Dropdown.Menu>
             </Dropdown>
@@ -176,4 +40,9 @@ class ChannelDD extends Component{
     }
 }
 
-export default ChannelDD
+const mapStateToProps = (state) => ({
+    channels: state.navbar.channels,
+    inChannel: state.navbar.inChannel
+});
+
+export default withRouter(connect(mapStateToProps,{loadChannels})(ChannelDD))

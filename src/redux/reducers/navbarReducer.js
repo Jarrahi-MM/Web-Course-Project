@@ -1,18 +1,28 @@
+import {SEARCH_LOADING_DONE, SEARCH_LOADING_STARTED, STORE_CHANNELS} from "../action_creators/types";
+
 const initState = {
-    channels:[
-        {name:'sports',logo:'https://b.thumbs.redditmedia.com/fI7UdJ-vgpnLdxy28QdKIYBGg-fEo7KxQ_PS7pn4QzM.png'},
-        {name:'sports',logo:'https://b.thumbs.redditmedia.com/fI7UdJ-vgpnLdxy28QdKIYBGg-fEo7KxQ_PS7pn4QzM.png'},
-        {name:'sports',logo:'https://b.thumbs.redditmedia.com/fI7UdJ-vgpnLdxy28QdKIYBGg-fEo7KxQ_PS7pn4QzM.png'},
-    ]
+    channels:[],
+    inChannel:{name: 'Go to a channel'},
+    searchIsLoading:false,
 };
 
 const navbarReducer = (state = initState, action) => {
     switch (action.type) {
-        // case 'ADD CHANNELS':
-        //     return {
-        //         ...state,
-        //         channels: [...state.channels,...action.payload]
-        //     };
+        case STORE_CHANNELS:
+            return {
+                ...state,
+                channels: action.payload
+            }
+        case SEARCH_LOADING_DONE:
+            return {
+                ...state,
+                searchIsLoading: false
+            }
+        case SEARCH_LOADING_STARTED:
+            return {
+                ...state,
+                searchIsLoading: true
+            }
         default:
             return state
     }

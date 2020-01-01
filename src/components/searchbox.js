@@ -1,90 +1,90 @@
 import _ from 'lodash'
 import React, {Component} from 'react'
-import {Search, Label} from 'semantic-ui-react'
+import {Search} from 'semantic-ui-react'
+import {connect} from "react-redux";
+import {search} from "../redux/action_creators/searchActions";
+import {withRouter} from 'react-router-dom'
 
-const source = [
-    {
-        "title": "Bosco, Romaguera and Bins",
-        "description": "Front-line client-driven challenge",
-        "image": "https://s3.amazonaws.com/uifaces/faces/twitter/maximseshuk/128.jpg",
-        "price": "$99.43"
-    },
-    {
-        "title": "Johnston Group",
-        "description": "Focused disintermediate paradigm",
-        "image": "https://s3.amazonaws.com/uifaces/faces/twitter/nicolasfolliot/128.jpg",
-        "price": "$60.88"
-    },
-    {
-        "title": "Toy LLC",
-        "description": "Networked bandwidth-monitored definition",
-        "image": "https://s3.amazonaws.com/uifaces/faces/twitter/S0ufi4n3/128.jpg",
-        "price": "$41.03"
-    },
-    {
-        "title": "Hand LLC",
-        "description": "Centralized asynchronous access",
-        "image": "https://s3.amazonaws.com/uifaces/faces/twitter/cemshid/128.jpg",
-        "price": "$80.67"
-    },
-    {
-        "title": "Bradtke - Mills",
-        "description": "Pre-emptive impactful encryption",
-        "image": "https://s3.amazonaws.com/uifaces/faces/twitter/mutlu82/128.jpg",
-        "price": "$8.39"
-    }
-];
-
-const resultRenderer = ({title}) => {
-    return(<Label content={title}/>)
-};
-
-const initialState = {isLoading: false, results: [], value: ''}
 class SearchBox extends Component {
-    state = initialState;
-
-    handleResultSelect = (e, {result}) => {
-        this.setState({value: result.title})
+    state = {value:''}
+    handleResultSelect = (e, {result:{title:result}}) => {
+        if (result.charAt(result.length - 1) === ' ') {
+            if (result.charAt(result.length - 2) === ' ') {
+                this.props.history.push('/c/' + result)
+            } else {
+                this.props.history.push('/u/' + result)
+            }
+        } else {
+            this.props.history.push('/p/' + result)
+        }
+        this.setState({value:''})
     };
 
     handleSearchChange = (e, {value}) => {
-        this.setState({isLoading: true, value})
+        this.setState({value})
 
-        setTimeout(() => {
-            if (this.state.value.length < 1){
-                this.setState(initialState);
-                return;
-            }
+        if (value.length < 1) {
+            return;
+        }
 
-            this.setState({
-                isLoading: false,
-                results: source
-            })
-        }, 300)
-    };
-
-    handleClick = (e) => {
-        e.target.select();
+        this.props.search(value)
     };
 
     render() {
-        const {isLoading, value, results} = this.state;
-
         return (
             <Search
+                category
                 fluid
-                loading={isLoading}
+                loading={this.props.searchIsLoading}
                 onResultSelect={this.handleResultSelect}
                 onSearchChange={_.debounce(this.handleSearchChange, 500, {
                     leading: true,
                 })}
-                onClick={this.handleClick}
-                results={results}
-                value={value}
-                resultRenderer={resultRenderer}
+                results={this.props.searchResults}
+                value={this.state.value}
             />
         )
     }
 }
 
-export default SearchBox
+function mapSearchResultsToCategorizedSearchResults(results) {
+    let formattedResults = {
+        'Channels': {
+            'name': 'Channels',
+            'results': results.Channels ? results.Channels.map(channel => {
+                return {'title': channel.name + '  '}
+            }) : []
+        },
+        'Users': {
+            'name': 'Users',
+            'results': results.Users ? results.Users.map(user => {
+                return {'title': user.name + ' '}
+            }) : []
+        },
+        'Posts': {
+            'name': 'Posts',
+            'results': results.Posts ? results.Posts.map(post => {
+                return {'title': post.name}
+            }) : []
+        }
+    }
+
+    return removeEmptyCategories(formattedResults)
+}
+
+function removeEmptyCategories(formattedResults) {
+    let tidyObj = {...formattedResults}
+    for (let k in formattedResults) {
+        if (formattedResults[k].results.length === 0) {
+            tidyObj = _.omit(tidyObj, k)
+        }
+    }
+    return tidyObj
+}
+
+const mapStateToProps = (state) => ({
+    searchResults: mapSearchResultsToCategorizedSearchResults(state.search.searchResults),
+    searchIsLoading: state.navbar.searchIsLoading,
+})
+
+export default withRouter(connect(mapStateToProps, {search})(SearchBox))
