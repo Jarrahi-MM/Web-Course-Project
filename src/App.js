@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Navbar from "./components/navbar";
-import ProfileImage from "./components/ProfileImage";
+import Profile from "./components/profile";
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
               </Route>
 
               <Route path={'/profile'}>
-                  <ProfileImage/>
+                  <Profile/>
               </Route>
           </Switch>
       </BrowserRouter>

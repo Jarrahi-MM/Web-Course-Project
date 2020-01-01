@@ -10,7 +10,7 @@ const imageStyle = {
     height: '250px'
 };
 
-class ImageExampleCircular extends Component {
+class ProfilePicture extends Component {
     render() {
         return (<div style={containStyle}>
             <Image style={imageStyle} src={this.props.image} size='medium' circular/>
@@ -18,4 +18,4 @@ class ImageExampleCircular extends Component {
     }
 }
 
-export default ImageExampleCircular
+export default ProfilePicture
