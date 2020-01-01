@@ -10,6 +10,7 @@ import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import MediaQuery from "react-responsive/src/Component";
 import SearchIcon from '@material-ui/icons/Search';
+import {useMediaQuery} from "@material-ui/core";
 
 const Img = styled.img`
 max-width: 20%;
@@ -23,7 +24,7 @@ class Navbar extends Component {
     onProfileClick = (e) => {
     };
 
-    onSearchClick = (e) => {
+    onSmallSearchClick = (e) => {
 
     };
 
@@ -31,27 +32,32 @@ class Navbar extends Component {
         return (
             <div>
                 <nav className="navbar navbar-light shadow-sm rounded">
-                    <div className="container">
-                        <div>
+                    <div className="container-lg">
+                        <div className={'text-center'}>
                             <Link to={'/'} className="navbar-brand">
-                                <MediaQuery minWidth={850}>
+                                <MediaQuery minWidth={750}>
                                     <Img src={logo} alt={'website logo'}/>
                                     Project
                                 </MediaQuery>
                             </Link>
                         </div>
-                        <div>
-                            <MediaQuery minWidth={510}>
-                                <SearchBox/>
+                        <div className={'text-center'}>
+                            <MediaQuery minWidth={586}>
+                                <SearchBox onSub/>
                             </MediaQuery>
-                            <MediaQuery maxWidth={510}>
-                                <IconButton onClick={this.onSearchClick}>
+                            <MediaQuery maxWidth={585}>
+                                <IconButton onClick={this.onSmallSearchClick}>
                                     <SearchIcon fontSize={"large"}/>
                                 </IconButton>
                             </MediaQuery>
                         </div>
-                        <div>
-                            <ChannelDD/>
+                        <div className={'text-center'}>
+                            <MediaQuery minWidth={435}>
+                                <ChannelDD compact={false}/>
+                            </MediaQuery>
+                            <MediaQuery maxWidth={434}>
+                                <ChannelDD compact={true}/>
+                            </MediaQuery>
                             <IconButton onClick={this.onAlertsClick}>
                                 <Badge badgeContent={1} color={'secondary'}>
                                     <NotificationsNoneIcon fontSize={"large"}/>
