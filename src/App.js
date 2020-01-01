@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import Navbar from "./components/navbar";
-import Post from "./components/Post"
+import Post from "./components/posts/Post"
 
 function App() {
     return (
