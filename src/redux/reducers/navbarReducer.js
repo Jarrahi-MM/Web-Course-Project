@@ -1,13 +1,29 @@
-import {SEARCH_LOADING_DONE, SEARCH_LOADING_STARTED, STORE_CHANNELS} from "../action_creators/types";
+import {
+    CHANNEL_MOUNTED,
+    CHANNEL_UNMOUNTED,
+    SEARCH_LOADING_DONE,
+    SEARCH_LOADING_STARTED,
+    STORE_CHANNELS
+} from "../action_creators/types";
 
 const initState = {
     channels:[],
-    inChannel:{name: 'Go to a channel'},
+    inChannel:'Go to a channel',
     searchIsLoading:false,
 };
 
 const navbarReducer = (state = initState, action) => {
     switch (action.type) {
+        case CHANNEL_MOUNTED:
+            return {
+                ...state,
+                inChannel: action.payload
+            }
+        case CHANNEL_UNMOUNTED:
+            return {
+                ...state,
+                inChannel: initState.inChannel
+            }
         case STORE_CHANNELS:
             return {
                 ...state,

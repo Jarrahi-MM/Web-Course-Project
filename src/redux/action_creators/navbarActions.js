@@ -1,4 +1,4 @@
-import {STORE_CHANNELS} from "./types";
+import {CHANNEL_MOUNTED, CHANNEL_UNMOUNTED, STORE_CHANNELS} from "./types";
 
 const fake_channels = [
     {
@@ -27,7 +27,20 @@ export const loadChannels = () => (dispatch, state) => {
     //     })
     // });
     dispatch({
-        'type': STORE_CHANNELS,
-        'payload': fake_channels,
+        type: STORE_CHANNELS,
+        payload: fake_channels,
+    })
+}
+
+export const mountedChannel = (channelName) => (dispatch,state) => {
+    dispatch({
+        type:  CHANNEL_MOUNTED,
+        payload: channelName,
+    })
+}
+
+export const unmountedChannel = () => (dispatch,state) => {
+    dispatch({
+        type:  CHANNEL_UNMOUNTED,
     })
 }

@@ -20,7 +20,7 @@ class ChannelDD extends Component {
     render() {
         return (
             <Dropdown
-                text={this.props.inChannel.name}
+                text={this.props.inChannel}
                 labeled
                 button={!this.props.compact}
                 className='icon'

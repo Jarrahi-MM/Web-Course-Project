@@ -1,6 +1,6 @@
 import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
-import Navbar from "./components/navbar";
+import Navbar from "./components/Navbar";
 import Post from "./components/Post"
 
 function App() {
