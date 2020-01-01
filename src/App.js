@@ -7,10 +7,14 @@ function App() {
     return (
         <BrowserRouter>
             <Switch>
-                <Route path={'/post/'}>
-                    <Navbar/>
-                    <Post postId='0000'/>
-                </Route>
+                <Route path='/post/:postId' render={({match}) => {
+                    return (
+                        <div>
+                            <Navbar/>
+                            <Post postId={match.params.postId}/>
+                        </div>
+                    );
+                }}/>
                 <Route path={'/'}>
                     <Navbar/>
                 </Route>
