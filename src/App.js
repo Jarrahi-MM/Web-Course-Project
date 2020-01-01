@@ -1,18 +1,26 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import Navbar from "./components/navbar";
+import Post from "./components/Post"
 
 function App() {
-  return (
-      <BrowserRouter>
-          <Switch>
-
-              <Route path={'/'}>
-                  <Navbar/>
-              </Route>
-          </Switch>
-      </BrowserRouter>
-  );
+    return (
+        <BrowserRouter>
+            <Switch>
+                <Route path='/post/:postId' render={({match}) => {
+                    return (
+                        <div>
+                            <Navbar/>
+                            <Post postId={match.params.postId}/>
+                        </div>
+                    );
+                }}/>
+                <Route path={'/'}>
+                    <Navbar/>
+                </Route>
+            </Switch>
+        </BrowserRouter>
+    );
 }
 
 export default App;
