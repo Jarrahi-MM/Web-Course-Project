@@ -1,6 +1,6 @@
 import _ from 'lodash'
-import React, { Component } from 'react'
-import { Search, Grid, Header, Segment, Label } from 'semantic-ui-react'
+import React, {Component} from 'react'
+import {Search, Label} from 'semantic-ui-react'
 
 const source = [
     {
@@ -33,52 +33,56 @@ const source = [
         "image": "https://s3.amazonaws.com/uifaces/faces/twitter/mutlu82/128.jpg",
         "price": "$8.39"
     }
-]
+];
 
-const resultRenderer = ({ title }) => <Label content={title} />
+const resultRenderer = ({title}) => {
+    return(<Label content={title}/>)
+};
 
-const initialState = { isLoading: false, results: [], value: '' }
-
+const initialState = {isLoading: false, results: [], value: ''}
 class SearchBox extends Component {
-    state = initialState
+    state = initialState;
 
-    handleResultSelect = (e, { result }) => this.setState({ value: result.title })
+    handleResultSelect = (e, {result}) => {
+        this.setState({value: result.title})
+    };
 
-    handleSearchChange = (e, { value }) => {
-        this.setState({ isLoading: true, value })
+    handleSearchChange = (e, {value}) => {
+        this.setState({isLoading: true, value})
 
         setTimeout(() => {
-            if (this.state.value.length < 1) return this.setState(initialState)
-
-            const re = new RegExp(_.escapeRegExp(this.state.value), 'i')
-            const isMatch = (result) => re.test(result.title)
+            if (this.state.value.length < 1){
+                this.setState(initialState);
+                return;
+            }
 
             this.setState({
                 isLoading: false,
-                results: _.filter(source, isMatch),
+                results: source
             })
         }, 300)
-    }
+    };
+
+    handleClick = (e) => {
+        e.target.select();
+    };
 
     render() {
-        const { isLoading, value, results } = this.state
+        const {isLoading, value, results} = this.state;
 
         return (
-            <Grid>
-                <Grid.Column width={12}>
-                    <Search
-                        loading={isLoading}
-                        onResultSelect={this.handleResultSelect}
-                        onSearchChange={_.debounce(this.handleSearchChange, 500, {
-                            leading: true,
-                        })}
-                        results={results}
-                        value={value}
-                        resultRenderer={resultRenderer}
-                        {...this.props}
-                    />
-                </Grid.Column>
-            </Grid>
+            <Search
+                fluid
+                loading={isLoading}
+                onResultSelect={this.handleResultSelect}
+                onSearchChange={_.debounce(this.handleSearchChange, 500, {
+                    leading: true,
+                })}
+                onClick={this.handleClick}
+                results={results}
+                value={value}
+                resultRenderer={resultRenderer}
+            />
         )
     }
 }

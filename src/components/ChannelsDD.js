@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Dropdown} from 'semantic-ui-react'
+import {Dropdown, DropdownSearchInput} from 'semantic-ui-react'
 
 const channels = [
     {
@@ -17,20 +17,20 @@ const channels = [
         id: '3',
         image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
     },
-]
+];
 
 class ChannelDD extends Component{
     onChannelClick = (id) => {
-        //todo
+        //push that channel url and change selected channel
     };
 
     render() {
         return (
             <Dropdown
+                {...channels[0]}
                 labeled
                 button
                 className='icon'
-                {...channels[0]}
             >
                 <Dropdown.Menu>
                     <Dropdown.Header content='Followed channels'/>
