@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import logo from '../logo.png'
 import styled from "styled-components";
-import SearchBox from "./searchbox";
+import SearchBox from "./Searchbox";
 import ChannelDD from "./ChannelsDD";
 import Badge from '@material-ui/core/Badge';
 import IconButton from '@material-ui/core/IconButton';
@@ -12,6 +12,7 @@ import MediaQuery from "react-responsive/src/Component";
 import SearchIcon from '@material-ui/icons/Search';
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
+import {setUnreadAlerts} from "../redux/action_creators/navbarActions";
 
 const Img = styled.img`
 max-width: 20%;
@@ -19,6 +20,10 @@ margin-right: 3%;
 `;
 
 class Navbar extends Component {
+    componentDidMount() {
+        this.props.setUnreadAlerts()
+    }
+
     onAlertsClick = (e) => {
         this.props.history.push('/alerts')
     };
@@ -62,7 +67,7 @@ class Navbar extends Component {
                                 <ChannelDD compact={true}/>
                             </MediaQuery>
                             <IconButton onClick={this.onAlertsClick}>
-                                <Badge badgeContent={1} color={'secondary'}>
+                                <Badge badgeContent={this.props.unreadAlerts} color={'secondary'}>
                                     <NotificationsNoneIcon fontSize={"large"}/>
                                 </Badge>
                             </IconButton>
@@ -78,7 +83,8 @@ class Navbar extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    username: state.auth.username
+    username: state.auth.username,
+    unreadAlerts: state.navbar.unreadAlerts
 })
 
-export default withRouter(connect(mapStateToProps)(Navbar));
+export default withRouter(connect(mapStateToProps,{setUnreadAlerts})(Navbar));

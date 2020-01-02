@@ -2,21 +2,24 @@ import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import Navbar from "./components/Navbar";
 import Post from "./components/Post"
+import Homepage from "./components/Homepage";
 
 function App() {
     return (
         <BrowserRouter>
+            <Route path={'/'}>
+                <Navbar/>
+            </Route>
             <Switch>
                 <Route path='/post/:postId' render={({match}) => {
                     return (
                         <div>
-                            <Navbar/>
                             <Post postId={match.params.postId}/>
                         </div>
                     );
                 }}/>
                 <Route path={'/'}>
-                    <Navbar/>
+                    <Homepage/>
                 </Route>
             </Switch>
         </BrowserRouter>

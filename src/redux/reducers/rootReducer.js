@@ -5,7 +5,7 @@ import searchReducer from "./searchReducer";
 import authReducer from "./authReducer";
 
 const rootReducer = combineReducers({
-    homePage: homepageReducer,
+    homepage: homepageReducer,
     navbar: navbarReducer,
     search: searchReducer,
     auth: authReducer,

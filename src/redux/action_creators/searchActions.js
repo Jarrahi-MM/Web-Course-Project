@@ -44,7 +44,7 @@ export const search = (value) => (dispatch, getState) => {
 
     // let url = new URL('http://192.168.1.1:8080');
     // url.searchParams = new URLSearchParams({value}).toString()
-    // return fetch(url
+    // fetch(url
     // ).then(function (resp) {
     //     return resp.json();
     // }).then(function (json) {

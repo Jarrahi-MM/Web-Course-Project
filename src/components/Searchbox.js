@@ -5,17 +5,18 @@ import {connect} from "react-redux";
 import {search} from "../redux/action_creators/searchActions";
 import {withRouter} from 'react-router-dom'
 
-class SearchBox extends Component {
+class Searchbox extends Component {
     state = {value:''}
     handleResultSelect = (e, {result:{title:result}}) => {
         if (result.charAt(result.length - 1) === ' ') {
             if (result.charAt(result.length - 2) === ' ') {
-                this.props.history.push('/c/' + result)
+                this.props.history.push('/c/' + result.trim())
             } else {
-                this.props.history.push('/u/' + result)
+                this.props.history.push('/u/' + result.trim())
             }
         } else {
-            this.props.history.push('/p/' + result)
+            let id = this.props.searchResults.Posts.results.filter(post => post.title===result)[0].id.toString()
+            this.props.history.push('/p/' + id)
         }
         this.setState({value:''})
     };
@@ -64,7 +65,7 @@ function mapSearchResultsToCategorizedSearchResults(results) {
         'Posts': {
             'name': 'Posts',
             'results': results.Posts ? results.Posts.map(post => {
-                return {'title': post.name}
+                return {'title': post.name,'id': post.id}
             }) : []
         }
     }
@@ -87,4 +88,4 @@ const mapStateToProps = (state) => ({
     searchIsLoading: state.navbar.searchIsLoading,
 })
 
-export default withRouter(connect(mapStateToProps, {search})(SearchBox))
+export default withRouter(connect(mapStateToProps, {search})(Searchbox))
