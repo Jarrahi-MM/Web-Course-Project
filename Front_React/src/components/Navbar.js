@@ -85,6 +85,6 @@ class Navbar extends Component {
 const mapStateToProps = (state) => ({
     username: state.auth.username,
     unreadAlerts: state.navbar.unreadAlerts
-})
+});
 
 export default withRouter(connect(mapStateToProps,{setUnreadAlerts})(Navbar));

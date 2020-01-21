@@ -20,7 +20,7 @@ const fake_followed_tab_response = {
     ],
     checkpoint: 'a date maybe',
     hasMoreItems: true
-}
+};
 
 const fake_hottest_tab_response = {
     postIds: [
@@ -42,13 +42,13 @@ const fake_hottest_tab_response = {
     ],
     checkpoint: 'a date maybe',
     hasMoreItems: false
-}
+};
 
 const fake_other_tabs_response = {
     postIds: [],
     checkpoint: 'a date maybe',
     hasMoreItems: false
-}
+};
 
 
 export const loadMoreItems = () => (dispatch, getState) => {
@@ -66,28 +66,28 @@ export const loadMoreItems = () => (dispatch, getState) => {
                 dispatch({
                     type: APPEND_POSTS,
                     payload: JSON.parse(JSON.stringify(fake_followed_tab_response))
-                })
+                });
                 fake_followed_tab_response.postIds.forEach((obj)=> obj.id+=5)
-            },500)
+            },500);
             break;
         case HOTTEST_TAB:
             dispatch({
                 type: APPEND_POSTS,
                 payload: fake_hottest_tab_response
-            })
+            });
             break;
         default:
             dispatch({
                 type: APPEND_POSTS,
                 payload: fake_other_tabs_response
-            })
+            });
             break;
     }
-}
+};
 
 export const setActiveTab = (tab) => (dispatch, getState) => {
     dispatch({
         type: NEW_TAB,
         payload: tab
     })
-}
+};

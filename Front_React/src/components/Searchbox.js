@@ -6,7 +6,7 @@ import {search} from "../redux/action_creators/searchActions";
 import {withRouter} from 'react-router-dom'
 
 class Searchbox extends Component {
-    state = {value:''}
+    state = {value:''};
     handleResultSelect = (e, {result:{title:result}}) => {
         if (result.charAt(result.length - 1) === ' ') {
             if (result.charAt(result.length - 2) === ' ') {
@@ -15,14 +15,14 @@ class Searchbox extends Component {
                 this.props.history.push('/u/' + result.trim())
             }
         } else {
-            let id = this.props.searchResults.Posts.results.filter(post => post.title===result)[0].id.toString()
+            let id = this.props.searchResults.Posts.results.filter(post => post.title===result)[0].id.toString();
             this.props.history.push('/p/' + id)
         }
         this.setState({value:''})
     };
 
     handleSearchChange = (e, {value}) => {
-        this.setState({value})
+        this.setState({value});
 
         if (value.length < 1) {
             return;
@@ -68,13 +68,13 @@ function mapSearchResultsToCategorizedSearchResults(results) {
                 return {'title': post.name,'id': post.id}
             }) : []
         }
-    }
+    };
 
     return removeEmptyCategories(formattedResults)
 }
 
 function removeEmptyCategories(formattedResults) {
-    let tidyObj = {...formattedResults}
+    let tidyObj = {...formattedResults};
     for (let k in formattedResults) {
         if (formattedResults[k].results.length === 0) {
             tidyObj = _.omit(tidyObj, k)
@@ -86,6 +86,6 @@ function removeEmptyCategories(formattedResults) {
 const mapStateToProps = (state) => ({
     searchResults: mapSearchResultsToCategorizedSearchResults(state.search.searchResults),
     searchIsLoading: state.navbar.searchIsLoading,
-})
+});
 
 export default withRouter(connect(mapStateToProps, {search})(Searchbox))

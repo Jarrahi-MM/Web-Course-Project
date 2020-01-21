@@ -35,7 +35,7 @@ const fakeSearchData = {
         },
 
     ],
-}
+};
 
 export const search = (value) => (dispatch, getState) => {
     dispatch({
@@ -60,9 +60,9 @@ export const search = (value) => (dispatch, getState) => {
         dispatch({
             'type': SEARCH_RESULTS,
             'payload': value !== 'no' ? fakeSearchData : {'Users':[],'Posts':[],'Channels':[]},
-        })
+        });
         dispatch({
             'type': SEARCH_LOADING_DONE,
         })
     },300)
-}
+};

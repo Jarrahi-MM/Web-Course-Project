@@ -13,9 +13,9 @@ const fake_channels = [
         name: 'Home',
         image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
     },
-]
+];
 
-const fake_unread_alerts_count = 2
+const fake_unread_alerts_count = 2;
 
 export const loadChannels = () => (dispatch, state) => {
     // let url = new URL('http://192.168.1.1:8080/api/channels');
@@ -32,20 +32,20 @@ export const loadChannels = () => (dispatch, state) => {
         type: STORE_CHANNELS,
         payload: fake_channels,
     })
-}
+};
 
 export const mountedChannel = (channelName) => (dispatch,state) => {
     dispatch({
         type:  CHANNEL_MOUNTED,
         payload: channelName,
     })
-}
+};
 
 export const unmountedChannel = () => (dispatch,state) => {
     dispatch({
         type:  CHANNEL_UNMOUNTED,
     })
-}
+};
 
 export const setUnreadAlerts = () => (dispatch,state) => {
     // let url = new URL('http://192.168.1.1:8080/api/unreadalertscount')
@@ -59,11 +59,11 @@ export const setUnreadAlerts = () => (dispatch,state) => {
         type: UNREAD_ALERTS_COUNT,
         payload: fake_unread_alerts_count
     })
-}
+};
 
 export const readAllAlerts = () => (dispatch,state) => {
     dispatch({
         type: UNREAD_ALERTS_COUNT,
         payload: 0
     })
-}
+};

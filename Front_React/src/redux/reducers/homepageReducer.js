@@ -5,7 +5,7 @@ const initState = {
     hasMoreItems: true,
     checkpoint: null,
     activeTab: FOLLOWED_TAB
-}
+};
 
 const homepageReducer = (state = initState, action) => {
     switch (action.type) {
@@ -14,12 +14,12 @@ const homepageReducer = (state = initState, action) => {
                 ...state,
                 ...action.payload,
                 postIds: [...state.postIds,...action.payload.postIds]
-            }
+            };
         case NEW_TAB:
             return {
                 ...initState,
                 activeTab: action.payload
-            }
+            };
         default:
             return state
     }

@@ -56,23 +56,23 @@ class Homepage extends Component {
             ),
             render: () => this.inTabComponent()
         },
-    ]
+    ];
 
     onTabChange(_, tabObj) {
-        let tab = null
+        let tab = null;
         switch (tabObj.activeIndex) {
             case 0:
-                tab = FOLLOWED_TAB
-                break
+                tab = FOLLOWED_TAB;
+                break;
             case 1:
-                tab = HOTTEST_TAB
-                break
+                tab = HOTTEST_TAB;
+                break;
             case 2:
-                tab = LATEST_TAB
-                break
+                tab = LATEST_TAB;
+                break;
             case 3:
-                tab = PARTICIPATED_TAB
-                break
+                tab = PARTICIPATED_TAB;
+                break;
             default:
                 break
         }
@@ -133,6 +133,6 @@ class Homepage extends Component {
 const mapStateToProps = (state) => ({
     hasMoreItems: state.homepage.hasMoreItems,
     postIds: state.homepage.postIds
-})
+});
 
 export default connect(mapStateToProps, {setActiveTab, loadMoreItems})(Homepage);

@@ -1,6 +1,6 @@
 const initState = {
     searchResults: {}
-}
+};
 
 const searchReducer = (state = initState, action) => {
     switch (action.type) {
@@ -8,7 +8,7 @@ const searchReducer = (state = initState, action) => {
             return {
                 ...state,
                 searchResults: action.payload
-            }
+            };
         default:
             return state
     }
