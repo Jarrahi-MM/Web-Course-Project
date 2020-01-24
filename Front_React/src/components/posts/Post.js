@@ -68,6 +68,17 @@ class Post extends Component {
         comments.push({username: 'username 1.2', id: '.1.2', text: 'comment 1-2'});
         comments.push({username: 'username 1.1', id: '.1.1', text: 'comment 1-1'});
         this.setState({comments: comments});
+        fetch(`http://localhost:8000/test/post/${this.state.postId}`, {
+            method: 'GET',
+            headers: {
+                //Auth
+            }
+        })
+            .then(resp => resp.json())
+            .then(resp => {
+                this.setState({username: resp.message});
+            })
+            .catch(e => console.log(e))
     }
 
     render() {
@@ -78,7 +89,12 @@ class Post extends Component {
                 width: containerWidth,
                 left: horizontalMargin
             }}>
-                PostId: {this.state.postId}
+                <h3>
+                    PostId: {this.state.postId}
+                </h3>
+                <h4>
+                    Username: {this.state.username}
+                </h4>
                 {/*<CommentExampleComment/>*/}
                 <Comments comments={this.state.comments} startingId='.'/>
             </div>
