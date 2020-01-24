@@ -76,6 +76,7 @@ class Post extends Component {
         })
             .then(resp => resp.json())
             .then(resp => {
+                console.log(resp.message);
                 this.setState({username: resp.message});
             })
             .catch(e => console.log(e))
