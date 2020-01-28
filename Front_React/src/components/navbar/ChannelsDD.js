@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Dropdown, DropdownDivider, DropdownItem} from 'semantic-ui-react'
 import {connect} from "react-redux";
 import {withRouter} from 'react-router-dom'
-import {loadChannels} from "../redux/action_creators/navbarActions";
+import {loadChannels} from "../../redux/action_creators/navbarActions";
 
 class ChannelDD extends Component {
     onChannelClick = (name) => {
@@ -31,7 +31,7 @@ class ChannelDD extends Component {
                     <DropdownDivider/>
                     <Dropdown.Header content='Followed channels'/>
                     {this.props.channels.map((option) => (
-                        <Dropdown.Item key={option.name} image={option.image} text={option.name}
+                        <Dropdown.Item key={option.name} image={{avatar:true,src:option.imageURL}} text={option.name}
                                        onClick={this.onChannelClick.bind(this, option.name)}/>
                     ))}
                 </Dropdown.Menu>

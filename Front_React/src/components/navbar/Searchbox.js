@@ -2,7 +2,7 @@ import _ from 'lodash'
 import React, {Component} from 'react'
 import {Search} from 'semantic-ui-react'
 import {connect} from "react-redux";
-import {search} from "../redux/action_creators/searchActions";
+import {search} from "../../redux/action_creators/searchActions";
 import {withRouter} from 'react-router-dom'
 
 class Searchbox extends Component {

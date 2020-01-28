@@ -3,15 +3,15 @@ import {CHANNEL_MOUNTED, CHANNEL_UNMOUNTED, STORE_CHANNELS, UNREAD_ALERTS_COUNT}
 const fake_channels = [
     {
         name: 'Sports',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
+        imageURL:'https://react.semantic-ui.com/images/avatar/small/jenny.jpg',
     },
     {
         name: 'Jokes',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
+        imageURL:'https://react.semantic-ui.com/images/avatar/small/jenny.jpg',
     },
     {
         name: 'Home',
-        image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
+        imageURL:'https://react.semantic-ui.com/images/avatar/small/jenny.jpg',
     },
 ];
 

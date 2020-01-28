@@ -1,4 +1,5 @@
 import {APPEND_POSTS, FOLLOWED_TAB, HOTTEST_TAB, NEW_TAB} from "./types";
+import _ from 'lodash'
 
 const fake_followed_tab_response = {
     postIds: [
@@ -65,7 +66,7 @@ export const loadMoreItems = () => (dispatch, getState) => {
             setTimeout(()=>{
                 dispatch({
                     type: APPEND_POSTS,
-                    payload: JSON.parse(JSON.stringify(fake_followed_tab_response))
+                    payload: _.cloneDeep(fake_followed_tab_response)
                 });
                 fake_followed_tab_response.postIds.forEach((obj)=> obj.id+=5)
             },500);

@@ -1,10 +1,11 @@
 import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navbar/Navbar";
 import Profile from "./components/profile";
 import EditProfile from "./components/editProfile";
 import Post from "./components/posts/Post"
 import Homepage from "./components/Homepage";
+import AlertsPage from "./components/alerts/AlertsPage";
 
 function App() {
   return (
@@ -28,6 +29,9 @@ function App() {
               </Route>
               <Route path={'/editProfile'}>
                   <EditProfile/>
+              </Route>
+              <Route path={'/alerts'}>
+                  <AlertsPage/>
               </Route>
           </Switch>
       </BrowserRouter>

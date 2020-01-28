@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
-import logo from '../logo.png'
+import logo from '../../logo.png'
 import styled from "styled-components";
 import SearchBox from "./Searchbox";
 import ChannelDD from "./ChannelsDD";
@@ -12,7 +12,7 @@ import MediaQuery from "react-responsive/src/Component";
 import SearchIcon from '@material-ui/icons/Search';
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {setUnreadAlerts} from "../redux/action_creators/navbarActions";
+import {setUnreadAlerts} from "../../redux/action_creators/navbarActions";
 
 const Img = styled.img`
 max-width: 20%;

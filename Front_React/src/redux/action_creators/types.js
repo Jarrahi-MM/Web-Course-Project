@@ -13,3 +13,5 @@ export const FOLLOWED_TAB = 'FOLLOWED TAB';
 export const LATEST_TAB = 'LATEST TAB';
 export const PARTICIPATED_TAB = 'PARTICIPATED TAB';
 
+export const APPEND_ALERTS = 'APPEND ALERTS';
+

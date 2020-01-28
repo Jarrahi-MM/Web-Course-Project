@@ -79,6 +79,10 @@ class Homepage extends Component {
         this.props.setActiveTab(tab)
     }
 
+    componentDidMount() {
+        this.props.setActiveTab(FOLLOWED_TAB);
+    }
+
     inTabComponent() {
         return (
             <InfiniteScroll
