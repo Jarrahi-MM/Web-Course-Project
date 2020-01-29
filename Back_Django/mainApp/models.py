@@ -10,11 +10,13 @@ class ChannelInfo(models.Model):
     followingsNum = models.IntegerField(default=0)
     postsNum = models.IntegerField(default=0)
     isPersonal = models.BooleanField(null=False, blank=False)
+    description = models.TextField(default='Description')
 
 
 class Comment(models.Model):
     commentNumber = models.IntegerField()
     supComment = models.ForeignKey("self", on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE)
     text = models.TextField()
     likesNum = models.IntegerField()
     creationDate = models.DateField(blank=False)
@@ -56,3 +58,21 @@ class CommentLike(models.Model):
     class Meta:
         unique_together = ['user', 'comment']
         index_together = ['user', 'comment']
+
+
+class CommentAlerts(models.Model):
+    user = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE, related_name='commentAlerts')
+    comment = models.ForeignKey(Comment, blank=False, null=False, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ['user', 'comment']
+        index_together = ['user', 'comment']
+
+
+class FollowAlerts(models.Model):
+    user = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE, related_name='followAlerts')
+    follower = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ['user', 'follower']
+        index_together = ['user', 'follower']
