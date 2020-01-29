@@ -1,12 +1,37 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 
-from .models import ChannelInfo, Comment, Post, PostLike, CommentLike
+from .models import ChannelInfo, Comment, Post, ProfileInfo
 
 
 class ChannelSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChannelInfo
         fields = ('channelId', 'owner', 'contributor', 'followersNum', 'followingsNum', 'postsNum', 'isPersonal')
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'password', 'first_name', 'last_name', 'email')
+        extra_kwargs = {'password': {'write_only': True, 'required': True}}
+
+    def create(self, validated_data):
+        user = User.objects.create(**validated_data)
+        user.save()
+        Token.objects.create(user=user)
+        profile = ProfileInfo.objects.create(user=user, city='', country='', phoneNum='')
+        profile.save()
+        return user
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(many=False)
+
+    class Meta:
+        model = ProfileInfo
+        fields = ('user', 'city', 'country', 'phoneNum')
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -18,16 +43,4 @@ class CommentSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ()
-
-
-class CommentLikeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CommentLike
-        fields = ()
-
-
-class PostLikeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PostLike
         fields = ()
