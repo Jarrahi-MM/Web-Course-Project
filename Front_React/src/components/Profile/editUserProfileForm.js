@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 
 
-class EditProfileForm extends Component {
+class EditUserProfileForm extends Component {
 
 
     state = {};
@@ -23,6 +23,13 @@ class EditProfileForm extends Component {
                             <div className="field">
                                 <input type="text" name="id" placeholder="ID"/>
                             </div>
+                        </div>
+                    </div>
+                    <div className="ui form">
+                        <div className="field">
+                            <label>Description</label>
+                            <textarea rows="2"
+                                      placeholder="Im 20 years old from aliabad ; no follow back ;too shakh;dar hadde ma nisti awrereee"/>
                         </div>
                     </div>
                     <div className="two fields">
@@ -305,4 +312,4 @@ class EditProfileForm extends Component {
 
 }
 
-export default EditProfileForm
+export default EditUserProfileForm

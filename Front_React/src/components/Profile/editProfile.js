@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import EditProfilePic from "./editProfilePic";
-import EditProfileForm from "./editProfileForm";
+import EditUserProfileForm from "./editUserProfileForm";
+import EditChannelInfo from "./editChannelInfo";
 
 const containStyle = {
     position: 'relative',
@@ -8,6 +9,10 @@ const containStyle = {
 };
 
 class EditProfile extends Component {
+
+    state = {
+        isChannel: true,
+    };
 
     editClicked = selMovie => {
         this.setState({editedMovie: selMovie})
@@ -36,7 +41,11 @@ class EditProfile extends Component {
                     <div className="ui piled raised very padded container segment">
                         <h4 className="ui dividing header">Personal Information</h4>
                         <EditProfilePic/>
-                        <EditProfileForm/>
+                        {this.state.isChannel ?
+                            <EditUserProfileForm/> :
+                            <EditChannelInfo/>
+                        }
+
                     </div>
                 </div>
             </React.Fragment>
