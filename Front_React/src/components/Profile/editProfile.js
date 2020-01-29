@@ -34,6 +34,7 @@ class EditProfile extends Component {
             <React.Fragment>
                 <div style={containStyle}>
                     <div className="ui piled raised very padded container segment">
+                        <h4 className="ui dividing header">Personal Information</h4>
                         <EditProfilePic/>
                         <EditProfileForm/>
                     </div>
