@@ -6,7 +6,7 @@ class Login extends Component {
         super(probs);
         this.state = {
             loginCredentials: {'username': '', 'password': ''},
-            signInCredentials: {'username': '', 'password': '', 'firstName': '', 'lastName': '', 'email': ''}
+            signUpCredentials: {'username': '', 'password': '', 'firstName': '', 'lastName': '', 'email': ''}
         }
     }
 
@@ -16,19 +16,19 @@ class Login extends Component {
         this.setState({loginCredentials: credentials});
     };
 
-    changeSignInCred = event => {
-        let credentials = this.state.signInCredentials;
+    changeSignUpCred = event => {
+        let credentials = this.state.signUpCredentials;
         credentials[event.target.name] = event.target.value;
-        this.setState({signInCredentials: credentials});
+        this.setState({signUpCredentials: credentials});
     };
 
-    login = () => {
+    Login = () => {
         fetch(`http://127.0.0.1:8000/login/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(this.state.credentials)
+            body: JSON.stringify(this.state.loginCredentials)
         }).then(response => response.json())
             .then(response => {
                 this.props.cookies.set('myCookie', response.token);
@@ -36,6 +36,24 @@ class Login extends Component {
             })
             .catch(error => {
             });
+    };
+
+    SignUp = () => {
+        console.log("GG");
+        console.log(this.state.signUpCredentials);
+        // fetch(`http://127.0.0.1:8000/SignUp/`, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify(this.state.signUpCredentials)
+        // }).then(response => response.json())
+        //     .then(response => {
+        //         this.props.cookies.set('myCookie', response.token);
+        //         window.location.href = '/';
+        //     })
+        //     .catch(error => {
+        //     });
     };
 
     render() {
@@ -47,37 +65,64 @@ class Login extends Component {
                             <div className="field">
                                 <label>Username</label>
                                 <div className="ui left icon input">
-                                    <input type="text" placeholder="Username" name='username' onChange={this.changeLoginCred}/>
+                                    <input required type="text" placeholder="Username" name='username'
+                                           onChange={this.changeLoginCred}/>
                                     <i aria-hidden="true" className="user icon"/>
                                 </div>
                             </div>
                             <div className="field">
                                 <label>Password</label>
                                 <div className="ui left icon input">
-                                    <input type="password" name='password' onChange={this.changeLoginCred}/>
+                                    <input required type="password" name='password' onChange={this.changeLoginCred}/>
                                     <i aria-hidden="true" className="lock icon"/>
                                 </div>
                             </div>
-                            <button className="ui primary button" onClick={this.login}>Login</button>
+                            <button className="ui primary button" onClick={this.Login}>Login</button>
                         </form>
                     </div>
                     <div className="column">
                         <form className="ui form">
                             <div className="field">
-                                <label>Username</label>
+                                <label>Name</label>
                                 <div className="ui left icon input">
-                                    <input type="text" placeholder="Username" name='username' onChange={this.changeLoginCred}/>
+                                    <input required type="text" placeholder="Name" name='firstName'
+                                           onChange={this.changeSignUpCred}/>
                                     <i aria-hidden="true" className="user icon"/>
                                 </div>
                             </div>
                             <div className="field">
-                                <label>Password</label>
+                                <label>Family Name</label>
                                 <div className="ui left icon input">
-                                    <input type="password" name='password' onChange={this.changeLoginCred}/>
+                                    <input required type="text" placeholder="Family Name" name='lastName'
+                                           onChange={this.changeSignUpCred}/>
+                                    <i aria-hidden="true" className="user icon"/>
+                                </div>
+                            </div>
+                            <div className="field">
+                                <label>Username</label>
+                                <div className="ui left icon input">
+                                    <input required type="text" placeholder="Username" name='username'
+                                           onChange={this.changeSignUpCred}/>
+                                    <i aria-hidden="true" className="user icon"/>
+                                </div>
+                            </div>
+                            <div className="field">
+                                <label>Pass-Word</label>
+                                <div className="ui left icon input">
+                                    <input required type="password" placeholder="Pass-Word" name='password'
+                                           onChange={this.changeSignUpCred}/>
                                     <i aria-hidden="true" className="lock icon"/>
                                 </div>
                             </div>
-                            <button className="ui primary button" onClick={this.login}>Login</button>
+                            <div className="field">
+                                <label>Email</label>
+                                <div className="ui left icon input">
+                                    <input required type="email" placeholder="Email" name='email'
+                                           onChange={this.changeSignUpCred}/>
+                                    <i aria-hidden="true" className="mail icon"/>
+                                </div>
+                            </div>
+                            <button className="ui positive button" onClick={this.SignUp}>Sign-Up</button>
                         </form>
                     </div>
                 </div>
