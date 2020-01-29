@@ -18,3 +18,11 @@ class Post(models.Model):
     creator = models.ForeignKey(User, blank=False, null=False, on_delete="SET_NULL")
     creationDate = models.DateField(blank=False)
     updateVal = models.IntegerField(default=0, blank=False)
+
+
+class Like(models.Model):
+    user = models.ForeignKey(User, blank=False, null=False, on_delete='CASCADE', related_name='likes')
+    post = models.ForeignKey(Post, blank=False, null=False, on_delete='CASCADE', related_name='likes')
+    isPositive = models.BooleanField(default=True)
+
+
