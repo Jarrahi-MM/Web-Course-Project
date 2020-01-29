@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from Back_Django.mainApp.models import ChannelInfo, Comment, Post, PostLike, CommentLike
+from mainApp.models import ChannelInfo, Comment, Post, PostLike, CommentLike
 
 
 class ChannelSerializer(serializers.ModelSerializer):
