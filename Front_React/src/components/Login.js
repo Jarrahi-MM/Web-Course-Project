@@ -6,7 +6,7 @@ class Login extends Component {
         super(probs);
         this.state = {
             loginCredentials: {'username': '', 'password': ''},
-            signUpCredentials: {'username': '', 'password': '', 'firstName': '', 'lastName': '', 'email': ''}
+            signUpCredentials: {'username': '', 'password': '', 'first_name': '', 'last_name': '', 'email': ''}
         }
     }
 
@@ -41,19 +41,20 @@ class Login extends Component {
     SignUp = () => {
         console.log("GG");
         console.log(this.state.signUpCredentials);
-        // fetch(`http://127.0.0.1:8000/SignUp/`, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(this.state.signUpCredentials)
-        // }).then(response => response.json())
-        //     .then(response => {
-        //         this.props.cookies.set('myCookie', response.token);
-        //         window.location.href = '/';
-        //     })
-        //     .catch(error => {
-        //     });
+        fetch(`http://127.0.0.1:8000/api1/register/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(this.state.signUpCredentials)
+        }).then(response => response.json())
+            .then(response => {
+                console.log(response);
+                // this.props.cookies.set('myCookie', response.token);
+                // window.location.href = '/';
+            })
+            .catch(error => {
+            });
     };
 
     render() {
@@ -85,7 +86,7 @@ class Login extends Component {
                             <div className="field">
                                 <label>Name</label>
                                 <div className="ui left icon input">
-                                    <input required type="text" placeholder="Name" name='firstName'
+                                    <input required type="text" placeholder="Name" name='first_name'
                                            onChange={this.changeSignUpCred}/>
                                     <i aria-hidden="true" className="user icon"/>
                                 </div>
@@ -93,7 +94,7 @@ class Login extends Component {
                             <div className="field">
                                 <label>Family Name</label>
                                 <div className="ui left icon input">
-                                    <input required type="text" placeholder="Family Name" name='lastName'
+                                    <input required type="text" placeholder="Family Name" name='last_name'
                                            onChange={this.changeSignUpCred}/>
                                     <i aria-hidden="true" className="user icon"/>
                                 </div>
