@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework import routers
 
-from mainApp.views import ChannelViewSet
+from .views import ChannelViewSet
 
 router = routers.DefaultRouter()
 router.register('channels', ChannelViewSet)
