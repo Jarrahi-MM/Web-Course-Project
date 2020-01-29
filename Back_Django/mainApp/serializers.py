@@ -6,7 +6,7 @@ from Back_Django.mainApp.models import ChannelInfo, Comment, Post, PostLike, Com
 class ChannelSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChannelInfo
-        fields = ()
+        fields = ('channelId', 'owner', 'contributor', 'followersNum', 'followingsNum', 'postsNum', 'isPersonal')
 
 
 class CommentSerializer(serializers.ModelSerializer):
