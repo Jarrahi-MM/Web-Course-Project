@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import Navbar from "./components/navbar/Navbar";
-import Profile from "./components/profile";
-import EditProfile from "./components/editProfile";
+import Profile from "./components/Profile/profile";
+import EditProfile from "./components/Profile/editProfile";
 import Post from "./components/posts/Post"
 import Homepage from "./components/Homepage";
 import AlertsPage from "./components/alerts/AlertsPage";
