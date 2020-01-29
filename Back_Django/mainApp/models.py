@@ -6,6 +6,7 @@ class ChannelInfo(models.Model):
     channelId = models.CharField(max_length=16, blank=False, null=False, unique=True, primary_key=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name='owningChannels')
     contributor = models.ManyToManyField(User, blank=True, related_name='contributedChannels')
+    followers = models.ManyToManyField(User, blank=True, related_name='followings')
     followersNum = models.IntegerField(default=0)
     followingsNum = models.IntegerField(default=0)
     postsNum = models.IntegerField(default=0)
