@@ -14,6 +14,13 @@ class ChannelInfo(models.Model):
     description = models.TextField(default='Description')
 
 
+class ProfileInfo(models.Model):
+    user = models.OneToOneField(User, blank=False, null=False, on_delete=models.CASCADE, related_name='profile')
+    city = models.CharField(max_length=16, blank=True, null=True)
+    country = models.CharField(max_length=16, blank=True, null=True)
+    phoneNum = models.CharField(max_length=16, blank=True, null=True)
+
+
 class Comment(models.Model):
     commentNumber = models.IntegerField()
     supComment = models.ForeignKey("self", on_delete=models.CASCADE)
