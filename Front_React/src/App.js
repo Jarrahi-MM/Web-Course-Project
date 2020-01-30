@@ -14,7 +14,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            token: props.cookies.get('myCookie'),
+            token: props.cookies.get('myToken'),
             username: '',
         };
     }

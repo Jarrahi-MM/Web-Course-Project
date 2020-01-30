@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from .models import ChannelInfo, Comment, Post, ProfileInfo
+from .models import ChannelInfo, ProfileInfo
 
 
 class ChannelSerializer(serializers.ModelSerializer):
@@ -32,15 +32,3 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProfileInfo
         fields = ('user', 'city', 'country', 'phoneNum')
-
-
-class CommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comment
-        fields = ()
-
-
-class PostSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Post
-        fields = ()

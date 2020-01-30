@@ -6,7 +6,9 @@ class Login extends Component {
         super(probs);
         this.state = {
             loginCredentials: {'username': '', 'password': ''},
-            signUpCredentials: {'username': '', 'password': '', 'first_name': '', 'last_name': '', 'email': ''}
+            signUpCredentials: {'username': '', 'password': '', 'first_name': '', 'last_name': '', 'email': ''},
+            loginError: '',
+            signUpError: ''
         }
     }
 
@@ -22,7 +24,8 @@ class Login extends Component {
         this.setState({signUpCredentials: credentials});
     };
 
-    Login = () => {
+    Login = (event) => {
+        event.preventDefault();
         fetch(`http://127.0.0.1:8000/login/`, {
             method: 'POST',
             headers: {
@@ -31,16 +34,23 @@ class Login extends Component {
             body: JSON.stringify(this.state.loginCredentials)
         }).then(response => response.json())
             .then(response => {
-                this.props.cookies.set('myCookie', response.token);
-                window.location.href = '/';
+                this.props.cookies.set('myToken', response.token);
+                if (response.token)
+                    window.location.href = window.location.origin + '/';
+                else {
+                    this.setState({loginError: "Unable to login"});
+                    this.setState({signUpError: ""});
+                    console.log(response);
+                }
             })
             .catch(error => {
+                this.state.set({loginError: "Error"});
+                this.state.set({signUpError: ""});
             });
     };
 
-    SignUp = () => {
-        console.log("GG");
-        console.log(this.state.signUpCredentials);
+    SignUp = (event) => {
+        event.preventDefault();
         fetch(`http://127.0.0.1:8000/api1/register/`, {
             method: 'POST',
             headers: {
@@ -49,11 +59,18 @@ class Login extends Component {
             body: JSON.stringify(this.state.signUpCredentials)
         }).then(response => response.json())
             .then(response => {
-                console.log(response);
-                // this.props.cookies.set('myCookie', response.token);
-                // window.location.href = '/';
+                this.props.cookies.set('myToken', response.token);
+                if (response.token)
+                    window.location.href = window.location.origin + '/';
+                else {
+                    this.setState({loginError: ""});
+                    this.setState({signUpError: "Not Valid"});
+                }
             })
             .catch(error => {
+                console.log(error);
+                this.setState({loginError: ""});
+                this.setState({signUpError: "Error"});
             });
     };
 
@@ -62,7 +79,7 @@ class Login extends Component {
             <div className="ui placeholder segment">
                 <div className="ui stackable very relaxed two column grid">
                     <div className="column">
-                        <form className="ui form">
+                        <form className="ui error form" onSubmit={this.Login}>
                             <div className="field">
                                 <label>Username</label>
                                 <div className="ui left icon input">
@@ -78,11 +95,17 @@ class Login extends Component {
                                     <i aria-hidden="true" className="lock icon"/>
                                 </div>
                             </div>
-                            <button className="ui primary button" onClick={this.Login}>Login</button>
+                            <div className="ui error message" hidden={!this.state.loginError}>
+                                <div className="content">
+                                    <div className="header">Error:</div>
+                                    <p>{this.state.loginError}</p>
+                                </div>
+                            </div>
+                            <button className="ui primary button" type={"submit"}>Login</button>
                         </form>
                     </div>
                     <div className="column">
-                        <form className="ui form">
+                        <form className="ui error form" onSubmit={this.SignUp}>
                             <div className="field">
                                 <label>Name</label>
                                 <div className="ui left icon input">
@@ -123,11 +146,16 @@ class Login extends Component {
                                     <i aria-hidden="true" className="mail icon"/>
                                 </div>
                             </div>
-                            <button className="ui positive button" onClick={this.SignUp}>Sign-Up</button>
+                            <div className="ui error message" hidden={!this.state.signUpError}>
+                                <div className="content">
+                                    <div className="header">Error:</div>
+                                    <p>{this.state.signUpError}</p>
+                                </div>
+                            </div>
+                            <button className="ui positive button" type={"submit"}>Sign-Up</button>
                         </form>
                     </div>
                 </div>
-                <div className="ui vertical divider">Or</div>
             </div>
         )
     }
