@@ -4,10 +4,10 @@ from rest_framework import viewsets, status
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
-from .models import ChannelInfo
-from .models import ProfileInfo
-from .serializers import ChannelSerializer
-from .serializers import ProfileSerializer, UserSerializer
+from ..models import ChannelInfo
+from ..models import ProfileInfo
+from ..serializers import ChannelSerializer
+from ..serializers import ProfileSerializer, UserSerializer
 
 
 class ChannelViewSet(viewsets.ModelViewSet):
