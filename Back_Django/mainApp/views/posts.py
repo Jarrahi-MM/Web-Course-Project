@@ -16,26 +16,26 @@ class Posts(APIView):
         try:
             channel = ChannelInfo.objects.get(channelId=channelId)
         except ChannelInfo.DoesNotExist:
-            return Response('Invalid channel')
+            return Response('Invalid channel', status=status.HTTP_400_BAD_REQUEST)
         try:
             post = channel.posts.get(postNumber=postNumber)
         except Post.DoesNotExist:
-            return Response('Invalid post number')
+            return Response('Invalid post number', status=status.HTTP_400_BAD_REQUEST)
         return Response(PostSerializer(post).data, status.HTTP_200_OK)
 
     def post(self, request, channelId, postNumber):
         try:
             channel = ChannelInfo.objects.get(channelId=channelId)
         except ChannelInfo.DoesNotExist:
-            return Response('Invalid channel')
+            return Response('Invalid channel', status=status.HTTP_400_BAD_REQUEST)
         if request.user.is_anonymous:
-            return Response("You're not logged in")
+            return Response("You're not logged in", status=status.HTTP_400_BAD_REQUEST)
         # bad performance
-        if channel.contributors.all().filter(
-                username=request.user.username).count() != 0 and request.user.username is not channel.owner.username:
-            return Response("You don't have access")
-        channel.postsNum += 1
+        if channel.contributors.all().filter(username=request.user.username).count() != 1 and \
+                request.user.username != channel.owner.username:
+            return Response("You don't have access", status=status.HTTP_400_BAD_REQUEST)
 
+        channel.postsNum += 1
         initial_comment = Comment.objects.create(commentNumber=0, supComment=None, creator=request.user, text='initial',
                                                  likesNum=0, creationDate=datetime.now())
         post = Post.objects.create(postNumber=channel.postsNum, channel=channel, creator=request.user,
@@ -47,10 +47,23 @@ class Posts(APIView):
         print(request.data['text'])
         return Response(post.postNumber, status=status.HTTP_201_CREATED)
 
+    def put(self, request, channelId, postNumber):
+        return Response("Fuck Posts", status=status.HTTP_400_BAD_REQUEST)
 
-def put(self, request, channelId, postNumber):
-    return Response("Fuck Posts", status=status.HTTP_400_BAD_REQUEST)
-
-
-def delete(self, request, channelId, postNumber):
-    return Response("Fuck Posts", status=status.HTTP_400_BAD_REQUEST)
+    def delete(self, request, channelId, postNumber):
+        try:
+            channel = ChannelInfo.objects.get(channelId=channelId)
+        except ChannelInfo.DoesNotExist:
+            return Response('Invalid channel', status=status.HTTP_400_BAD_REQUEST)
+        try:
+            post = channel.posts.get(postNumber=postNumber)
+        except Post.DoesNotExist:
+            return Response('Invalid post number', status=status.HTTP_400_BAD_REQUEST)
+        if request.user.is_anonymous:
+            return Response("You're not logged in", status=status.HTTP_400_BAD_REQUEST)
+        print(request.user.username == post.creator.username)
+        if (request.user.username != post.creator.username) and (
+                request.user.username != channel.owner.username):
+            return Response("You can't delete the post", status=status.HTTP_400_BAD_REQUEST)
+        post.delete()
+        return Response('', status.HTTP_200_OK)
