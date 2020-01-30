@@ -23,7 +23,8 @@ class Posts(APIView):
             return Response('Invalid post number', status=status.HTTP_400_BAD_REQUEST)
         return Response(PostSerializer(post).data, status.HTTP_200_OK)
 
-    def post(self, request, channelId, postNumber):
+    @staticmethod
+    def post(request, channelId, postNumber):
         try:
             channel = ChannelInfo.objects.get(channelId=channelId)
         except ChannelInfo.DoesNotExist:
@@ -47,10 +48,12 @@ class Posts(APIView):
         print(request.data['text'])
         return Response(post.postNumber, status=status.HTTP_201_CREATED)
 
-    def put(self, request, channelId, postNumber):
+    @staticmethod
+    def put(request, channelId, postNumber):
         return Response("Fuck Posts", status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, channelId, postNumber):
+    @staticmethod
+    def delete(request, channelId, postNumber):
         try:
             channel = ChannelInfo.objects.get(channelId=channelId)
         except ChannelInfo.DoesNotExist:
