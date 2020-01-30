@@ -1,17 +1,16 @@
 import React, {Component} from "react";
-import EditProfilePic from "./editProfilePic";
 
 
-class EditChannelInfo extends Component {
+class EditChannelContributors extends Component {
 
     render() {
         return (
             <React.Fragment>
-                <EditProfilePic/>
+                <h3>guguliiii</h3>
             </React.Fragment>
         )
     }
 
 }
 
-export default EditChannelInfo
+export default EditChannelContributors
