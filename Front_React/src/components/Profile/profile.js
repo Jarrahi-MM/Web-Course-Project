@@ -9,8 +9,14 @@ const containStyle = {
 };
 const settingsStyle = {
     position: 'relative',
-    float:'right',
+    float: 'right',
     top: '10px'
+};
+
+const followStyle = {
+    position: 'relative',
+    float: 'right',
+    top: '103px'
 };
 
 
@@ -31,22 +37,52 @@ class Profile extends Component {
         proPicture: avatars[Math.floor(Math.random() * avatars.length)],
         followingNumber: 187,
         followerNumber: 234,
-        postNumber: 45
+        postNumber: 45,
+        myAccount: false,
+        following: true
+    };
+
+    followClicked = followed => {
+        this.setState({following: followed})
     };
 
     render() {
         return (
             <div style={containStyle}>
                 <div className="ui piled raised very padded container segment">
-                    <Link to={'/editProfile'} style ={settingsStyle} className="circular ui icon big button">
-                        <i className="icon settings big"/>
-                    </Link>
+                    {this.state.myAccount ? (<div>
+                            <Link to={'/editProfile'} style={settingsStyle} className="circular ui icon big button">
+                                <i className="icon settings big"/>
+                            </Link>
+                            <Link to={'/createPost'} style={settingsStyle} className="circular ui icon big button">
+                                <i className="icon plus big"/>
+                            </Link>
+                        </div>) :
+                        (
+                            <div>
+                                {this.state.following ?
+                                    <button className="ui active button big green" style={followStyle}
+                                            onClick={() => this.followClicked(false)}>
+                                        <i className="user icon green"/>
+                                        Following
+                                    </button>
+                                    : <button className="ui active button big " style={followStyle}
+                                              onClick={() => this.followClicked(true)}>
+                                        <i className="user icon "/>
+                                        Follow
+                                    </button>}
+                            </div>
+                        )}
                     <ProfilePicture image={this.state.proPicture}/>
                     <ProfileDetails
                         followingNum={this.state.followingNumber}
                         followerNum={this.state.followerNumber}
                         postNum={this.state.postNumber}/>
                     <hr/>
+                    <h3>Bio</h3>
+                    <hr/>
+                    <hr/>
+                    <h3>posts</h3>
                 </div>
             </div>
         );

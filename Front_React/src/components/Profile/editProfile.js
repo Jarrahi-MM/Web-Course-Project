@@ -11,7 +11,7 @@ const containStyle = {
 class EditProfile extends Component {
 
     state = {
-        isNotChannel: false,
+        isNotChannel: true,
     };
 
     editClicked = selMovie => {

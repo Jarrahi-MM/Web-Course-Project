@@ -17,22 +17,22 @@ class ProfileDetails extends Component {
                         {this.props.postNum}
                     </Link>
                 </div>
-                <div className="ui labeled button huge" tabIndex="0">
+                <Link className="ui labeled button huge" tabIndex="0" to={'/followList'}>
                     <div className="ui  button">
                         <i className="users circle icon big"/> Followers
                     </div>
-                    <Link className="ui basic blue left pointing label">
+                    <Link className="ui basic blue left pointing label" to={'/followList'}>
                         {this.props.followerNum}
                     </Link>
-                </div>
-                <div className="ui labeled button huge" tabIndex="0">
+                </Link>
+                <Link className="ui labeled button huge" tabIndex="0" to={'/followList'}>
                     <div className="ui button">
                         <i className="users icon big"/> Followings
                     </div>
-                    <Link className="ui basic blue left pointing label">
+                    <Link className="ui basic blue left pointing label" to={'/followList'}>
                         {this.props.followingNum}
                     </Link>
-                </div>
+                </Link>
             </React.Fragment>
         );
     }
