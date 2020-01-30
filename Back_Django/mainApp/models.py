@@ -23,7 +23,7 @@ class ProfileInfo(models.Model):
 
 class Comment(models.Model):
     commentNumber = models.IntegerField()
-    supComment = models.ForeignKey("self", on_delete=models.CASCADE)
+    supComment = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True)
     creator = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE)
     text = models.TextField()
     likesNum = models.IntegerField()
@@ -42,6 +42,8 @@ class Post(models.Model):
     updateVal = models.IntegerField(default=0, blank=False)
     firstComment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     likesNum = models.IntegerField()
+    image = models.CharField(max_length=32, blank=True, null=True)
+    text = models.TextField(blank=True, null=True)
 
     class Meta:
         unique_together = ['channel', 'postNumber']

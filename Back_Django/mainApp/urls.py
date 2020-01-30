@@ -3,6 +3,7 @@ from django.urls import path, include
 from rest_framework import routers
 
 from .views.UserView import ChannelViewSet, ProfileViewSet, UserViewSet
+from .views.posts import Posts
 
 router = routers.DefaultRouter()
 router.register('channels', ChannelViewSet)
@@ -17,5 +18,5 @@ def post_process(request, username, postNumber):
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('posts/<str:username>/<int:postNumber>', post_process)
+    path('posts/<str:channelId>/<int:postNumber>', Posts.as_view())
 ]

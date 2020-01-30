@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from .models import ChannelInfo, ProfileInfo
+from .models import ChannelInfo, ProfileInfo, Post
 
 
 class ChannelSerializer(serializers.ModelSerializer):
@@ -32,3 +32,20 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProfileInfo
         fields = ('user', 'city', 'country', 'phoneNum')
+
+
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = (
+            'postNumber', 'channel', 'creator', 'creationDate', 'updateVal', 'firstComment', 'likesNum', 'image',
+            'text')
+        extra_kwargs = {'postNumber': {'read_only': True, 'required': True}}
+
+    def create(self, validated_data):
+        print(validated_data)
+        return None
+
+    def update(self, instance, validated_data):
+        print(validated_data)
+        return None

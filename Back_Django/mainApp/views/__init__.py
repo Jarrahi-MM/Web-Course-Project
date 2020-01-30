@@ -1,1 +1,1 @@
-from . import UserView
+from . import UserView, posts
