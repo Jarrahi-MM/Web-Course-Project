@@ -50,7 +50,26 @@ class Posts(APIView):
 
     @staticmethod
     def put(request, channelId, postNumber):
-        return Response("Fuck Posts", status=status.HTTP_400_BAD_REQUEST)
+        try:
+            channel = ChannelInfo.objects.get(channelId=channelId)
+        except ChannelInfo.DoesNotExist:
+            return Response('Invalid channel', status=status.HTTP_400_BAD_REQUEST)
+        try:
+            post = channel.posts.get(postNumber=postNumber)
+        except Post.DoesNotExist:
+            return Response('Invalid post number', status=status.HTTP_400_BAD_REQUEST)
+        if request.user.is_anonymous:
+            return Response("You're not logged in", status=status.HTTP_400_BAD_REQUEST)
+        if (request.user.username != post.creator.username) and (
+                request.user.username != channel.owner.username):
+            return Response("You can't delete the post", status=status.HTTP_400_BAD_REQUEST)
+        post.creator = request.user
+        post.creationDate = datetime.now()
+        post.updateVal += 1
+        post.image = request.data['image']
+        post.text = request.data['text']
+        post.save()
+        return Response("post updated", status=status.HTTP_400_BAD_REQUEST)
 
     @staticmethod
     def delete(request, channelId, postNumber):
@@ -64,7 +83,6 @@ class Posts(APIView):
             return Response('Invalid post number', status=status.HTTP_400_BAD_REQUEST)
         if request.user.is_anonymous:
             return Response("You're not logged in", status=status.HTTP_400_BAD_REQUEST)
-        print(request.user.username == post.creator.username)
         if (request.user.username != post.creator.username) and (
                 request.user.username != channel.owner.username):
             return Response("You can't delete the post", status=status.HTTP_400_BAD_REQUEST)
