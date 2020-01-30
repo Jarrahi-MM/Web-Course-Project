@@ -18,5 +18,6 @@ def post_process(request, username, postNumber):
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('posts/<str:channelId>/<int:postNumber>', Posts.as_view())
+    path('posts/<str:channelId>/<int:postNumber>', Posts.as_view()),
+    path('posts/<str:channelId>', Posts.as_view(), kwargs={'postNumber': 0}),
 ]
