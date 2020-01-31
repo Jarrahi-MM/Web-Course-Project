@@ -19,20 +19,39 @@ const avatars = ['https://image.freepik.com/free-vector/cartoon-monster-face-ava
 
 
 class Profile extends Component {
+
     state = {
         proPicture: avatars[Math.floor(Math.random() * avatars.length)],
-        followingNumber: 187,
-        followerNumber: 234,
-        postNumber: 45,
-        myAccount: false,
+        followingNumber: 1,
+        followerNumber: 2,
+        postNumber: 3,
+        myAccount: true,
         following: true,
-        token: this.props.cookies.get('myToken')
+        token: this.props.cookies.get('myToken'),
+        username: this.props.cookies.get('userName')
     };
 
     followClicked = followed => {
         this.setState({following: followed});
-        console.log(this.state.token)
+        console.log(this.state.token);
+        console.log(this.state.username)
     };
+
+    componentDidMount() {
+        if (this.state.token) {
+            fetch("http://127.0.0.1:8000/api/api/movies/", {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Token ${this.state.token}`
+                }
+            }).then(response => response.json())
+                .then(res => this.setState({movies: res}))
+                .catch(error => console.log(error))
+        } else {
+            window.location.href = '/'
+        }
+    }
+
 
     render() {
         return (
