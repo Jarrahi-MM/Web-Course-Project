@@ -2,22 +2,8 @@ import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import ProfilePicture from "./ProfilePicture";
 import ProfileDetails from "./ProfileDetails";
-
-const containStyle = {
-    position: 'relative',
-    top: '10px'
-};
-const settingsStyle = {
-    position: 'relative',
-    float: 'right',
-    top: '10px'
-};
-
-const followStyle = {
-    position: 'relative',
-    float: 'right',
-    top: '103px'
-};
+import './profile.css'
+import {withCookies} from "react-cookie";
 
 
 const avatars = ['https://image.freepik.com/free-vector/cartoon-monster-face-avatar-halloween-monster_6996-1164.jpg'
@@ -39,34 +25,36 @@ class Profile extends Component {
         followerNumber: 234,
         postNumber: 45,
         myAccount: false,
-        following: true
+        following: true,
+        token: this.props.cookies.get('myToken')
     };
 
     followClicked = followed => {
-        this.setState({following: followed})
+        this.setState({following: followed});
+        console.log(this.state.token)
     };
 
     render() {
         return (
-            <div style={containStyle}>
+            <div className="containStyle">
                 <div className="ui piled raised very padded container segment">
                     {this.state.myAccount ? (<div>
-                            <Link to={'/editProfile'} style={settingsStyle} className="circular ui icon big button">
+                            <Link to={'/editProfile'} className="circular ui icon big button settingsStyle">
                                 <i className="icon settings big"/>
                             </Link>
-                            <Link to={'/createPost'} style={settingsStyle} className="circular ui icon big button">
+                            <Link to={'/createPost'} className="circular ui icon big button settingsStyle">
                                 <i className="icon plus big"/>
                             </Link>
                         </div>) :
                         (
                             <div>
                                 {this.state.following ?
-                                    <button className="ui active button big green" style={followStyle}
+                                    <button className="ui active button big green followStyle"
                                             onClick={() => this.followClicked(false)}>
                                         <i className="user icon green"/>
                                         Following
                                     </button>
-                                    : <button className="ui active button big " style={followStyle}
+                                    : <button className="ui active button big followStyle"
                                               onClick={() => this.followClicked(true)}>
                                         <i className="user icon "/>
                                         Follow
@@ -89,4 +77,4 @@ class Profile extends Component {
     }
 }
 
-export default Profile;
+export default withCookies(Profile);

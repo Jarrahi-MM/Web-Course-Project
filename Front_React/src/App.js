@@ -46,6 +46,9 @@ class App extends Component {
                         <Route path={'/profile'}>
                             <Profile/>
                         </Route>
+                        <Route path={'/followList'}>
+                            <Profile/>
+                        </Route>
                         <Route path={'/editProfile'}>
                             <EditProfile/>
                         </Route>

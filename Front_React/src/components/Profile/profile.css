@@ -1,0 +1,16 @@
+.containStyle {
+    position: relative;
+    top: 10px;
+}
+
+.settingsStyle {
+    position: relative;
+    float: right;
+    top: 10px;
+}
+
+.followStyle {
+    position: relative;
+    float: right;
+    top: 103px;
+}
