@@ -2,7 +2,7 @@ from rest_framework import status, authentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from mainApp.models import Post, ChannelInfo, PostLike
+from ..models import Post, ChannelInfo, PostLike
 
 
 class PostLikesView(APIView):

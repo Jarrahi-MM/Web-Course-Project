@@ -4,7 +4,7 @@ from rest_framework import status, authentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from mainApp.models import Post, ChannelInfo, Comment
+from ..models import Post, ChannelInfo, Comment
 from ..serializers import PostSerializer
 
 

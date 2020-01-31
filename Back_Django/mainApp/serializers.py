@@ -8,7 +8,7 @@ from .models import ChannelInfo, ProfileInfo, Post
 class ChannelSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChannelInfo
-        fields = ('channelId', 'owner', 'contributor', 'followersNum', 'followingsNum', 'postsNum', 'isPersonal')
+        fields = ('channelId', 'owner', 'contributors', 'followersNum', 'followingsNum', 'postsNum', 'isPersonal')
 
 
 class UserSerializer(serializers.ModelSerializer):
