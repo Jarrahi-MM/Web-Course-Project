@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import EditProfilePic from "./editProfilePic";
 import EditUserProfileForm from "./editUserProfileForm";
 import EditChannel from "./editChannel";
+import {withCookies} from "react-cookie";
 
 const containStyle = {
     position: 'relative',
@@ -12,7 +13,34 @@ class EditProfile extends Component {
 
     state = {
         isNotChannel: true,
+        token: this.props.cookies.get('myToken'),
+        username: this.props.cookies.get('userName'),
+        profile: {
+            user: [],
+            city: "",
+            country: "",
+            phoneNum: ""
+        }
     };
+
+    componentDidMount() {
+        if (this.state.token) {
+            fetch(`http://127.0.0.1:8000/api1/profiles/${this.state.username}/`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Token ${this.state.token}`
+                }
+            }).then(response => response.json())
+                .then(res => {
+                    this.setState({profile: res})
+                    console.log(this.state.profile)
+                })
+                .catch(error => console.log(error))
+        } else {
+            window.location.href = '/'
+        }
+    }
+
 
     editClicked = selMovie => {
         this.setState({editedMovie: selMovie})
@@ -43,7 +71,9 @@ class EditProfile extends Component {
                             (<div>
                                 <h4 className="ui dividing header">Personal Information</h4>
                                 <EditProfilePic/>
-                                <EditUserProfileForm/>
+                                <EditUserProfileForm profileInfo={this.state.profile}
+                                                     token={this.state.token}
+                                                     username={this.state.username}/>
                             </div>) :
                             <EditChannel/>
                         }
@@ -57,4 +87,4 @@ class EditProfile extends Component {
 
 }
 
-export default EditProfile;
+export default withCookies(EditProfile);
