@@ -21,3 +21,5 @@ urlpatterns = [
     path('postLikes/<str:commentId>/<int:value>', CommentLikesView.as_view()),
     path('postLikes/<str:commentId>', CommentLikesView.as_view(), kwargs={'value': 0}),
 ]
+
+urlpatterns += router.urls
