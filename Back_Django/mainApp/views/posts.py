@@ -4,7 +4,7 @@ from rest_framework import status, authentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ..models import Post, ChannelInfo, Comment
+from ..models import Post, Channel, Comment
 from ..serializers import PostSerializer
 
 
@@ -14,8 +14,8 @@ class Posts(APIView):
     @staticmethod
     def get(request, channelId, postNumber):
         try:
-            channel = ChannelInfo.objects.get(channelId=channelId)
-        except ChannelInfo.DoesNotExist:
+            channel = Channel.objects.get(channelId=channelId)
+        except Channel.DoesNotExist:
             return Response('Invalid channel', status=status.HTTP_400_BAD_REQUEST)
         try:
             post = channel.posts.get(postNumber=postNumber)
@@ -26,8 +26,8 @@ class Posts(APIView):
     @staticmethod
     def post(request, channelId, postNumber):
         try:
-            channel = ChannelInfo.objects.get(channelId=channelId)
-        except ChannelInfo.DoesNotExist:
+            channel = Channel.objects.get(channelId=channelId)
+        except Channel.DoesNotExist:
             return Response('Invalid channel', status=status.HTTP_400_BAD_REQUEST)
         if request.user.is_anonymous:
             return Response("You're not logged in", status=status.HTTP_400_BAD_REQUEST)
@@ -51,8 +51,8 @@ class Posts(APIView):
     @staticmethod
     def put(request, channelId, postNumber):
         try:
-            channel = ChannelInfo.objects.get(channelId=channelId)
-        except ChannelInfo.DoesNotExist:
+            channel = Channel.objects.get(channelId=channelId)
+        except Channel.DoesNotExist:
             return Response('Invalid channel', status=status.HTTP_400_BAD_REQUEST)
         try:
             post = channel.posts.get(postNumber=postNumber)
@@ -74,8 +74,8 @@ class Posts(APIView):
     @staticmethod
     def delete(request, channelId, postNumber):
         try:
-            channel = ChannelInfo.objects.get(channelId=channelId)
-        except ChannelInfo.DoesNotExist:
+            channel = Channel.objects.get(channelId=channelId)
+        except Channel.DoesNotExist:
             return Response('Invalid channel', status=status.HTTP_400_BAD_REQUEST)
         try:
             post = channel.posts.get(postNumber=postNumber)

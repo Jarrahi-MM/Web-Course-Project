@@ -20,7 +20,8 @@ class EditProfile extends Component {
             city: "",
             country: "",
             phoneNum: ""
-        }
+        },
+        pressed: false
     };
 
     componentDidMount() {
@@ -41,26 +42,10 @@ class EditProfile extends Component {
         }
     }
 
-
-    editClicked = selMovie => {
-        this.setState({editedMovie: selMovie})
+    togglePressed = () => {
+        this.setState({pressed: !this.state.pressed})
     };
 
-    newMovie = () => {
-        this.setState({editedMovie: {title: '', description: ''}})
-    };
-
-    addMovie = movie => {
-        this.setState({movies: [...this.state.movies, movie]})
-    };
-
-    cancelForm = () => {
-        this.setState({editedMovie: null})
-    };
-
-    movieClicked = movie => {
-        this.setState({selectedMovie: movie, editedMovie: null})
-    };
 
     render() {
         return (
@@ -71,9 +56,17 @@ class EditProfile extends Component {
                             (<div>
                                 <h4 className="ui dividing header">Personal Information</h4>
                                 <EditProfilePic/>
-                                <EditUserProfileForm profileInfo={this.state.profile}
-                                                     token={this.state.token}
-                                                     username={this.state.username}/>
+                                {this.state.pressed ?
+                                    <EditUserProfileForm profileInfo={this.state.profile}
+                                                         token={this.state.token}
+                                                         username={this.state.username}/> :
+                                    <div className="ui vertical labeled icon buttons" style={containStyle}>
+                                        <button className="ui button" onMouseEnter={this.togglePressed}>
+                                            <i className="settings icon"/>
+                                            view profile details
+                                        </button>
+                                    </div>
+                                }
                             </div>) :
                             <EditChannel/>
                         }

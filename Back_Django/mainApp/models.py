@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-class ChannelInfo(models.Model):
+class Channel(models.Model):
     channelId = models.CharField(max_length=16, blank=False, null=False, unique=True, primary_key=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name='owningChannels')
     contributors = models.ManyToManyField(User, blank=True, related_name='contributedChannels')
@@ -15,13 +15,16 @@ class ChannelInfo(models.Model):
 
 
 class ProfileInfo(models.Model):
-    user = models.OneToOneField(User, blank=False, null=False, on_delete=models.CASCADE, related_name='profile')
+    user = models.OneToOneField(User, blank=False, null=False, on_delete=models.CASCADE, related_name='profile',
+                                primary_key=True)
     city = models.CharField(max_length=16, blank=True, null=True)
     country = models.CharField(max_length=16, blank=True, null=True)
     phoneNum = models.CharField(max_length=16, blank=True, null=True)
 
 
 class Comment(models.Model):
+    commentId = models.CharField(max_length=16, blank=False, null=False, unique=True, primary_key=True,
+                                 auto_created=True)
     commentNumber = models.IntegerField()
     supComment = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True)
     creator = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE)
@@ -30,13 +33,13 @@ class Comment(models.Model):
     creationDate = models.DateField(blank=False)
 
     class Meta:
-        unique_together = ['supComment', 'commentNumber']
+        # unique_together = ['supComment', 'commentNumber'] Todo:Think
         index_together = ['supComment', 'commentNumber']
 
 
 class Post(models.Model):
     postNumber = models.IntegerField()
-    channel = models.ForeignKey(ChannelInfo, blank=False, null=False, on_delete=models.CASCADE, related_name='posts')
+    channel = models.ForeignKey(Channel, blank=False, null=False, on_delete=models.CASCADE, related_name='posts')
     creator = models.ForeignKey(User, blank=False, null=True, on_delete=models.SET_NULL)
     creationDate = models.DateField(blank=False)
     updateVal = models.IntegerField(default=0, blank=False)

@@ -3,12 +3,12 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from .models import ChannelInfo, ProfileInfo, Post
+from .models import Channel, ProfileInfo, Post
 
 
 class ChannelSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ChannelInfo
+        model = Channel
         fields = ('channelId', 'owner', 'contributors', 'followersNum', 'followingsNum', 'postsNum', 'isPersonal')
 
 
@@ -50,6 +50,7 @@ class PostSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         print(validated_data)
         return None
+
 
 
 class ChangePasswordSerializer(serializers.Serializer):

@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from .models import PostLike, CommentLike, ChannelInfo, Post, Comment, ProfileInfo
+from .models import PostLike, CommentLike, Channel, Post, Comment, ProfileInfo
 
-admin.site.register(ChannelInfo)
+admin.site.register(Channel)
 admin.site.register(Post)
 admin.site.register(Comment)
 admin.site.register(PostLike)
