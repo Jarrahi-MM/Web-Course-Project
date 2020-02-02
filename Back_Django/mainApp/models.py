@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-class ChannelInfo(models.Model):
+class Channel(models.Model):
     channelId = models.CharField(max_length=16, blank=False, null=False, unique=True, primary_key=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name='owningChannels')
     contributors = models.ManyToManyField(User, blank=True, related_name='contributedChannels')
@@ -39,7 +39,7 @@ class Comment(models.Model):
 
 class Post(models.Model):
     postNumber = models.IntegerField()
-    channel = models.ForeignKey(ChannelInfo, blank=False, null=False, on_delete=models.CASCADE, related_name='posts')
+    channel = models.ForeignKey(Channel, blank=False, null=False, on_delete=models.CASCADE, related_name='posts')
     creator = models.ForeignKey(User, blank=False, null=True, on_delete=models.SET_NULL)
     creationDate = models.DateField(blank=False)
     updateVal = models.IntegerField(default=0, blank=False)

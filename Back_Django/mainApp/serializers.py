@@ -2,12 +2,12 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from .models import ChannelInfo, ProfileInfo, Post
+from .models import Channel, ProfileInfo, Post
 
 
 class ChannelSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ChannelInfo
+        model = Channel
         fields = ('channelId', 'owner', 'contributors', 'followersNum', 'followingsNum', 'postsNum', 'isPersonal')
 
 

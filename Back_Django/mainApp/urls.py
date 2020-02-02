@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework import routers
 
 from .views.UserView import ChannelViewSet, ProfileViewSet, UserViewSet
-from .views.likes import PostLikesView
+from .views.likes import PostLikesView, CommentLikesView
 from .views.posts import Posts
 from .views.profiles import Profiles
 
@@ -18,4 +18,6 @@ urlpatterns = [
     path('posts/<str:channelId>', Posts.as_view(), kwargs={'postNumber': 0}),
     path('postLikes/<str:channelId>/<int:postNumber>/<int:value>', PostLikesView.as_view()),
     path('postLikes/<str:channelId>/<int:postNumber>', PostLikesView.as_view(), kwargs={'value': 0}),
+    path('postLikes/<str:commentId>/<int:value>', CommentLikesView.as_view()),
+    path('postLikes/<str:commentId>', CommentLikesView.as_view(), kwargs={'value': 0}),
 ]
