@@ -44,4 +44,25 @@ class PostLikesView(APIView):
             like.save()
         return Response("post likes updated to:" + str(post.likesNum), status=status.HTTP_400_BAD_REQUEST)
 
+    @staticmethod
+    def get(request, channelId, postNumber, value):
+        # value is ignored
+        try:
+            channel = ChannelInfo.objects.get(channelId=channelId)
+        except ChannelInfo.DoesNotExist:
+            return Response('Invalid channel', status=status.HTTP_400_BAD_REQUEST)
+        try:
+            post = channel.posts.get(postNumber=postNumber)
+        except Post.DoesNotExist:
+            return Response('Invalid post number', status=status.HTTP_400_BAD_REQUEST)
+        if request.user.is_anonymous:
+            return Response("You're not logged in", status=status.HTTP_400_BAD_REQUEST)
 
+        try:
+            like = post.likes.get(user=request.user)
+            if like.isPositive:
+                return Response("You have liked" + str(post.likesNum), status=status.HTTP_200_OK)
+            else:
+                return Response("You have disliked" + str(post.likesNum), status=status.HTTP_200_OK)
+        except PostLike.DoesNotExist:
+            return Response("You haven't liked" + str(post.likesNum), status=status.HTTP_200_OK)
