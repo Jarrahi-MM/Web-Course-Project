@@ -26,7 +26,7 @@ const fake_alerts = {
     ],
     checkpoint: 'some date',
     hasMoreItems: true
-}
+};
 
 export const loadMoreItems = () => (dispatch, getState) => {
     // let url = new URL('http://192.168.1.1:8080/api/alerts/')

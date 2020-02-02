@@ -8,6 +8,8 @@ import Homepage from "./components/Homepage";
 import AlertsPage from "./components/alerts/AlertsPage";
 import Login from "./components/Login"
 import {CookiesProvider, withCookies} from "react-cookie";
+import {connect} from "react-redux";
+import {loadTokenAndUsernameFromCookies} from "./redux/action_creators/authActions";
 
 
 class App extends Component {
@@ -20,6 +22,7 @@ class App extends Component {
     }
 
     componentDidMount() {
+        this.props.loadTokenAndUsernameFromCookies(this.props.cookies);
     }
 
     render() {
@@ -63,4 +66,4 @@ class App extends Component {
 
 }
 
-export default withCookies(App);
+export default connect(null,{loadTokenAndUsernameFromCookies})(withCookies(App));

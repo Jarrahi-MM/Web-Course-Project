@@ -2,13 +2,13 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from .models import ChannelInfo, ProfileInfo, Post
+from .models import Channel, ProfileInfo, Post
 
 
 class ChannelSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ChannelInfo
-        fields = ('channelId', 'owner', 'contributor', 'followersNum', 'followingsNum', 'postsNum', 'isPersonal')
+        model = Channel
+        fields = ('channelId', 'owner', 'contributors', 'followersNum', 'followingsNum', 'postsNum', 'isPersonal')
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -49,3 +49,4 @@ class PostSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         print(validated_data)
         return None
+
