@@ -29,10 +29,10 @@ class AlertItem extends Component {
                 <Feed.Label image={alert.imageURL}/>
                 <Feed.Content>
                     <Feed.Summary>
-                        <Link to={'/profile/' + alert.byUsername}>{alert.byUsername}</Link>
+                        <Link to={'/profiles/' + alert.byUsername}>{alert.byUsername}</Link>
                         &nbsp;commented on you post:&nbsp;
                         <Link
-                            to={'/post/' + alert.postId}>
+                            to={'/posts/' + alert.postChannelId + '/' + alert.postId}>
                             {_.truncate(alert.postTitle, {length: this.titleMaxLength})}
                         </Link>
                         <Feed.Date><TimeAgo date={alert.date}/></Feed.Date>

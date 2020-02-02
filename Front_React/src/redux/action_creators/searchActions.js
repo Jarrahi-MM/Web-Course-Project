@@ -14,22 +14,27 @@ const fakeSearchData = {
     ],
     'Channels': [
         {
+            'id' : 3,
             'name': 'science'
         },
         {
+            'id' : 5,
             'name': 'jokes'
         },
         {
+            'id' : 1,
             'name': 'news'
         },
 
     ],
     'Posts': [
         {
+            'channelId': 4,
             'id': 1,
             'name': 'a title'
         },
         {
+            'channelId': 8,
             'id': 2,
             'name': 'another title'
         },

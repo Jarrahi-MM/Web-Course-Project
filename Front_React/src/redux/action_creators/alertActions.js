@@ -9,6 +9,7 @@ const fake_alerts = {
             byUsername: 'satushi',
             date: '2020-01-27 16:35:25.273695',
             // commentId: null, //linking to comments are not implemented by jarrahi.
+            postChannelId: null,
             postId: null,
             postTitle: null,
             comment: null,
@@ -19,6 +20,7 @@ const fake_alerts = {
             byUsername: 'rima',
             date: '2020-01-27 16:35:25.273695',
             // commentId: 7, //linking to comments are not implemented by jarrahi.
+            postChannelId: 8,
             postId: 12,
             postTitle: 'cute cat video',
             comment: 'aww',
