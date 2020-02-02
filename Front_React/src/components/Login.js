@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import {withCookies} from "react-cookie";
+import {loadTokenAndUsernameFromCookies} from "../redux/action_creators/authActions";
+import {connect} from "react-redux";
 
 class Login extends Component {
     constructor(probs) {
@@ -36,8 +38,10 @@ class Login extends Component {
             .then(response => {
                 this.props.cookies.set('myToken', response.token);
                 this.props.cookies.set('userName', this.state.loginCredentials.username);
-                if (response.token)
+                if (response.token){
+                    this.props.loadTokenAndUsernameFromCookies(this.props.cookies);
                     window.location.href = window.location.origin + '/';
+                }
                 else {
                     this.setState({loginError: "Unable to login"});
                     this.setState({signUpError: ""});
@@ -45,8 +49,8 @@ class Login extends Component {
                 }
             })
             .catch(error => {
-                this.state.set({loginError: "Error"});
-                this.state.set({signUpError: ""});
+                this.setState({loginError: "Error"});
+                this.setState({signUpError: ""});
             });
     };
 
@@ -163,4 +167,4 @@ class Login extends Component {
 
 }
 
-export default withCookies(Login);
+export default connect(null,{loadTokenAndUsernameFromCookies})(withCookies(Login));
