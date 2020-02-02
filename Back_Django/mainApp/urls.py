@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from django.urls import path, include
 from rest_framework import routers
 
@@ -9,13 +8,8 @@ from .views.profiles import Profiles
 
 router = routers.DefaultRouter()
 router.register('channels', ChannelViewSet)
-router.register('profile', ProfileViewSet)
+router.register('profile', ProfileViewSet)  #Todo:Negin Check
 router.register('register', UserViewSet)
-
-
-def post_process(request, username, postNumber):
-    print(request, "   ", username, postNumber)
-    return HttpResponse(str(request.method) + "   " + username + str(postNumber))
 
 
 urlpatterns = [

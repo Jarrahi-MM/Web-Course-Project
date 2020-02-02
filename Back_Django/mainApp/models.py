@@ -15,13 +15,16 @@ class ChannelInfo(models.Model):
 
 
 class ProfileInfo(models.Model):
-    user = models.OneToOneField(User, blank=False, null=False, on_delete=models.CASCADE, related_name='profile')
+    user = models.OneToOneField(User, blank=False, null=False, on_delete=models.CASCADE, related_name='profile',
+                                primary_key=True)
     city = models.CharField(max_length=16, blank=True, null=True)
     country = models.CharField(max_length=16, blank=True, null=True)
     phoneNum = models.CharField(max_length=16, blank=True, null=True)
 
 
 class Comment(models.Model):
+    commentId = models.CharField(max_length=16, blank=False, null=False, unique=True, primary_key=True,
+                                 auto_created=True)
     commentNumber = models.IntegerField()
     supComment = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True)
     creator = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE)
@@ -30,7 +33,7 @@ class Comment(models.Model):
     creationDate = models.DateField(blank=False)
 
     class Meta:
-        unique_together = ['supComment', 'commentNumber']
+        # unique_together = ['supComment', 'commentNumber'] Todo:Think
         index_together = ['supComment', 'commentNumber']
 
 
