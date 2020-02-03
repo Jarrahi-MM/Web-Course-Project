@@ -10,6 +10,7 @@ from .views.profiles import Profiles
 from .views.search import search
 from .views.updatePassword import UpdatePassword
 from .views.users import Users
+from .views.homepageView import homepage
 
 router = routers.DefaultRouter()
 router.register('channels', ChannelViewSet)
@@ -26,7 +27,8 @@ urlpatterns = [
     path('postLikes/', PostLikesView.as_view()),
     path('commentLikes/', CommentLikesView.as_view()),
     path('comments/', CommentView.as_view()),
-    path('search/', search)
+    path('search/', search),
+    path('homepage/<str:tabName>',homepage)
 ]
 
 urlpatterns += router.urls

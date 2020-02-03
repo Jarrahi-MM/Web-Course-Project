@@ -93,3 +93,9 @@ class SearchSerializer(serializers.Serializer):
     Users = UserSerializer(many=True)
     Channels = ChannelSerializer(many=True)
     Posts = PostSerializer(many=True)
+
+
+class HomepageSerializer(serializers.Serializer):
+    postObjs = PostSerializer(many=True)
+    checkpoint = serializers.DateTimeField
+    hasMoreItems = serializers.BooleanField

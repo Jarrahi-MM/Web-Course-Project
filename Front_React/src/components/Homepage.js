@@ -90,10 +90,11 @@ class Homepage extends Component {
                 hasMore={this.props.hasMoreItems}
                 loader={this.getLoaderComponent()}>
 
-                {this.props.postIds.map(postObj => {
+                {this.props.postObjs.map(postObj => {
                     return (
-                        <div key={postObj.id} className="alert alert-primary">
-                            pir shodam sar in
+                        <div key={postObj.postNumber} className="alert alert-primary">
+                            {postObj.postNumber}&nbsp;
+                            {postObj.channel}
                         </div>
                     )
                 })}
@@ -136,7 +137,7 @@ class Homepage extends Component {
 
 const mapStateToProps = (state) => ({
     hasMoreItems: state.homepage.hasMoreItems,
-    postIds: state.homepage.postIds
+    postObjs: state.homepage.postObjs
 });
 
 export default connect(mapStateToProps, {setActiveTab, loadMoreItems})(Homepage);

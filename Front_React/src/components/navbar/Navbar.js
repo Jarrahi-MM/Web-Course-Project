@@ -29,7 +29,7 @@ class Navbar extends Component {
     };
 
     onProfileClick = (e) => {
-        this.props.history.push('/u/'+this.props.username)
+        this.props.history.push('/users/'+this.props.username)
     };
 
     onSmallSearchClick = (e) => {
@@ -84,7 +84,7 @@ class Navbar extends Component {
 
 const mapStateToProps = (state) => ({
     username: state.auth.username,
-    unreadAlerts: state.navbar.unreadAlerts
+    unreadAlerts: state.navbar.unreadAlerts,
 });
 
 export default withRouter(connect(mapStateToProps,{setUnreadAlerts})(Navbar));
