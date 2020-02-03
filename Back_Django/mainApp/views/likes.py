@@ -110,10 +110,10 @@ class CommentLikesView(APIView):
         return Response(CommentSerializer(comment, many=False).data, status=status.HTTP_202_ACCEPTED)
 
     @staticmethod
-    def get(request, commentId, value):
+    def get(request):
         # value is ignored
         try:
-            comment = Comment.objects.get(commentId=commentId)
+            comment = Comment.objects.get(id=request.data['commentId'])
         except Comment.DoesNotExist:
             return Response('Invalid Comment', status=status.HTTP_400_BAD_REQUEST)
         if request.user.is_anonymous:
@@ -122,8 +122,8 @@ class CommentLikesView(APIView):
         try:
             like = comment.likes.get(user=request.user)
             if like.isPositive:
-                return Response("You have liked numOfLikes:" + str(comment.likesNum), status=status.HTTP_200_OK)
+                return Response("liked", status=status.HTTP_200_OK)
             else:
-                return Response("You have disliked numOfLikes:" + str(comment.likesNum), status=status.HTTP_200_OK)
+                return Response("disliked", status=status.HTTP_200_OK)
         except CommentLike.DoesNotExist:
-            return Response("You haven't liked numOfLikes:" + str(comment.likesNum), status=status.HTTP_200_OK)
+            return Response("not liked", status=status.HTTP_200_OK)
