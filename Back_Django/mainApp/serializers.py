@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
@@ -53,6 +54,15 @@ class PostSerializer(serializers.ModelSerializer):
         print(validated_data)
         return None
 
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+    def validate_new_password(self, value):
+        validate_password(value)
+        return value
 
 class SearchSerializer(serializers.Serializer):
     Users = UserSerializer(many=True)
