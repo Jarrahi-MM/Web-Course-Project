@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from ..models import Post, Channel, PostLike, Comment, CommentLike
-from ..serializers import PostSerializer
+from ..serializers import PostSerializer, CommentSerializer
 
 
 class PostLikesView(APIView):
@@ -76,14 +76,16 @@ class CommentLikesView(APIView):
     authentication_classes = [authentication.TokenAuthentication]
 
     @staticmethod
-    def put(request, commentId, value):
+    def put(request):
         # value of +1 is positive and value of +2 is negative
         try:
-            comment = Comment.objects.get(id=commentId)
+            comment = Comment.objects.get(id=request.data['commentId'])
         except Comment.DoesNotExist:
             return Response('Invalid Comment', status=status.HTTP_400_BAD_REQUEST)
         if request.user.is_anonymous:
             return Response("You're not logged in", status=status.HTTP_400_BAD_REQUEST)
+
+        value = int(request.data['value'])
 
         try:
             like = comment.likes.get(user=request.user)
@@ -105,7 +107,7 @@ class CommentLikesView(APIView):
             like.delete()
         else:
             like.save()
-        return Response("comment likes updated to:" + str(comment.likesNum), status=status.HTTP_202_ACCEPTED)
+        return Response(CommentSerializer(comment, many=False).data, status=status.HTTP_202_ACCEPTED)
 
     @staticmethod
     def get(request, commentId, value):
