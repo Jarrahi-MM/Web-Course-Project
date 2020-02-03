@@ -75,7 +75,7 @@ class CommentLikesView(APIView):
     def put(request, commentId, value):
         # value of +1 is positive and value of +2 is negative
         try:
-            comment = Comment.objects.get(commentId=commentId)
+            comment = Comment.objects.get(id=commentId)
         except Comment.DoesNotExist:
             return Response('Invalid Comment', status=status.HTTP_400_BAD_REQUEST)
         if request.user.is_anonymous:

@@ -51,11 +51,9 @@ class PostSerializer(serializers.ModelSerializer):
         extra_kwargs = {'postNumber': {'read_only': True, 'required': True}}
 
     def create(self, validated_data):
-        print(validated_data)
         return None
 
     def update(self, instance, validated_data):
-        print(validated_data)
         return None
 
 

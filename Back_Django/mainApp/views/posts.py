@@ -46,7 +46,7 @@ class Posts(APIView):
         post.save()
         channel.save()
         print(request.data['text'])
-        return Response(post.postNumber, status=status.HTTP_201_CREATED)
+        return Response(PostSerializer(post, many=False).data, status=status.HTTP_201_CREATED)
 
     @staticmethod
     def put(request, channelId, postNumber):
