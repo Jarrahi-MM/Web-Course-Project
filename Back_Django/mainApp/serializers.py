@@ -8,7 +8,9 @@ from .models import Channel, ProfileInfo, Post
 class ChannelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Channel
-        fields = ('channelId', 'owner', 'contributors', 'followersNum', 'followingsNum', 'postsNum', 'isPersonal')
+        fields = (
+            'channelId', 'channelName', 'owner', 'contributors', 'followersNum', 'followingsNum', 'postsNum',
+            'isPersonal')
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -38,7 +40,8 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = (
-            'postNumber', 'channel', 'creator', 'creationDate', 'updateVal', 'firstComment', 'likesNum', 'image',
+            'postNumber', 'postTitle', 'channel', 'creator', 'creationDate', 'updateVal', 'firstComment', 'likesNum',
+            'image',
             'text')
         extra_kwargs = {'postNumber': {'read_only': True, 'required': True}}
 
@@ -50,3 +53,8 @@ class PostSerializer(serializers.ModelSerializer):
         print(validated_data)
         return None
 
+
+class SearchSerializer(serializers.Serializer):
+    Users = UserSerializer(many=True)
+    Channels = ChannelSerializer(many=True)
+    Posts = PostSerializer(many=True)

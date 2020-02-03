@@ -5,6 +5,7 @@ from .views.UserView import ChannelViewSet, ProfileViewSet, UserViewSet
 from .views.likes import PostLikesView, CommentLikesView
 from .views.posts import Posts
 from .views.profiles import Profiles
+from .views.search import search
 
 router = routers.DefaultRouter()
 router.register('channels', ChannelViewSet)
@@ -20,6 +21,7 @@ urlpatterns = [
     path('postLikes/<str:channelId>/<int:postNumber>', PostLikesView.as_view(), kwargs={'value': 0}),
     path('postLikes/<str:commentId>/<int:value>', CommentLikesView.as_view()),
     path('postLikes/<str:commentId>', CommentLikesView.as_view(), kwargs={'value': 0}),
+    path('search/', search)
 ]
 
 urlpatterns += router.urls
