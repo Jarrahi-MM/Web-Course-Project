@@ -57,6 +57,9 @@ class App extends Component {
                         <Route path={'/followList'}>
                             <Profile/>
                         </Route>
+                        <Route path={'/channel'}>
+                            <Channel/>
+                        </Route>
                         <Route path={'/createChannel'}>
                             <Channel/>
                         </Route>
