@@ -1,12 +1,12 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
 import {withCookies} from "react-cookie";
-
 class Channel extends Component {
 
     state = {
         showList: false,
-        channels: []
+        channels: [],
+        token: this.props.cookies.get('myToken'),
     };
 
     toggle = () => {
@@ -21,14 +21,10 @@ class Channel extends Component {
             }
         }).then(response => response.json())
             .then(res => {
-                this.setState({userInfo: res})
+                this.setState({channels: res})
             })
             .catch(error => console.log(error))
 
-        if (this.state.username === this.props.username)
-            this.setState({myAccount: true});
-        else
-            this.setState({myAccount: false})
     }
 
     render() {
@@ -44,13 +40,16 @@ class Channel extends Component {
                             SHOW MY CHANNELS
                             <i className="right arrow icon"></i>
                         </div>
+                        <br/>
+                        <br/>
                         {this.state.showList ?
                             <div>{this.state.channels.map(channel => {
                                 return (
-                                    <div key={channel.id}>
-                                        <h3>
-                                            {channel.channelName}
-                                        </h3>
+                                    <div key={channel.id} className="blue">
+                                        <button className="fluid ui button blue big">
+                                            <span>{channel.channelName}</span>
+                                        </button>
+                                        <br/>
                                     </div>
                                 )
                             })}
