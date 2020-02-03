@@ -11,17 +11,18 @@ from ..serializers import CommentSerializer
 class CommentView(APIView):
     authentication_classes = [authentication.TokenAuthentication]
 
-    # @staticmethod
-    # def get(request,):
-    #     try:
-    #         channel = Channel.objects.get(channelId=channelId)
-    #     except Channel.DoesNotExist:
-    #         return Response('Invalid channel', status=status.HTTP_400_BAD_REQUEST)
-    #     try:
-    #         post = channel.posts.get(postNumber=postNumber)
-    #     except Post.DoesNotExist:
-    #         return Response('Invalid post number', status=status.HTTP_400_BAD_REQUEST)
-    #     return Response(PostSerializer(post).data, status.HTTP_200_OK)
+    @staticmethod
+    def get(request, ):
+        try:
+            supComment = Comment.objects.get(id=request.data['fatherId'])
+        except Comment.DoesNotExist:
+            return Response('Invalid Father', status=status.HTTP_400_BAD_REQUEST)
+        if request.user.is_anonymous:
+            return Response("You're not logged in", status=status.HTTP_400_BAD_REQUEST)
+
+        comments = supComment.subComments.filter(commentNumber__gte=request.data['from'],
+                                                 commentNumber__lt=request.data['to'])
+        return Response(CommentSerializer(comments, many=True).data, status=status.HTTP_201_CREATED)
 
     @staticmethod
     def post(request):
