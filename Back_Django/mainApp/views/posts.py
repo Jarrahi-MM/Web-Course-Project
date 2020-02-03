@@ -63,7 +63,6 @@ class Posts(APIView):
         if (request.user.username != post.creator.username) and (
                 request.user.username != channel.owner.username):
             return Response("You can't delete the post", status=status.HTTP_400_BAD_REQUEST)
-        post.creator = request.user
         post.creationDate = datetime.now()
         post.updateVal += 1
         post.image = request.data['image']

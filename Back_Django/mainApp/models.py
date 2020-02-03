@@ -28,7 +28,7 @@ class Comment(models.Model):
                                  auto_created=True)
     commentNumber = models.IntegerField(blank=False,null=False)
     supComment = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True)
-    creator = models.ForeignKey(User, blank=False, null=False, on_delete=models.SET_NULL)
+    creator = models.ForeignKey(User, blank=False, null=True, on_delete=models.SET_NULL)
     text = models.TextField()
     likesNum = models.IntegerField()
     subCommentsNum = models.IntegerField(default=0)
