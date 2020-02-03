@@ -5,7 +5,8 @@ class EditUserProfileForm extends Component {
 
 
     state = {
-        profileInf: this.props.profileInfo
+        profileInf: this.props.profileInfo,
+        user : this.props.profileInfo.user
     };
 
     inputChanged = event => {
@@ -19,7 +20,7 @@ class EditUserProfileForm extends Component {
         let profile = this.state.profileInf;
         profile.user[event.target.name] = event.target.value;
         this.setState({profileInf: profile});
-        this.updateClicked()
+        this.updateUserClicked()
     };
 
     updateClicked = () => {
@@ -31,15 +32,26 @@ class EditUserProfileForm extends Component {
             },
             body: JSON.stringify(this.state.profileInf)
         }).then(response => response.json())
-            .then(res => this.props.profile(res))
             .catch(error => console.log(error))
     };
+
+    updateUserClicked() {
+        fetch(`http://127.0.0.1:8000/auth/${this.props.username}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${this.props.token}`
+            },
+            body: JSON.stringify(this.state.user)
+        }).then(response => response.json())
+            .catch(error => console.log(error))
+    }
 
     render() {
 
         return (
             <React.Fragment>
-                <form className="ui form">
+                <form className="ui form" >
                     <div className="field">
                         <div className="three fields">
                             <div className="field">
@@ -103,7 +115,6 @@ class EditUserProfileForm extends Component {
             </React.Fragment>
         )
     }
-
 }
 
 export default EditUserProfileForm
