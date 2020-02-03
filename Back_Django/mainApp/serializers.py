@@ -46,6 +46,8 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
+    creator = UserSerializer(many=False)
+
     class Meta:
         model = Post
         fields = (
@@ -62,6 +64,8 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    creator = UserSerializer(many=False)
+
     class Meta:
         model = Comment
         fields = (
