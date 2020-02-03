@@ -23,12 +23,10 @@ class Profile extends Component {
     state = {
         userInfo: [],
         proPicture: avatars[Math.floor(Math.random() * avatars.length)],
-        followingNumber: 1,
-        followerNumber: 2,
-        postNumber: 3,
         myAccount: true,
         following: true,
-        token: this.props.cookies.get('myToken')
+        token: this.props.cookies.get('myToken'),
+        username: this.props.cookies.get('userName')
     };
 
     followClicked = followed => {
@@ -49,6 +47,10 @@ class Profile extends Component {
             })
             .catch(error => console.log(error))
 
+        if (this.state.username === this.props.username)
+            this.setState({myAccount: true});
+        else
+            this.setState({myAccount: false})
     }
 
 
