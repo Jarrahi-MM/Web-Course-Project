@@ -3,24 +3,27 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from ..models import Post, Channel, PostLike, Comment, CommentLike
+from ..serializers import PostSerializer
 
 
 class PostLikesView(APIView):
     authentication_classes = [authentication.TokenAuthentication]
 
     @staticmethod
-    def put(request, channelId, postNumber, value):
+    def put(request):
         # value of +1 is positive and value of +2 is negative
         try:
-            channel = Channel.objects.get(channelId=channelId)
+            channel = Channel.objects.get(channelId=request.data['channelId'])
         except Channel.DoesNotExist:
             return Response('Invalid channel', status=status.HTTP_400_BAD_REQUEST)
         try:
-            post = channel.posts.get(postNumber=postNumber)
+            post = channel.posts.get(postNumber=request.data['postNumber'])
         except Post.DoesNotExist:
             return Response('Invalid post number', status=status.HTTP_400_BAD_REQUEST)
         if request.user.is_anonymous:
             return Response("You're not logged in", status=status.HTTP_400_BAD_REQUEST)
+
+        value = request.data['value']
 
         try:
             like = post.likes.get(user=request.user)
@@ -37,12 +40,15 @@ class PostLikesView(APIView):
         if value == +2:
             post.likesNum -= 1
             like.isPositive = False
+        print("----" + str(PostSerializer(post, many=False).data))
         post.save()
+        print("----")
         if value == 0:
             like.delete()
         else:
             like.save()
-        return Response("post likes updated to:" + str(post.likesNum), status=status.HTTP_202_ACCEPTED)
+
+        return Response(PostSerializer(post, many=False).data, status=status.HTTP_202_ACCEPTED)
 
     @staticmethod
     def get(request, channelId, postNumber, value):

@@ -42,7 +42,7 @@ class Post(models.Model):
     postTitle = models.CharField(max_length=50)
     channel = models.ForeignKey(Channel, blank=False, null=False, on_delete=models.CASCADE, related_name='posts')
     creator = models.ForeignKey(User, blank=False, null=True, on_delete=models.SET_NULL)
-    creationDate = models.DateTimeField(blank=False)
+    creationDate = models.DateTimeField(blank=False, null=False)
     updateVal = models.IntegerField(default=0, blank=False)
     firstComment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     likesNum = models.IntegerField()

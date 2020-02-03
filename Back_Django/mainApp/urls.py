@@ -22,10 +22,8 @@ urlpatterns = [
     path('profiles/<str:username>/', Profiles.as_view()),
     path('posts/<str:channelId>', Posts.as_view(), kwargs={'postNumber': 0}),
     path('posts/<str:channelId>/<int:postNumber>/', Posts.as_view()),
-    path('postLikes/<str:channelId>/<int:postNumber>/<int:value>', PostLikesView.as_view()),
-    path('postLikes/<str:channelId>/<int:postNumber>', PostLikesView.as_view(), kwargs={'value': 0}),
-    path('postLikes/<str:commentId>/<int:value>', CommentLikesView.as_view()),
-    path('postLikes/<str:commentId>', CommentLikesView.as_view(), kwargs={'value': 0}),
+    path('postLikes/', PostLikesView.as_view()),
+    path('commentLikes/', CommentLikesView.as_view()),
     path('search/', search)
 ]
 
