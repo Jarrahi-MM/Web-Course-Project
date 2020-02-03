@@ -65,6 +65,9 @@ class Profile extends Component {
                             <Link to={'/createPost'} className="circular ui icon big button settingsStyle">
                                 <i className="icon plus big"/>
                             </Link>
+                            <Link to={'/createChannel'} className="circular ui icon big button settingsStyle">
+                                <i className="icon bullhorn big"/>
+                            </Link>
                         </div>) :
                         (
                             <div>
