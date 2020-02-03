@@ -5,7 +5,8 @@ class EditUserProfileForm extends Component {
 
 
     state = {
-        profileInf: this.props.profileInfo
+        profileInf: this.props.profileInfo,
+        channel: this.props.channelInfo
     };
 
     inputChanged = event => {
@@ -22,6 +23,13 @@ class EditUserProfileForm extends Component {
         this.userUpdateClicked()
     };
 
+    channelChanged = event => {
+        let channel = this.state.channel;
+        channel[event.target.name] = event.target.value;
+        this.setState({channel: channel});
+        this.channelUpdateClicked()
+    };
+
     updateClicked = () => {
         fetch(`http://127.0.0.1:8000/api1/profiles/${this.props.username}/`, {
             method: 'PUT',
@@ -31,7 +39,6 @@ class EditUserProfileForm extends Component {
             },
             body: JSON.stringify(this.state.profileInf)
         }).then(response => response.json())
-            .then(res => this.props.profile(res))
             .catch(error => console.log(error))
     };
 
@@ -44,7 +51,18 @@ class EditUserProfileForm extends Component {
             },
             body: JSON.stringify(this.state.profileInf.user)
         }).then(response => response.json())
-            .then(res => this.props.profile(res))
+            .catch(error => console.log(error))
+    };
+
+    channelUpdateClicked = () => {
+        fetch(`http://127.0.0.1:8000/api1/channels/${this.props.username}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${this.props.token}`
+            },
+            body: JSON.stringify(this.state.channel)
+        }).then(response => response.json())
             .catch(error => console.log(error))
     };
 
@@ -67,8 +85,8 @@ class EditUserProfileForm extends Component {
                             </div>
                             <div className="field">
                                 <label>id</label>
-                                <input type="text" name="id"
-                                       onChange={this.inputChanged}/>
+                                <input type="text" name="channelId" value={this.state.channel.channelId}
+                                       onChange={this.channelChanged}/>
                             </div>
                         </div>
                     </div>
@@ -78,12 +96,17 @@ class EditUserProfileForm extends Component {
                             <input type="text" name="email" value={this.state.profileInf.user.email}
                                    onChange={this.userInputChanged}/>
                         </div>
+                        <div className="field">
+                            <label>channel name</label>
+                            <input type="text" name="channelName" value={this.state.channel.channelName}
+                                   onChange={this.channelChanged}/>
+                        </div>
                     </div>
                     <div className="ui form">
                         <div className="field">
                             <label>Description</label>
-                            <textarea rows="2"
-                                      placeholder="Im 20 years old from aliabad ; no follow back ;too shakh;dar hadde ma nisti awrereee"/>
+                            <textarea rows="2" value={this.state.channel.description} name="description"
+                                      onChange={this.channelChanged}/>
                         </div>
                     </div>
                     <div className="two fields">

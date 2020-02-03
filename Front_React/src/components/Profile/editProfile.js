@@ -21,6 +21,7 @@ class EditProfile extends Component {
             country: "",
             phoneNum: ""
         },
+        channel: {},
         pressed: false
     };
 
@@ -33,13 +34,24 @@ class EditProfile extends Component {
                 }
             }).then(response => response.json())
                 .then(res => {
-                    this.setState({profile: res})
-                    console.log(this.state.profile)
+                    this.setState({profile: res});
+                })
+                .catch(error => console.log(error));
+            fetch(`http://127.0.0.1:8000/api1/channels/${this.state.username}/`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Token ${this.state.token}`
+                }
+            }).then(response => response.json())
+                .then(res => {
+                    this.setState({channel: res})
                 })
                 .catch(error => console.log(error))
+
         } else {
             window.location.href = '/'
         }
+
     }
 
     togglePressed = () => {
@@ -59,7 +71,8 @@ class EditProfile extends Component {
                                 {this.state.pressed ?
                                     <EditUserProfileForm profileInfo={this.state.profile}
                                                          token={this.state.token}
-                                                         username={this.state.username}/> :
+                                                         username={this.state.username}
+                                                         channelInfo={this.state.channel}/> :
                                     <div className="ui vertical labeled icon buttons" style={containStyle}>
                                         <button className="ui button" onMouseEnter={this.togglePressed}>
                                             <i className="settings icon"/>
