@@ -25,7 +25,7 @@ class ProfileInfo(models.Model):
 
 class Comment(models.Model):
     commentNumber = models.IntegerField(blank=False, null=False)
-    supComment = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True)
+    supComment = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True, related_name='subComments')
     creator = models.ForeignKey(User, blank=False, null=True, on_delete=models.SET_NULL)
     text = models.TextField()
     likesNum = models.IntegerField()

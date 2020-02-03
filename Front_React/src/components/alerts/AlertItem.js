@@ -26,7 +26,7 @@ class AlertItem extends Component {
     generateCommentAlert(alert) {
         return (
             <Feed.Event className={this.bsClasses}>
-                <Feed.Label image={alert.imageURL}/>
+                <Feed.Label icon={'comment alternate outline'}/>
                 <Feed.Content>
                     <Feed.Summary>
                         <Link to={'/profiles/' + alert.byUsername}>{alert.byUsername}</Link>
@@ -48,7 +48,7 @@ class AlertItem extends Component {
     generateFollowAlert(alert) {
         return (
             <Feed.Event className={this.bsClasses}>
-                <Feed.Label image={alert.imageURL}/>
+                <Feed.Label icon={'handshake outline'}/>
                 <Feed.Content>
                     <Feed.Summary>
                         <Link to={'/profile/' + alert.byUsername}>{alert.byUsername}</Link>

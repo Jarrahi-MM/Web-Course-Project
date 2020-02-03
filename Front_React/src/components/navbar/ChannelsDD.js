@@ -6,7 +6,7 @@ import {loadChannels} from "../../redux/action_creators/navbarActions";
 
 class ChannelDD extends Component {
     onChannelClick = (name) => {
-        this.props.history.push('/c/' + name)
+        this.props.history.push('/channels/' + name)
     };
 
     onHomeClick = () => {
@@ -30,9 +30,9 @@ class ChannelDD extends Component {
                     <DropdownItem icon={'home'} text={'Home'} onClick={this.onHomeClick}/>
                     <DropdownDivider/>
                     <Dropdown.Header content='Followed channels'/>
-                    {this.props.channels.map((option) => (
-                        <Dropdown.Item key={option.name} image={{avatar:true,src:option.imageURL}} text={option.name}
-                                       onClick={this.onChannelClick.bind(this, option.name)}/>
+                    {this.props.channels.map((channelName) => (
+                        <Dropdown.Item key={channelName} icon={'comments outline'} text={channelName}
+                                       onClick={this.onChannelClick.bind(this, channelName)}/>
                     ))}
                 </Dropdown.Menu>
             </Dropdown>
