@@ -1,12 +1,14 @@
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
 from django.contrib.auth.models import User
+from rest_framework import status, permissions
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+
 from ..models import Channel, Post
 from ..serializers import SearchSerializer
 
 
 @api_view()
+@permission_classes((permissions.AllowAny,))
 def search(request):  # todo use whoosh
     search_string = request.query_params['q']
     search_result = {'Users': list(User.objects.filter(username__icontains=search_string)),
