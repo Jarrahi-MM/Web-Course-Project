@@ -62,9 +62,11 @@ class Channel extends Component {
                             <div>{this.state.channels.map(channel => {
                                 return (
                                     <div key={channel.id} className="blue">
-                                        <button className="fluid ui button blue big">
-                                            <span>{channel.channelName}</span>
-                                        </button>
+                                        <Link to={`/profile/${channel.channelId}`}>
+                                            <button className="fluid ui button blue big">
+                                                <span>{channel.channelName}</span>
+                                            </button>
+                                        </Link>
                                         <br/>
                                     </div>
                                 )
