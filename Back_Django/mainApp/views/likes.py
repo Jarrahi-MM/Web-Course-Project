@@ -23,7 +23,7 @@ class PostLikesView(APIView):
         if request.user.is_anonymous:
             return Response("You're not logged in", status=status.HTTP_400_BAD_REQUEST)
 
-        value = request.data['value']
+        value = int(request.data['value'])
 
         try:
             like = post.likes.get(user=request.user)
@@ -40,9 +40,7 @@ class PostLikesView(APIView):
         if value == +2:
             post.likesNum -= 1
             like.isPositive = False
-        print("----" + str(PostSerializer(post, many=False).data))
         post.save()
-        print("----")
         if value == 0:
             like.delete()
         else:
