@@ -13,5 +13,6 @@ class Users(APIView):
         user = User.objects.get(username=username)
         user.first_name = (request.data['first_name'])
         user.last_name = (request.data['last_name'])
+        user.email = (request.data['email'])
         user.save()
         return Response("user updated", status=status.HTTP_200_OK)
