@@ -9,13 +9,6 @@ const containStyle = {
     top: '30px'
 };
 
-const contain2Style = {
-    position: 'relative',
-    top: '30px',
-    bottom: '30px',
-    marginBottom:'50px'
-};
-
 class EditProfile extends Component {
 
     state = {
@@ -63,24 +56,15 @@ class EditProfile extends Component {
                             (<div>
                                 <h4 className="ui dividing header">Personal Information</h4>
                                 <EditProfilePic/>
-                                <div className="ui vertical labeled icon buttons" style={contain2Style}>
-                                    <button className="ui button" onClick={this.togglePressed}>
-                                        <i className="settings icon"/>
-                                        view profile details
-                                    </button>
-                                </div>
                                 {this.state.pressed ?
                                     <EditUserProfileForm profileInfo={this.state.profile}
                                                          token={this.state.token}
                                                          username={this.state.username}/> :
-                                    <div>
-                                        <div className="ui form">
-                                            <div className="field">
-                                                <label>Description</label>
-                                                <textarea rows="2"
-                                                          placeholder="Im 20 years old from aliabad ; no follow back ;too shakh;dar hadde ma nisti awrereee"/>
-                                            </div>
-                                        </div>
+                                    <div className="ui vertical labeled icon buttons" style={containStyle}>
+                                        <button className="ui button" onMouseEnter={this.togglePressed}>
+                                            <i className="settings icon"/>
+                                            view profile details
+                                        </button>
                                     </div>
                                 }
                             </div>) :
