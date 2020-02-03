@@ -12,14 +12,18 @@ export const loadChannels = () => (dispatch, state) => {
     let url = new URL('http://127.0.0.1:8000/api1/profiles/' + state().auth.username);
     fetch(url
     ).then(function (resp) {
-        return resp.json();
-    }).then(function (json) {
-        let {user: {followings}} = json
-        dispatch({
-            'type': STORE_CHANNELS,
-            'payload': followings,
-        })
-    });
+        console.log(resp)
+        if(resp.ok){
+            resp.json().then(function (json) {
+                console.log(json)
+                let {user: {followings}} = json
+                dispatch({
+                    'type': STORE_CHANNELS,
+                    'payload': followings,
+                })
+            })
+        }
+    })
     // dispatch({
     //     type: STORE_CHANNELS,
     //     payload: fake_channels,

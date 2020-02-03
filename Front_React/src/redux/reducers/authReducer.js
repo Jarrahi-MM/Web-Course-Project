@@ -1,7 +1,7 @@
 import {SET_TOKEN_USERNAME} from "../action_creators/types";
 
 const initState = {
-    username: 'amir',
+    username: 'jarrahi1',
     authorization: 'token '
 };
 
