@@ -13,7 +13,7 @@ class Searchbox extends Component {
                 this.props.history.push('/channels/' + result.id)
                 break
             case "p":
-                this.props.history.push('/posts/' + result.channelId + '/' + result.id)
+                this.props.history.push('/posts/' + result.channelid + '/' + result.id)
                 break
             case "u":
                 this.props.history.push('/profiles/' + result.title)
@@ -54,19 +54,19 @@ function mapSearchResultsToCategorizedSearchResults(results) {
         'Channels': {
             'name': 'Channels',
             'results': results.Channels ? results.Channels.map(channel => {
-                return {'title': channel.name, 'id': channel.id, 'group': 'c'}
+                return {'title': channel.channelName, 'id': channel.channelId, 'group': 'c'}
             }) : []
         },
         'Users': {
             'name': 'Users',
             'results': results.Users ? results.Users.map(user => {
-                return {'title': user.name, 'group': 'u'}
+                return {'title': user.username, 'group': 'u'}
             }) : []
         },
         'Posts': {
             'name': 'Posts',
             'results': results.Posts ? results.Posts.map(post => {
-                return {'title': post.name, 'id': post.id, 'channelId': post.channelId, 'group': 'p'}
+                return {'title': post.postTitle, 'id': post.postNumber, 'channelid': post.channel, 'group': 'p'}
             }) : []
         }
     };
