@@ -8,7 +8,10 @@ class Users(APIView):
     authentication_classes = [authentication.TokenAuthentication]
 
     @staticmethod
-    def put(request, username):
+    def put(request):
+        username = request.user.username
         user = User.objects.get(username=username)
-        user.set_password(request.data['password'])
-        return Response("pass updated", status=status.HTTP_200_OK)
+        user.first_name = (request.data['first_name'])
+        user.last_name = (request.data['last_name'])
+        user.save()
+        return Response("user updated", status=status.HTTP_200_OK)
