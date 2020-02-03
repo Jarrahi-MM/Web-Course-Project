@@ -10,7 +10,6 @@ from ..serializers import ProfileSerializer
 
 class Profiles(APIView):
     authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = (permissions.AllowAny,)
 
     @staticmethod
     def get(request, username):
