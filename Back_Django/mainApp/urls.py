@@ -3,12 +3,14 @@ from django.urls import path
 from rest_framework import routers
 
 from .views.UserView import ChannelViewSet, ProfileViewSet, UserViewSet
+from .views.comments import CommentView
 from .views.likes import PostLikesView, CommentLikesView
 from .views.posts import Posts
 from .views.profiles import Profiles
 from .views.search import search
 from .views.updatePassword import UpdatePassword
 from .views.users import Users
+from .views.homepageView import homepage
 
 router = routers.DefaultRouter()
 router.register('channels', ChannelViewSet)
@@ -24,7 +26,9 @@ urlpatterns = [
     path('posts/<str:channelId>/<int:postNumber>/', Posts.as_view()),
     path('postLikes/', PostLikesView.as_view()),
     path('commentLikes/', CommentLikesView.as_view()),
-    path('search/', search)
+    path('comments/', CommentView.as_view()),
+    path('search/', search),
+    path('homepage/<str:tabName>',homepage)
 ]
 
 urlpatterns += router.urls

@@ -41,11 +41,11 @@ class Post extends Component {
     constructor(probs) {
         super(probs);
         this.state = {
-            postId: probs.postId,
+            channelId: probs.channelId,
+            postNum: probs.postNum,
             username: '',
             time: '',
             picURL: '',
-            video: '',
             text: '',
             comments: []
         };
@@ -59,7 +59,6 @@ class Post extends Component {
         this.setState({username: "Writer Username"});
         this.setState({time: "Post Time"});
         this.setState({picURL: "https://www.google.com/search?safe=strict&sxsrf=ACYBGNTLD7yk7UA0uEnWw51jzX5SFGVmVQ:1577901896679&q=New+Year%27s+Day&oi=ddle&ct=144862468&hl=en&sa=X&ved=0ahUKEwikvajQ_uLmAhWl0KYKHa9FCM0QPQgO"});
-        this.setState({video: "null"});
         this.setState({text: "Text"});
         let comments = [];
         comments.push({username: 'username 1', id: '.1', text: 'comment 1'});

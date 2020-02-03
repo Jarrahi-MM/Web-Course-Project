@@ -8,7 +8,6 @@ from ..serializers import SearchSerializer
 
 
 @api_view()
-@permission_classes((permissions.AllowAny,))
 def search(request):  # todo use whoosh
     search_string = request.query_params['q']
     search_result = {'Users': list(User.objects.filter(username__icontains=search_string)),
