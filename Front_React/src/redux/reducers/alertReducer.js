@@ -7,7 +7,6 @@ const initState = {
 };
 
 const alertReducer = (state = initState, action) => {
-    console.log(state)
     switch (action.type) {
         case APPEND_ALERTS:
             return {

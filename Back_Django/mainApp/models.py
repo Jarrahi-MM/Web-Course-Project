@@ -4,6 +4,7 @@ from django.db import models
 
 class Channel(models.Model):
     channelId = models.CharField(max_length=16, blank=False, null=False, unique=True, primary_key=True)
+    channelName = models.CharField(max_length=30, unique=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name='owningChannels')
     contributors = models.ManyToManyField(User, blank=True, related_name='contributedChannels')
     followers = models.ManyToManyField(User, blank=True, related_name='followings')
@@ -40,6 +41,7 @@ class Comment(models.Model):
 
 class Post(models.Model):
     postNumber = models.IntegerField()
+    postTitle = models.CharField(max_length=50)
     channel = models.ForeignKey(Channel, blank=False, null=False, on_delete=models.CASCADE, related_name='posts')
     creator = models.ForeignKey(User, blank=False, null=True, on_delete=models.SET_NULL)
     creationDate = models.DateField(blank=False)
