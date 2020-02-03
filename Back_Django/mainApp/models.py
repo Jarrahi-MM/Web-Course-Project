@@ -26,11 +26,12 @@ class ProfileInfo(models.Model):
 class Comment(models.Model):
     commentId = models.CharField(max_length=16, blank=False, null=False, unique=True, primary_key=True,
                                  auto_created=True)
-    commentNumber = models.IntegerField()
+    commentNumber = models.IntegerField(blank=False,null=False)
     supComment = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True)
-    creator = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, blank=False, null=True, on_delete=models.SET_NULL)
     text = models.TextField()
     likesNum = models.IntegerField()
+    subCommentsNum = models.IntegerField(default=0)
     creationDate = models.DateField(blank=False)
 
     class Meta:

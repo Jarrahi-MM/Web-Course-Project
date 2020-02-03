@@ -11,13 +11,13 @@ class ChannelSerializer(serializers.ModelSerializer):
         model = Channel
         fields = (
             'channelId', 'channelName', 'owner', 'contributors', 'followersNum', 'followingsNum', 'postsNum',
-            'isPersonal')
+            'isPersonal', 'description')
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'password', 'first_name', 'last_name', 'email')
+        fields = ('username', 'password', 'first_name', 'last_name', 'email', 'followings')
         extra_kwargs = {'password': {'write_only': True, 'required': True}}
 
     def create(self, validated_data):
@@ -26,6 +26,10 @@ class UserSerializer(serializers.ModelSerializer):
         Token.objects.create(user=user)
         profile = ProfileInfo.objects.create(user=user, city='', country='', phoneNum='')
         profile.save()
+        channel_id = user.username
+        channel = Channel.objects.create(channelId=channel_id, channelName=channel_id, owner=user, followersNum=0,
+                                         followingsNum=0, postsNum=0, isPersonal=True, description='bio...')
+        channel.save()
         return user
 
 
@@ -55,7 +59,6 @@ class PostSerializer(serializers.ModelSerializer):
         return None
 
 
-
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
@@ -63,6 +66,7 @@ class ChangePasswordSerializer(serializers.Serializer):
     def validate_new_password(self, value):
         validate_password(value)
         return value
+
 
 class SearchSerializer(serializers.Serializer):
     Users = UserSerializer(many=True)
