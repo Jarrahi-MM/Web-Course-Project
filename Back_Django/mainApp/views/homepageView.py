@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.db.models import Max, Min
 from rest_framework import status, permissions
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -13,40 +14,41 @@ paginateBy = 10
 
 @api_view()
 @permission_classes((permissions.IsAuthenticated,))
-def homepage(request, tabName):
-    checkpoint = request.data.get('checkpoint')
-    if checkpoint is None:
+def homepage(request, tab_name):
+    checkpoint = request.query_params.get('checkpoint')
+    if checkpoint == 'null' or checkpoint is None:
         checkpoint = datetime.max
+    else:
+        checkpoint = datetime.strptime(request.query_params.get('checkpoint'), "%Y-%m-%dT%H:%M:%S.%fZ")
     user = request.user
 
-    new_checkpoint = None
-    has_more_items = None
-    post_list = Post.objects.none()
-
-    if tabName == 'FOLLOWED':
-        for channel in user.followings.all():
-            post_list.union(channel.posts.filter(creationDate__lt=checkpoint).all())
+    if tab_name == 'FOLLOWED':
+        post_list = Post.objects.filter(channel__in=user.followings.all())
         post_list = post_list.order_by('-creationDate')
-    elif tabName == 'HOTTEST':
-        post_list = Post.objects.filter(creationDate__gt=timezone.now() - timedelta(weeks=1)).order_by('-likesNum')
-    elif tabName == 'LATEST':
+    elif tab_name == 'HOTTEST':
+        post_list = Post.objects.filter(creationDate__gt=timezone.now() - timedelta(weeks=1)).order_by('-likesNum',
+                                                                                                       '-creationDate')
+    elif tab_name == 'LATEST':
         post_list = Post.objects.order_by('-creationDate')
-    elif tabName == 'PARTICIPATED':
+    elif tab_name == 'PARTICIPATED':
         temp_post_list = Post.objects.order_by('-creationDate')
         post_list = []
         for post in temp_post_list:
             if hasUserPaticipatedInPost(post, user):
-                post_list.append(post)
+                post_list.append(post.postNumber)
                 if len(post_list) == paginateBy + 1:
                     break
+        post_list = Post.objects.filter(postNumber__in=post_list).order_by('-creationDate')
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)  # never happens
 
-    post_list = list(post_list)
-    if len(post_list) > paginateBy:
-        has_more_items = True
-    post_list = post_list[paginateBy:]
-    new_checkpoint = post_list[-1].creationDate
+    post_list = post_list.filter(creationDate__lt=checkpoint)
+    has_more_items = post_list.count() > paginateBy
+    post_list = post_list[:paginateBy]
+    new_checkpoint = post_list.aggregate(cp=Min('creationDate')).get('cp')
+
+    post_list = post_list.all()
+    new_checkpoint = datetime.strftime(new_checkpoint, "%Y-%m-%dT%H:%M:%S.%fZ")
 
     data = {
         'postObjs': post_list,
@@ -60,10 +62,13 @@ def homepage(request, tabName):
 def hasUserPaticipatedInPost(post, user):
     if post.creator == user:
         return True
-    return recurseComments(post.firstComment, user)
+    return recurse_comments(post.firstComment, user)
 
 
-def recurseComments(comment, user):
+def recurse_comments(comment, user):
     if comment.creator == user:
         return True
-    # for sub_comment in comment.
+    for sub_comment in comment.subComments:
+        if recurse_comments(sub_comment, user):
+            return True
+    return False

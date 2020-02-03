@@ -28,7 +28,7 @@ urlpatterns = [
     path('commentLikes/', CommentLikesView.as_view()),
     path('comments/', CommentView.as_view()),
     path('search/', search),
-    path('homepage/<str:tabName>',homepage)
+    path('homepage/<str:tab_name>', homepage)
 ]
 
 urlpatterns += router.urls

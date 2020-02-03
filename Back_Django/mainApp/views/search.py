@@ -9,7 +9,7 @@ from ..serializers import SearchSerializer
 
 @api_view()
 def search(request):  # todo use whoosh
-    search_string = request.query_params['q']
+    search_string = request.query_params.get('q')
     search_result = {'Users': list(User.objects.filter(username__icontains=search_string)),
                      'Channels': list(Channel.objects.filter(channelName__icontains=search_string)),
                      'Posts': list(Post.objects.filter(postTitle__icontains=search_string))}

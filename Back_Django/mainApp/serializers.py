@@ -97,5 +97,5 @@ class SearchSerializer(serializers.Serializer):
 
 class HomepageSerializer(serializers.Serializer):
     postObjs = PostSerializer(many=True)
-    checkpoint = serializers.DateTimeField
-    hasMoreItems = serializers.BooleanField
+    checkpoint = serializers.DateTimeField()
+    hasMoreItems = serializers.BooleanField()
