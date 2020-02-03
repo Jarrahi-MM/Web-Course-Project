@@ -46,9 +46,13 @@ class App extends Component {
                         <Route exact path={'/'}>
                             <Homepage/>
                         </Route>
-                        <Route path={'/profile'}>
-                            <Profile/>
-                        </Route>
+                        <Route path='/profile/:username' render={({match}) => {
+                            return (
+                                <div>
+                                    <Post username={match.params.username}/>
+                                </div>
+                            );
+                        }}/>
                         <Route path={'/followList'}>
                             <Profile/>
                         </Route>

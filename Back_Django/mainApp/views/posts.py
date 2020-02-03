@@ -46,7 +46,7 @@ class Posts(APIView):
         post.save()
         channel.save()
         print(request.data['text'])
-        return Response(post.postNumber, status=status.HTTP_201_CREATED)
+        return Response(PostSerializer(post, many=False).data, status=status.HTTP_201_CREATED)
 
     @staticmethod
     def put(request, channelId, postNumber):
@@ -68,7 +68,7 @@ class Posts(APIView):
         post.image = request.data['image']
         post.text = request.data['text']
         post.save()
-        return Response("post updated", status=status.HTTP_400_BAD_REQUEST)
+        return Response(PostSerializer(post, many=False).data, status=status.HTTP_400_BAD_REQUEST)
 
     @staticmethod
     def delete(request, channelId, postNumber):

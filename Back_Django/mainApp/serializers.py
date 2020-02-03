@@ -17,11 +17,15 @@ class ChannelSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'password', 'first_name', 'last_name', 'email')
-        extra_kwargs = {'password': {'write_only': True, 'required': True}}
+        fields = ('username', 'password', 'first_name', 'last_name', 'email', 'followings')
+        extra_kwargs = {
+            'password': {'write_only': True, 'required': True},
+            'followings': {'required': False, 'read_only': True}
+        }
 
     def create(self, validated_data):
         user = User.objects.create(**validated_data)
+        user.set_password(validated_data['password'])
         user.save()
         Token.objects.create(user=user)
         profile = ProfileInfo.objects.create(user=user, city='', country='', phoneNum='')
@@ -51,11 +55,9 @@ class PostSerializer(serializers.ModelSerializer):
         extra_kwargs = {'postNumber': {'read_only': True, 'required': True}}
 
     def create(self, validated_data):
-        print(validated_data)
         return None
 
     def update(self, instance, validated_data):
-        print(validated_data)
         return None
 
 
