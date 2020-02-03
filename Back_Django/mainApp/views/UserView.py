@@ -36,9 +36,6 @@ class UserViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         return HttpResponse("Error")
 
-    def update(self, request, *args, **kwargs):
-        return HttpResponse("Error")
-
     def destroy(self, request, *args, **kwargs):
         return HttpResponse("Error")
 

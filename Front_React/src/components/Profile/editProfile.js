@@ -9,6 +9,13 @@ const containStyle = {
     top: '30px'
 };
 
+const contain2Style = {
+    position: 'relative',
+    top: '30px',
+    bottom: '30px',
+    marginBottom:'50px'
+};
+
 class EditProfile extends Component {
 
     state = {
@@ -20,7 +27,8 @@ class EditProfile extends Component {
             city: "",
             country: "",
             phoneNum: ""
-        }
+        },
+        pressed: false
     };
 
     componentDidMount() {
@@ -41,26 +49,10 @@ class EditProfile extends Component {
         }
     }
 
-
-    editClicked = selMovie => {
-        this.setState({editedMovie: selMovie})
+    togglePressed = () => {
+        this.setState({pressed: !this.state.pressed})
     };
 
-    newMovie = () => {
-        this.setState({editedMovie: {title: '', description: ''}})
-    };
-
-    addMovie = movie => {
-        this.setState({movies: [...this.state.movies, movie]})
-    };
-
-    cancelForm = () => {
-        this.setState({editedMovie: null})
-    };
-
-    movieClicked = movie => {
-        this.setState({selectedMovie: movie, editedMovie: null})
-    };
 
     render() {
         return (
@@ -71,9 +63,26 @@ class EditProfile extends Component {
                             (<div>
                                 <h4 className="ui dividing header">Personal Information</h4>
                                 <EditProfilePic/>
-                                <EditUserProfileForm profileInfo={this.state.profile}
-                                                     token={this.state.token}
-                                                     username={this.state.username}/>
+                                <div className="ui vertical labeled icon buttons" style={contain2Style}>
+                                    <button className="ui button" onClick={this.togglePressed}>
+                                        <i className="settings icon"/>
+                                        view profile details
+                                    </button>
+                                </div>
+                                {this.state.pressed ?
+                                    <EditUserProfileForm profileInfo={this.state.profile}
+                                                         token={this.state.token}
+                                                         username={this.state.username}/> :
+                                    <div>
+                                        <div className="ui form">
+                                            <div className="field">
+                                                <label>Description</label>
+                                                <textarea rows="2"
+                                                          placeholder="Im 20 years old from aliabad ; no follow back ;too shakh;dar hadde ma nisti awrereee"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                             </div>) :
                             <EditChannel/>
                         }
