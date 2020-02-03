@@ -1,12 +1,15 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
 import {withCookies} from "react-cookie";
+
 class Channel extends Component {
 
     state = {
         showList: false,
         channels: [],
         token: this.props.cookies.get('myToken'),
+        username: this.props.cookies.get('userName'),
+        profile: []
     };
 
     toggle = () => {
@@ -14,6 +17,17 @@ class Channel extends Component {
     };
 
     componentDidMount() {
+        fetch(`http://127.0.0.1:8000/api1/profiles/${this.state.username}/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${this.state.token}`
+            }
+        }).then(response => response.json())
+            .then(res => {
+                this.setState({profile: res});
+            })
+            .catch(error => console.log(error));
+
         fetch(`http://127.0.0.1:8000/api1/channels/`, {
             method: 'GET',
             headers: {
@@ -22,8 +36,10 @@ class Channel extends Component {
         }).then(response => response.json())
             .then(res => {
                 this.setState({channels: res})
-            })
-            .catch(error => console.log(error))
+            }).then(res => {
+            const channels = this.state.channels.filter(channel => channel.owner === this.state.profile.user.id);
+            this.setState({channels: channels})
+        }).catch(error => console.log(error))
 
     }
 
@@ -34,11 +50,11 @@ class Channel extends Component {
                     <div className="ui piled raised very padded container segment">
                         <Link to={'/creatChannel'} className="ui right labeled icon button">
                             ADD NEW CHANNEL
-                            <i className="right arrow icon"></i>
+                            <i className="right arrow icon"/>
                         </Link><br/><br/>
                         <div onClick={this.toggle} className="ui right labeled icon button">
                             SHOW MY CHANNELS
-                            <i className="right arrow icon"></i>
+                            <i className="right arrow icon"/>
                         </div>
                         <br/>
                         <br/>
@@ -54,7 +70,7 @@ class Channel extends Component {
                                 )
                             })}
                             </div>
-                            : <span></span>}
+                            : <span/>}
                     </div>
                 </div>
             </React.Fragment>
