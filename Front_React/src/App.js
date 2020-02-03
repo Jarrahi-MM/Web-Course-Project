@@ -49,7 +49,7 @@ class App extends Component {
                         <Route path='/profile/:username' render={({match}) => {
                             return (
                                 <div>
-                                    <Post username={match.params.username}/>
+                                    <Profile username={match.params.username}/>
                                 </div>
                             );
                         }}/>
@@ -70,4 +70,4 @@ class App extends Component {
 
 }
 
-export default connect(null,{loadTokenAndUsernameFromCookies})(withCookies(App));
+export default connect(null, {loadTokenAndUsernameFromCookies})(withCookies(App));
