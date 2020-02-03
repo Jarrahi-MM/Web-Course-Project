@@ -3,7 +3,7 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from .models import Channel, ProfileInfo, Post
+from .models import Channel, ProfileInfo, Post, Comment
 
 
 class ChannelSerializer(serializers.ModelSerializer):
@@ -46,6 +46,8 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
+    creator = UserSerializer(many=False)
+
     class Meta:
         model = Post
         fields = (
@@ -53,6 +55,23 @@ class PostSerializer(serializers.ModelSerializer):
             'image',
             'text')
         extra_kwargs = {'postNumber': {'read_only': True, 'required': True}}
+
+    def create(self, validated_data):
+        return None
+
+    def update(self, instance, validated_data):
+        return None
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    creator = UserSerializer(many=False)
+
+    class Meta:
+        model = Comment
+        fields = (
+            'id', 'commentNumber', 'supComment', 'creator', 'text', 'likesNum', 'subCommentsNum', 'creationDate',
+        )
+        extra_kwargs = {'commentNumber': {'read_only': True, 'required': True}}
 
     def create(self, validated_data):
         return None
