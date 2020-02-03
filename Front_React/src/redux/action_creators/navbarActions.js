@@ -1,31 +1,23 @@
 import {CHANNEL_MOUNTED, CHANNEL_UNMOUNTED, STORE_CHANNELS, UNREAD_ALERTS_COUNT} from "./types";
 
 const fake_channels = [
-    {
-        name: 'Sports',
-        imageURL:'https://react.semantic-ui.com/images/avatar/small/jenny.jpg',
-    },
-    {
-        name: 'Jokes',
-        imageURL:'https://react.semantic-ui.com/images/avatar/small/jenny.jpg',
-    },
-    {
-        name: 'Home',
-        imageURL:'https://react.semantic-ui.com/images/avatar/small/jenny.jpg',
-    },
+    'Sports',
+    'Jokes',
+    'Home',
 ];
 
 const fake_unread_alerts_count = 2;
 
 export const loadChannels = () => (dispatch, state) => {
-    let url = new URL('http://127.0.0.1:8000/api1/profiles/'+state().auth.username);
+    let url = new URL('http://127.0.0.1:8000/api1/profiles/' + state().auth.username);
     fetch(url
     ).then(function (resp) {
         return resp.json();
     }).then(function (json) {
+        let {user: {followings}} = json
         dispatch({
             'type': STORE_CHANNELS,
-            'payload': json,
+            'payload': followings,
         })
     });
     // dispatch({
@@ -34,20 +26,20 @@ export const loadChannels = () => (dispatch, state) => {
     // })
 };
 
-export const mountedChannel = (channelName) => (dispatch,state) => {
+export const mountedChannel = (channelName) => (dispatch, state) => {
     dispatch({
-        type:  CHANNEL_MOUNTED,
+        type: CHANNEL_MOUNTED,
         payload: channelName,
     })
 };
 
-export const unmountedChannel = () => (dispatch,state) => {
+export const unmountedChannel = () => (dispatch, state) => {
     dispatch({
-        type:  CHANNEL_UNMOUNTED,
+        type: CHANNEL_UNMOUNTED,
     })
 };
 
-export const setUnreadAlerts = () => (dispatch,state) => {
+export const setUnreadAlerts = () => (dispatch, state) => {
     // let url = new URL('http://192.168.1.1:8080/api/unreadalertscount')
     // fetch(url).then((resp)=>resp.json()).then((json)=>{
     //     dispatch({
@@ -61,7 +53,7 @@ export const setUnreadAlerts = () => (dispatch,state) => {
     })
 };
 
-export const readAllAlerts = () => (dispatch,state) => {
+export const readAllAlerts = () => (dispatch, state) => {
     dispatch({
         type: UNREAD_ALERTS_COUNT,
         payload: 0

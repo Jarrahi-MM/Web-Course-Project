@@ -21,14 +21,14 @@ const avatars = ['https://image.freepik.com/free-vector/cartoon-monster-face-ava
 class Profile extends Component {
 
     state = {
+        userInfo: [],
         proPicture: avatars[Math.floor(Math.random() * avatars.length)],
         followingNumber: 1,
         followerNumber: 2,
         postNumber: 3,
         myAccount: true,
         following: true,
-        token: this.props.cookies.get('myToken'),
-        username: this.props.cookies.get('userName')
+        token: this.props.cookies.get('myToken')
     };
 
     followClicked = followed => {
@@ -38,18 +38,17 @@ class Profile extends Component {
     };
 
     componentDidMount() {
-        if (this.state.token) {
-            fetch("http://127.0.0.1:8000/api/api/movies/", {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Token ${this.state.token}`
-                }
-            }).then(response => response.json())
-                .then(res => this.setState({movies: res}))
-                .catch(error => console.log(error))
-        } else {
-            window.location.href = '/'
-        }
+        fetch(`http://127.0.0.1:8000/api1/channels/${this.props.username}/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${this.state.token}`
+            }
+        }).then(response => response.json())
+            .then(res => {
+                this.setState({userInfo: res})
+            })
+            .catch(error => console.log(error))
+
     }
 
 
@@ -82,12 +81,11 @@ class Profile extends Component {
                         )}
                     <ProfilePicture image={this.state.proPicture}/>
                     <ProfileDetails
-                        followingNum={this.state.followingNumber}
-                        followerNum={this.state.followerNumber}
-                        postNum={this.state.postNumber}/>
+                        followingNum={this.state.userInfo.followingsNum}
+                        followerNum={this.state.userInfo.followersNum}
+                        postNum={this.state.userInfo.postsNum}/>
                     <hr/>
-                    <h3>Bio</h3>
-                    <hr/>
+                    <h3>{this.state.userInfo.description}</h3>
                     <hr/>
                     <h3>posts</h3>
                 </div>

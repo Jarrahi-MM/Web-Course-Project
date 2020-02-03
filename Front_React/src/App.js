@@ -46,9 +46,13 @@ class App extends Component {
                         <Route exact path={'/'}>
                             <Homepage/>
                         </Route>
-                        <Route path={'/profile'}>
-                            <Profile/>
-                        </Route>
+                        <Route path='/profile/:username' render={({match}) => {
+                            return (
+                                <div>
+                                    <Profile username={match.params.username}/>
+                                </div>
+                            );
+                        }}/>
                         <Route path={'/followList'}>
                             <Profile/>
                         </Route>
@@ -66,4 +70,4 @@ class App extends Component {
 
 }
 
-export default connect(null,{loadTokenAndUsernameFromCookies})(withCookies(App));
+export default connect(null, {loadTokenAndUsernameFromCookies})(withCookies(App));

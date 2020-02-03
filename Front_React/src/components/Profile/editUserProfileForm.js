@@ -6,7 +6,7 @@ class EditUserProfileForm extends Component {
 
     state = {
         profileInf: this.props.profileInfo,
-        user : this.props.profileInfo.user
+        channel: this.props.channelInfo
     };
 
     inputChanged = event => {
@@ -20,7 +20,14 @@ class EditUserProfileForm extends Component {
         let profile = this.state.profileInf;
         profile.user[event.target.name] = event.target.value;
         this.setState({profileInf: profile});
-        this.updateUserClicked()
+        this.userUpdateClicked()
+    };
+
+    channelChanged = event => {
+        let channel = this.state.channel;
+        channel[event.target.name] = event.target.value;
+        this.setState({channel: channel});
+        this.channelUpdateClicked()
     };
 
     updateClicked = () => {
@@ -35,23 +42,35 @@ class EditUserProfileForm extends Component {
             .catch(error => console.log(error))
     };
 
-    updateUserClicked() {
-        fetch(`http://127.0.0.1:8000/auth/${this.props.username}/`, {
+    userUpdateClicked = () => {
+        fetch(`http://127.0.0.1:8000/api1/users/`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Token ${this.props.token}`
             },
-            body: JSON.stringify(this.state.user)
+            body: JSON.stringify(this.state.profileInf.user)
         }).then(response => response.json())
             .catch(error => console.log(error))
-    }
+    };
+
+    channelUpdateClicked = () => {
+        fetch(`http://127.0.0.1:8000/api1/channels/${this.props.username}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${this.props.token}`
+            },
+            body: JSON.stringify(this.state.channel)
+        }).then(response => response.json())
+            .catch(error => console.log(error))
+    };
 
     render() {
 
         return (
             <React.Fragment>
-                <form className="ui form" >
+                <form className="ui form">
                     <div className="field">
                         <div className="three fields">
                             <div className="field">
@@ -66,8 +85,8 @@ class EditUserProfileForm extends Component {
                             </div>
                             <div className="field">
                                 <label>id</label>
-                                <input type="text" name="id"
-                                       onChange={this.inputChanged}/>
+                                <input type="text" name="channelId" value={this.state.channel.channelId}
+                                       onChange={this.channelChanged}/>
                             </div>
                         </div>
                     </div>
@@ -77,12 +96,17 @@ class EditUserProfileForm extends Component {
                             <input type="text" name="email" value={this.state.profileInf.user.email}
                                    onChange={this.userInputChanged}/>
                         </div>
+                        <div className="field">
+                            <label>channel name</label>
+                            <input type="text" name="channelName" value={this.state.channel.channelName}
+                                   onChange={this.channelChanged}/>
+                        </div>
                     </div>
                     <div className="ui form">
                         <div className="field">
                             <label>Description</label>
-                            <textarea rows="2"
-                                      placeholder="Im 20 years old from aliabad ; no follow back ;too shakh;dar hadde ma nisti awrereee"/>
+                            <textarea rows="2" value={this.state.channel.description} name="description"
+                                      onChange={this.channelChanged}/>
                         </div>
                     </div>
                     <div className="two fields">
@@ -115,6 +139,7 @@ class EditUserProfileForm extends Component {
             </React.Fragment>
         )
     }
+
 }
 
 export default EditUserProfileForm
