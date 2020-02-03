@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom'
+import {BrowserRouter, Route, Switch, withRouter} from 'react-router-dom'
 import Navbar from "./components/navbar/Navbar";
 import Profile from "./components/Profile/profile";
 import EditProfile from "./components/Profile/editProfile";
@@ -70,4 +70,9 @@ class App extends Component {
 
 }
 
-export default connect(null, {loadTokenAndUsernameFromCookies})(withCookies(App));
+const mapStateToProps = (state) => ({
+    token : state.auth.authorization,
+
+})
+
+export default connect(mapStateToProps,{loadTokenAndUsernameFromCookies})(withCookies(App));
