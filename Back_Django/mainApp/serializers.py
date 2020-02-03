@@ -11,7 +11,7 @@ class ChannelSerializer(serializers.ModelSerializer):
         model = Channel
         fields = (
             'channelId', 'channelName', 'owner', 'contributors', 'followersNum', 'followingsNum', 'postsNum',
-            'isPersonal')
+            'isPersonal', 'description')
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -26,6 +26,10 @@ class UserSerializer(serializers.ModelSerializer):
         Token.objects.create(user=user)
         profile = ProfileInfo.objects.create(user=user, city='', country='', phoneNum='')
         profile.save()
+        channel_id = user.username
+        channel = Channel.objects.create(channelId=channel_id, channelName=channel_id, owner=user, followersNum=0,
+                                         followingsNum=0, postsNum=0, isPersonal=True, description='bio...')
+        channel.save()
         return user
 
 

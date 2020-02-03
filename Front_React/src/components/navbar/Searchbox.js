@@ -6,19 +6,20 @@ import {search} from "../../redux/action_creators/searchActions";
 import {withRouter} from 'react-router-dom'
 
 class Searchbox extends Component {
-    state = {value:''};
-    handleResultSelect = (e, {result:{title:result}}) => {
-        if (result.charAt(result.length - 1) === ' ') {
-            if (result.charAt(result.length - 2) === ' ') {
-                this.props.history.push('/c/' + result.trim())
-            } else {
-                this.props.history.push('/u/' + result.trim())
-            }
-        } else {
-            let id = this.props.searchResults.Posts.results.filter(post => post.title===result)[0].id.toString();
-            this.props.history.push('/p/' + id)
+    state = {value: ''};
+    handleResultSelect = (e, {result}) => {
+        switch (result.group) {
+            case "c":
+                this.props.history.push('/channels/' + result.id)
+                break
+            case "p":
+                this.props.history.push('/posts/' + result.channelid + '/' + result.id)
+                break
+            case "u":
+                this.props.history.push('/profiles/' + result.title)
+                break
         }
-        this.setState({value:''})
+        this.setState({value: ''})
     };
 
     handleSearchChange = (e, {value}) => {
@@ -53,19 +54,19 @@ function mapSearchResultsToCategorizedSearchResults(results) {
         'Channels': {
             'name': 'Channels',
             'results': results.Channels ? results.Channels.map(channel => {
-                return {'title': channel.name + '  '}
+                return {'title': channel.channelName, 'id': channel.channelId, 'group': 'c'}
             }) : []
         },
         'Users': {
             'name': 'Users',
             'results': results.Users ? results.Users.map(user => {
-                return {'title': user.name + ' '}
+                return {'title': user.username, 'group': 'u'}
             }) : []
         },
         'Posts': {
             'name': 'Posts',
             'results': results.Posts ? results.Posts.map(post => {
-                return {'title': post.name,'id': post.id}
+                return {'title': post.postTitle, 'id': post.postNumber, 'channelid': post.channel, 'group': 'p'}
             }) : []
         }
     };

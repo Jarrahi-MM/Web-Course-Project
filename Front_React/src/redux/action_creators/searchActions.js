@@ -3,35 +3,40 @@ import {SEARCH_LOADING_DONE, SEARCH_LOADING_STARTED, SEARCH_RESULTS} from "./typ
 const fakeSearchData = {
     'Users': [
         {
-            'name': 'amir'
+            username : 'amir',
         },
         {
-            'name': 'hasan'
+            username : 'hasan',
         },
         {
-            'name': 'naghi'
+            username : 'naghi',
         },
     ],
     'Channels': [
         {
-            'name': 'science'
+            'channelId' : 3,
+            'channelName': 'science'
         },
         {
-            'name': 'jokes'
+            'channelId' : 5,
+            'channelName': 'jokes'
         },
         {
-            'name': 'news'
+            'channelId' : 1,
+            'channelName': 'news'
         },
 
     ],
     'Posts': [
         {
-            'id': 1,
-            'name': 'a title'
+            'channel': 4,
+            'postNumber': 1,
+            'postTitle': 'a title'
         },
         {
-            'id': 2,
-            'name': 'another title'
+            'channel': 8,
+            'postNumber': 2,
+            'postTitle': 'another title'
         },
 
     ],
@@ -42,27 +47,27 @@ export const search = (value) => (dispatch, getState) => {
         'type': SEARCH_LOADING_STARTED
     });
 
-    // let url = new URL('http://192.168.1.1:8080');
-    // url.searchParams = new URLSearchParams({value}).toString()
-    // fetch(url
-    // ).then(function (resp) {
-    //     return resp.json();
-    // }).then(function (json) {
-    //     dispatch({
-    //         'type': SEARCH_RESULTS,
-    //         'payload': json,
-    //     })
-    //     dispatch({
-    //         'type': SEARCH_LOADING_DONE,
-    //     })
-    // });
-    setTimeout(()=>{
+    let url = new URL('http://127.0.0.1:8000/api1/search');
+    url.search = new URLSearchParams({'q': value}).toString()
+    fetch(url
+    ).then(function (resp) {
+        return resp.json();
+    }).then(function (json) {
         dispatch({
             'type': SEARCH_RESULTS,
-            'payload': value !== 'no' ? fakeSearchData : {'Users':[],'Posts':[],'Channels':[]},
-        });
+            'payload': json,
+        })
         dispatch({
             'type': SEARCH_LOADING_DONE,
         })
-    },300)
+    });
+    // setTimeout(()=>{
+    //     dispatch({
+    //         'type': SEARCH_RESULTS,
+    //         'payload': value !== 'no' ? fakeSearchData : {'Users':[],'Posts':[],'Channels':[]},
+    //     });
+    //     dispatch({
+    //         'type': SEARCH_LOADING_DONE,
+    //     })
+    // },300)
 };
