@@ -10,7 +10,8 @@ import Login from "./components/Login"
 import {CookiesProvider, withCookies} from "react-cookie";
 import {connect} from "react-redux";
 import {loadTokenAndUsernameFromCookies} from "./redux/action_creators/authActions";
-import Channel from "./components/channel";
+import Channel from "./components/channel/channel";
+import CreateChannel from "./components/channel/createChannel";
 
 
 class App extends Component {
@@ -56,6 +57,9 @@ class App extends Component {
                         }}/>
                         <Route path={'/followList'}>
                             <Profile/>
+                        </Route>
+                        <Route path={'/createChannel'}>
+                            <CreateChannel/>
                         </Route>
                         <Route path={'/channel'}>
                             <Channel/>

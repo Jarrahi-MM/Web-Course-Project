@@ -10,7 +10,7 @@ class EditProfilePic extends Component {
 
     state = {
         selectedFile: null,
-        imagePreviewUrl: 'https://image.freepik.com/free-vector/three-eyed-monster-face_1639-7241.jpg'
+        imagePreviewUrl: 'https://image.freepik.com/free-vector/four-eyed-monster-face_1639-6913.jpg'
     };
 
     fileChangedHandler = event => {
