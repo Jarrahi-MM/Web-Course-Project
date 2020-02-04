@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 
 
 class Channel(models.Model):
@@ -30,7 +31,7 @@ class Comment(models.Model):
     text = models.TextField()
     likesNum = models.IntegerField()
     subCommentsNum = models.IntegerField(default=0)
-    creationDate = models.DateTimeField(blank=False)
+    creationDate = models.DateTimeField(default=timezone.now)
 
     class Meta:
         # unique_together = ['supComment', 'commentNumber'] Todo:Think
@@ -74,19 +75,12 @@ class CommentLike(models.Model):
         index_together = ['user', 'comment']
 
 
-class CommentAlerts(models.Model):
-    user = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE, related_name='commentAlerts')
-    comment = models.ForeignKey(Comment, blank=False, null=False, on_delete=models.CASCADE)
-
-    class Meta:
-        unique_together = ['user', 'comment']
-        index_together = ['user', 'comment']
-
-
-class FollowAlerts(models.Model):
-    user = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE, related_name='followAlerts')
-    follower = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE)
-
-    class Meta:
-        unique_together = ['user', 'follower']
-        index_together = ['user', 'follower']
+class Alert(models.Model):
+    is_comment = models.BooleanField()  # false: is follow
+    user = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE, related_name='alerts')
+    creation_date = models.DateTimeField(default=timezone.now)
+    has_been_seen = models.BooleanField(default=False)
+    by_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # just for comment
+    # post = models.ForeignKey(Post, blank=True, null=True, on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, blank=True, null=True, on_delete=models.CASCADE)

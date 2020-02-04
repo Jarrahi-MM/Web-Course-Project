@@ -3,7 +3,7 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from .models import Channel, ProfileInfo, Post, Comment
+from .models import Channel, ProfileInfo, Post, Comment, Alert
 
 
 class ChannelSerializer(serializers.ModelSerializer):
@@ -89,13 +89,26 @@ class ChangePasswordSerializer(serializers.Serializer):
         return value
 
 
-class SearchSerializer(serializers.Serializer):
+class SearchViewSerializer(serializers.Serializer):
     Users = UserSerializer(many=True)
     Channels = ChannelSerializer(many=True)
     Posts = PostSerializer(many=True)
 
 
-class HomepageSerializer(serializers.Serializer):
+class HomepageViewSerializer(serializers.Serializer):
     postObjs = PostSerializer(many=True)
+    checkpoint = serializers.DateTimeField()
+    hasMoreItems = serializers.BooleanField()
+
+
+class AlertSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Alert
+        exclude = ['user']
+        depth = 1
+
+
+class AlertViewSerializer(serializers.Serializer):
+    alerts = AlertSerializer(many=True)
     checkpoint = serializers.DateTimeField()
     hasMoreItems = serializers.BooleanField()

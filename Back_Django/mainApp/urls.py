@@ -11,6 +11,7 @@ from .views.search import search
 from .views.updatePassword import UpdatePassword
 from .views.users import Users
 from .views.homepageView import homepage
+from .views import alertView
 
 router = routers.DefaultRouter()
 router.register('channels', ChannelViewSet)
@@ -28,7 +29,9 @@ urlpatterns = [
     path('commentLikes/', CommentLikesView.as_view()),
     path('comments/', CommentView.as_view()),
     path('search/', search),
-    path('homepage/<str:tab_name>', homepage)
+    path('homepage/<str:tab_name>', homepage),
+    path('alerts/all', alertView.alert_items),
+    path('alerts/unreadcount', alertView.unread_count),
 ]
 
 urlpatterns += router.urls
