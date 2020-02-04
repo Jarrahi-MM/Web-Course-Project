@@ -12,7 +12,7 @@ class CreateChannel extends Component {
             channel: {
                 channelId: '',
                 channelName: '',
-                description: ''
+                description: '',
             }
         }
     }
@@ -49,12 +49,12 @@ class CreateChannel extends Component {
                             <div className="three fields">
                                 <div className="field">
                                     <label>Channel name</label>
-                                    <input type="text" placeholder="channel name"
+                                    <input type="text" placeholder="channel name" name="channelName"
                                            onChange={this.changeTrigger}/>
                                 </div>
                                 <div className="field">
                                     <label>Channel Id</label>
-                                    <input type="text" placeholder="channel Id"
+                                    <input type="text" placeholder="channel Id" name="channelId"
                                            onChange={this.changeTrigger}/>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@ class CreateChannel extends Component {
                         <div className="ui form">
                             <div className="field">
                                 <label>Description</label>
-                                <textarea rows="2" placeholder="description and rules"
+                                <textarea rows="2" placeholder="description and rules" name="description"
                                           onChange={this.changeTrigger}/>
                             </div>
                         </div>
