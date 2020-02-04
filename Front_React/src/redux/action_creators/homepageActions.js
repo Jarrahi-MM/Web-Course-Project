@@ -63,7 +63,7 @@ export const loadMoreItems = () => (dispatch, getState) => {
     url.search = new URLSearchParams({'checkpoint': getState().homepage.checkpoint}).toString()
     fetch(url, {
         headers: {
-            'Authorization': `Token ${getState().auth.authorization}`
+            'Authorization': getState().auth.authorization
         }
     }).then(resp => {
         console.log(resp)
