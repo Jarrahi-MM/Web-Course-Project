@@ -82,5 +82,5 @@ class Alert(models.Model):
     has_been_seen = models.BooleanField(default=False)
     by_user = models.ForeignKey(User, on_delete=models.CASCADE)
     # just for comment
-    # post = models.ForeignKey(Post, blank=True, null=True, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, blank=True, null=True, on_delete=models.CASCADE)
     comment = models.ForeignKey(Comment, blank=True, null=True, on_delete=models.CASCADE)

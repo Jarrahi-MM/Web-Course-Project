@@ -102,6 +102,8 @@ class HomepageViewSerializer(serializers.Serializer):
 
 
 class AlertSerializer(serializers.ModelSerializer):
+    by_user = UserSerializer()
+
     class Meta:
         model = Alert
         exclude = ['user']

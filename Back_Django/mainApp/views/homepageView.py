@@ -48,7 +48,7 @@ def homepage(request, tab_name):
     post_list = post_list[:paginateBy]
     new_checkpoint = post_list.aggregate(cp=Min('creationDate')).get('cp')
 
-    post_list = post_list.all()
+    # post_list = post_list.all() #uncomment if crashed !
     new_checkpoint = datetime.strftime(new_checkpoint, date_time_formatter)
 
     data = {

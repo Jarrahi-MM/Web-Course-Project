@@ -34,8 +34,7 @@ class CommentView(APIView):
             return Response("You're not logged in", status=status.HTTP_400_BAD_REQUEST)
 
         comment = Comment.objects.create(commentNumber=sup_comment.subCommentsNum + 1, supComment=sup_comment,
-                                         creator=request.user, text=request.data['text'], likesNum=0, subCommentsNum=0,
-                                         creationDate=datetime.now())
+                                         creator=request.user, text=request.data['text'], likesNum=0, subCommentsNum=0)
 
         sup_comment.subCommentsNum += 1
         comment.save()
