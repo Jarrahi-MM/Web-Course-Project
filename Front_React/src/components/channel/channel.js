@@ -48,7 +48,7 @@ class Channel extends Component {
             <React.Fragment>
                 <div className="containStyle">
                     <div className="ui piled raised very padded container segment">
-                        <Link to={'/creatChannel'} className="ui right labeled icon button">
+                        <Link to={'/createChannel'} className="ui right labeled icon button">
                             ADD NEW CHANNEL
                             <i className="right arrow icon"/>
                         </Link><br/><br/>
