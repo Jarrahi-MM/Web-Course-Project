@@ -28,7 +28,7 @@ class Channel extends Component {
             })
             .catch(error => console.log(error));
 
-        fetch(`http://127.0.0.1:8000/api1/channels/`, {
+        fetch(`http://127.0.0.1:8000/api1/channel/`, {
             method: 'GET',
             headers: {
                 'Authorization': `Token ${this.state.token}`
