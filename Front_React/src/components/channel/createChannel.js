@@ -4,11 +4,40 @@ import EditProfilePic from "../Profile/editProfilePic";
 
 class CreateChannel extends Component {
 
-    state = {
-        token: this.props.cookies.get('myToken'),
-        username: this.props.cookies.get('userName'),
+    constructor(props) {
+        super(props);
+        this.state = {
+            token: this.props.cookies.get('myToken'),
+            username: this.props.cookies.get('userName'),
+            channel: {
+                channelId: '',
+                channelName: '',
+                description: ''
+            }
+        }
+    }
+
+
+    submitClicked = event => {
+        console.log(this.state.token);
+        fetch(`http://127.0.0.1:8000/api1/channel/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${this.state.token}`
+            },
+            body: JSON.stringify(this.state.channel)
+        }).then(response => response.json())
+            .then(resp => console.log(resp))
+            .then(window.location.href = window.location.origin + '/channel')
+            .catch(error => console.log(error))
     };
 
+    changeTrigger = event => {
+        let channelIn = this.state.channel;
+        channelIn[event.target.name] = event.target.value;
+        this.setState({channel: channelIn});
+    };
 
     render() {
         return (
@@ -20,29 +49,34 @@ class CreateChannel extends Component {
                             <div className="three fields">
                                 <div className="field">
                                     <label>Channel name</label>
-                                    <input type="text" placeholder="channel name"/>
+                                    <input type="text" placeholder="channel name"
+                                           onChange={this.changeTrigger}/>
                                 </div>
                                 <div className="field">
                                     <label>Channel Id</label>
-                                    <input type="text" placeholder="channel Id"/>
+                                    <input type="text" placeholder="channel Id"
+                                           onChange={this.changeTrigger}/>
                                 </div>
                             </div>
                         </div>
                         <div className="ui form">
                             <div className="field">
                                 <label>Description</label>
-                                <textarea rows="2" placeholder="description and rules"/>
+                                <textarea rows="2" placeholder="description and rules"
+                                          onChange={this.changeTrigger}/>
                             </div>
                         </div>
 
                         <h3>inja bayad betunr contributor azafe kone </h3>
+                        <button className="ui button" onClick={this.submitClicked}>
+                            create channel
+                        </button>
 
                     </div>
                 </div>
             </React.Fragment>
         )
     }
-
 }
 
 export default withCookies(CreateChannel)
