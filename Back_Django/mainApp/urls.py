@@ -6,6 +6,7 @@ from .views.UserView import ChannelViewSet, ProfileViewSet, UserViewSet
 from .views.likes import PostLikesView, CommentLikesView
 from .views.posts import Posts
 from .views.profiles import Profiles
+from .views.channels import Channels
 from .views.updatePassword import UpdatePassword
 from .views.users import Users
 from .views.search import search
@@ -18,6 +19,7 @@ router.register('register', UserViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('change-password/', UpdatePassword.as_view()),
+    path('channel/', Channels.as_view()),
     path('users/', Users.as_view()),
     path('profiles/<str:username>/', Profiles.as_view()),
     path('posts/<str:channelId>/<int:postNumber>', Posts.as_view()),
