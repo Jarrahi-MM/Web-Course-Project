@@ -46,17 +46,25 @@ export const unmountedChannel = () => (dispatch, state) => {
 };
 
 export const setUnreadAlerts = () => (dispatch, state) => {
-    // let url = new URL('http://192.168.1.1:8080/api/unreadalertscount')
-    // fetch(url).then((resp)=>resp.json()).then((json)=>{
-    //     dispatch({
-    //         type: UNREAD_ALERTS_COUNT,
-    //         payload: json.unreadAlerts
-    //     })
-    // })
-    dispatch({
-        type: UNREAD_ALERTS_COUNT,
-        payload: fake_unread_alerts_count
+    let url = new URL('http://127.0.0.1:8000/api1/alerts/unreadcount')
+    fetch(url, {
+        headers: {
+            'Authorization': state().auth.authorization
+        }
+    }).then((resp) => {
+        if (resp.ok) {
+            resp.json().then((json) => {
+                dispatch({
+                    type: UNREAD_ALERTS_COUNT,
+                    payload: json
+                })
+            })
+        }
     })
+    // dispatch({
+    //     type: UNREAD_ALERTS_COUNT,
+    //     payload: fake_unread_alerts_count
+    // })
 };
 
 export const readAllAlerts = () => (dispatch, state) => {
