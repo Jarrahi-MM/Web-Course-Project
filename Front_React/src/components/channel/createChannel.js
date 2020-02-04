@@ -28,6 +28,15 @@ class CreateChannel extends Component {
                                 </div>
                             </div>
                         </div>
+                        <div className="ui form">
+                            <div className="field">
+                                <label>Description</label>
+                                <textarea rows="2" placeholder="description and rules"/>
+                            </div>
+                        </div>
+
+                        <h3>inja bayad betunr contributor azafe kone </h3>
+
                     </div>
                 </div>
             </React.Fragment>
