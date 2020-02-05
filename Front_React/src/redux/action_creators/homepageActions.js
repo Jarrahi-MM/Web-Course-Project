@@ -2,21 +2,26 @@ import {APPEND_POSTS, FOLLOWED_TAB, HOTTEST_TAB, NEW_TAB} from "./types";
 import _ from 'lodash'
 
 const fake_followed_tab_response = {
-    postIds: [
+    postObjs: [
         {
-            id: 1,
+            postNumber: 1,
+            channel: 2
         },
         {
-            id: 2,
+            postNumber: 2,
+            channel: 3
         },
         {
-            id: 3,
+            postNumber: 3,
+            channel: 23
         },
         {
-            id: 4,
+            postNumber: 4,
+            channel: 123
         },
         {
-            id: 5,
+            postNumber: 5,
+            channel: 233
         },
     ],
     checkpoint: 'a date maybe',
@@ -53,37 +58,46 @@ const fake_other_tabs_response = {
 
 
 export const loadMoreItems = () => (dispatch, getState) => {
-    // let tab_name = getState.homepage.activeTab.split('_')[0]
-    // let url = new URL('http://192.168.1.1:8080/api/tabs/'+tab_name)
-    // fetch(url,{body:{checkpoint: getState().homepage.checkpoint}}).then(resp => resp.json()).then(json => {
-    //     dispatch({
-    //         type: APPEND_POSTS,
-    //         payload: json
-    //     })
-    // })
-    switch (getState().homepage.activeTab) {
-        case FOLLOWED_TAB:
-            setTimeout(()=>{
+    let tab_name = getState().homepage.activeTab.split(' ')[0]
+    let url = new URL('http://127.0.0.1:8000/api1/homepage/' + tab_name)
+    url.search = new URLSearchParams({'checkpoint': getState().homepage.checkpoint}).toString()
+    fetch(url, {
+        headers: {
+            'Authorization': getState().auth.authorization
+        }
+    }).then(resp => {
+        if (resp.ok) {
+            resp.json().then(function (json) {
                 dispatch({
                     type: APPEND_POSTS,
-                    payload: _.cloneDeep(fake_followed_tab_response)
-                });
-                fake_followed_tab_response.postIds.forEach((obj)=> obj.id+=5)
-            },500);
-            break;
-        case HOTTEST_TAB:
-            dispatch({
-                type: APPEND_POSTS,
-                payload: fake_hottest_tab_response
-            });
-            break;
-        default:
-            dispatch({
-                type: APPEND_POSTS,
-                payload: fake_other_tabs_response
-            });
-            break;
-    }
+                    payload: json
+                })
+            })
+        }
+    })
+    // switch (getState().homepage.activeTab) {
+    //     case FOLLOWED_TAB:
+    //         setTimeout(()=>{
+    //             dispatch({
+    //                 type: APPEND_POSTS,
+    //                 payload: _.cloneDeep(fake_followed_tab_response)
+    //             });
+    //             fake_followed_tab_response.postObjs.forEach((obj)=> obj.postNumber+=5)
+    //         },500);
+    //         break;
+    //     case HOTTEST_TAB:
+    //         dispatch({
+    //             type: APPEND_POSTS,
+    //             payload: fake_hottest_tab_response
+    //         });
+    //         break;
+    //     default:
+    //         dispatch({
+    //             type: APPEND_POSTS,
+    //             payload: fake_other_tabs_response
+    //         });
+    //         break;
+    // }
 };
 
 export const setActiveTab = (tab) => (dispatch, getState) => {

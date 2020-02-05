@@ -1,11 +1,17 @@
 import {SET_TOKEN_USERNAME} from "./types";
 
 export const loadTokenAndUsernameFromCookies = (cookies) => (dispatch, getState) => {
+    let username = cookies.get('userName')
+    let token = cookies.get('myToken')
+    // if (!token && window.location.href != '/login') {
+    //     window.location.href = '/login'
+    //     return
+    // }
     dispatch({
         type: SET_TOKEN_USERNAME,
         payload: {
-            username: cookies.get('userName'),
-            authorization: 'token ' + cookies.get('myToken')
+            username: username,
+            authorization: 'token ' + token
         }
     })
 }

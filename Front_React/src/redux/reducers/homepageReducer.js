@@ -1,7 +1,7 @@
 import {APPEND_POSTS, FOLLOWED_TAB, NEW_TAB} from "../action_creators/types";
 
 const initState = {
-    postIds: [],
+    postObjs: [],
     hasMoreItems: true,
     checkpoint: null,
     activeTab: FOLLOWED_TAB
@@ -13,7 +13,7 @@ const homepageReducer = (state = initState, action) => {
             return {
                 ...state,
                 ...action.payload,
-                postIds: [...state.postIds,...action.payload.postIds]
+                postObjs: [...state.postObjs,...action.payload.postObjs]
             };
         case NEW_TAB:
             return {
