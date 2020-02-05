@@ -60,6 +60,20 @@ class EditProfile extends Component {
             window.location.href = '/'
         }
 
+        fetch(`http://127.0.0.1:8000/api1/channel/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${this.state.token}`
+            }
+        }).then(response => response.json())
+            .then(res => {
+                this.setState({channels: res});
+                console.log(res[0].channelId);
+                if (res[0].channelId === this.state.username)
+                    this.setState({isNotChannel: false});
+            })
+            .catch(error => console.log(error));
+
     }
 
     togglePressed = () => {
