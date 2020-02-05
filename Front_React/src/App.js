@@ -26,6 +26,7 @@ class App extends Component {
 
     componentDidMount() {
         this.props.loadTokenAndUsernameFromCookies(this.props.cookies);
+        // console.log(this.state.token);
     }
 
     render() {

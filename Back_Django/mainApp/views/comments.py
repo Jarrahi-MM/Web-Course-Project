@@ -12,19 +12,6 @@ class CommentView(APIView):
     authentication_classes = [authentication.TokenAuthentication]
 
     @staticmethod
-    def get(request, ):
-        try:
-            sup_comment = Comment.objects.get(id=request.data['fatherId'])
-        except Comment.DoesNotExist:
-            return Response('Invalid Father', status=status.HTTP_400_BAD_REQUEST)
-        if request.user.is_anonymous:
-            return Response("You're not logged in", status=status.HTTP_400_BAD_REQUEST)
-
-        comments = sup_comment.subComments.filter(commentNumber__gte=request.data['from'],
-                                                  commentNumber__lt=request.data['to'])
-        return Response(CommentSerializer(comments, many=True).data, status=status.HTTP_201_CREATED)
-
-    @staticmethod
     def post(request):
         try:
             sup_comment = Comment.objects.get(id=request.data['fatherId'])
@@ -74,3 +61,20 @@ class CommentView(APIView):
         comment.save()
 
         return Response(CommentSerializer(comment, many=False).data, status=status.HTTP_201_CREATED)
+
+
+class CommentReadView(APIView):
+    authentication_classes = [authentication.TokenAuthentication]
+
+    @staticmethod
+    def post(request):
+        try:
+            sup_comment = Comment.objects.get(id=request.data['fatherId'])
+        except Comment.DoesNotExist:
+            return Response('Invalid Father', status=status.HTTP_400_BAD_REQUEST)
+        if request.user.is_anonymous:
+            return Response("You're not logged in", status=status.HTTP_400_BAD_REQUEST)
+
+        comments = sup_comment.subComments.filter(commentNumber__gte=request.data['from'],
+                                                  commentNumber__lte=request.data['to'])
+        return Response(CommentSerializer(comments, many=True).data, status=status.HTTP_201_CREATED)
