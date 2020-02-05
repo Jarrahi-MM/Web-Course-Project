@@ -49,7 +49,7 @@ class CreateChannel extends Component {
                 body: JSON.stringify(this.state.channel)
             }).then(response => response.json())
                 .then(resp => console.log(resp))
-                /*.then(window.location.href = window.location.origin + '/channel')*/
+                .then(window.location.href = window.location.origin + '/channel')
                 .catch(error => console.log(error))
         }
     };
@@ -91,7 +91,10 @@ class CreateChannel extends Component {
                         </div>
 
                         <button className="ui button" onClick={this.submitClicked} style={containStyle}>
-                            create channel
+                            {!this.props.update ?
+                                <span>create channel</span> :
+                                <span>update channel</span>
+                            }
                         </button>
                     </div>
                 </div>
