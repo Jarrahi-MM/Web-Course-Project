@@ -1,4 +1,5 @@
-from rest_framework import status, authentication
+from rest_framework import status, authentication, permissions
+from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -6,6 +7,7 @@ from ..models import Post, Channel, PostLike, Comment, CommentLike
 from ..serializers import PostSerializer, CommentSerializer
 
 
+@permission_classes((permissions.IsAuthenticated,))
 class PostLikesView(APIView):
     authentication_classes = [authentication.TokenAuthentication]
 
@@ -20,8 +22,6 @@ class PostLikesView(APIView):
             post = channel.posts.get(postNumber=request.data['postNumber'])
         except Post.DoesNotExist:
             return Response('Invalid post number', status=status.HTTP_400_BAD_REQUEST)
-        if request.user.is_anonymous:
-            return Response("You're not logged in", status=status.HTTP_400_BAD_REQUEST)
 
         value = int(request.data['value'])
 
@@ -48,30 +48,30 @@ class PostLikesView(APIView):
 
         return Response(PostSerializer(post, many=False).data, status=status.HTTP_202_ACCEPTED)
 
-    @staticmethod
-    def post(request):
-        # value is ignored
-        try:
-            channel = Channel.objects.get(channelId=request.data['channelId'])
-        except Channel.DoesNotExist:
-            return Response('Invalid channel', status=status.HTTP_400_BAD_REQUEST)
-        try:
-            post = channel.posts.get(postNumber=request.data['postNumber'])
-        except Post.DoesNotExist:
-            return Response('Invalid post number', status=status.HTTP_400_BAD_REQUEST)
-        if request.user.is_anonymous:
-            return Response("You're not logged in", status=status.HTTP_400_BAD_REQUEST)
+    # @staticmethod
+    # def post(request):
+    #     # value is ignored
+    #     try:
+    #         channel = Channel.objects.get(channelId=request.data['channelId'])
+    #     except Channel.DoesNotExist:
+    #         return Response('Invalid channel', status=status.HTTP_400_BAD_REQUEST)
+    #     try:
+    #         post = channel.posts.get(postNumber=request.data['postNumber'])
+    #     except Post.DoesNotExist:
+    #         return Response('Invalid post number', status=status.HTTP_400_BAD_REQUEST)
+    #     if request.user.is_anonymous:
+    #         return Response("You're not logged in", status=status.HTTP_400_BAD_REQUEST)
+    #
+    #     try:
+    #         like = post.likes.get(user=request.user)
+    #         if like.isPositive:
+    #             return Response("liked", status=status.HTTP_200_OK)
+    #         else:
+    #             return Response("disliked", status=status.HTTP_200_OK)
+    #     except PostLike.DoesNotExist:
+    #         return Response("not liked", status=status.HTTP_200_OK)
 
-        try:
-            like = post.likes.get(user=request.user)
-            if like.isPositive:
-                return Response("liked", status=status.HTTP_200_OK)
-            else:
-                return Response("disliked", status=status.HTTP_200_OK)
-        except PostLike.DoesNotExist:
-            return Response("not liked", status=status.HTTP_200_OK)
-
-
+@permission_classes((permissions.IsAuthenticated,))
 class CommentLikesView(APIView):
     authentication_classes = [authentication.TokenAuthentication]
 
@@ -82,8 +82,6 @@ class CommentLikesView(APIView):
             comment = Comment.objects.get(id=request.data['commentId'])
         except Comment.DoesNotExist:
             return Response('Invalid Comment', status=status.HTTP_400_BAD_REQUEST)
-        if request.user.is_anonymous:
-            return Response("You're not logged in", status=status.HTTP_400_BAD_REQUEST)
 
         value = int(request.data['value'])
 
@@ -109,21 +107,21 @@ class CommentLikesView(APIView):
             like.save()
         return Response(CommentSerializer(comment, many=False).data, status=status.HTTP_202_ACCEPTED)
 
-    @staticmethod
-    def post(request):
-        # value is ignored
-        try:
-            comment = Comment.objects.get(id=request.data['commentId'])
-        except Comment.DoesNotExist:
-            return Response('Invalid Comment', status=status.HTTP_400_BAD_REQUEST)
-        if request.user.is_anonymous:
-            return Response("You're not logged in", status=status.HTTP_400_BAD_REQUEST)
-
-        try:
-            like = comment.likes.get(user=request.user)
-            if like.isPositive:
-                return Response("liked", status=status.HTTP_200_OK)
-            else:
-                return Response("disliked", status=status.HTTP_200_OK)
-        except CommentLike.DoesNotExist:
-            return Response("not liked", status=status.HTTP_200_OK)
+    # @staticmethod
+    # def post(request):
+    #     # value is ignored
+    #     try:
+    #         comment = Comment.objects.get(id=request.data['commentId'])
+    #     except Comment.DoesNotExist:
+    #         return Response('Invalid Comment', status=status.HTTP_400_BAD_REQUEST)
+    #     if request.user.is_anonymous:
+    #         return Response("You're not logged in", status=status.HTTP_400_BAD_REQUEST)
+    #
+    #     try:
+    #         like = comment.likes.get(user=request.user)
+    #         if like.isPositive:
+    #             return Response("liked", status=status.HTTP_200_OK)
+    #         else:
+    #             return Response("disliked", status=status.HTTP_200_OK)
+    #     except CommentLike.DoesNotExist:
+    #         return Response("not liked", status=status.HTTP_200_OK)

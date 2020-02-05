@@ -45,24 +45,6 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ('user', 'city', 'country', 'phoneNum')
 
 
-class PostSerializer(serializers.ModelSerializer):
-    creator = UserSerializer(many=False)
-
-    class Meta:
-        model = Post
-        fields = (
-            'postNumber', 'postTitle', 'channel', 'creator', 'creationDate', 'updateVal', 'firstComment', 'likesNum',
-            'image',
-            'text')
-        extra_kwargs = {'postNumber': {'read_only': True, 'required': True}}
-
-    def create(self, validated_data):
-        return None
-
-    def update(self, instance, validated_data):
-        return None
-
-
 class CommentSerializer(serializers.ModelSerializer):
     creator = UserSerializer(many=False)
 
@@ -72,6 +54,25 @@ class CommentSerializer(serializers.ModelSerializer):
             'id', 'commentNumber', 'supComment', 'creator', 'text', 'likesNum', 'subCommentsNum', 'creationDate',
         )
         extra_kwargs = {'commentNumber': {'read_only': True, 'required': True}}
+
+    def create(self, validated_data):
+        return None
+
+    def update(self, instance, validated_data):
+        return None
+
+
+class PostSerializer(serializers.ModelSerializer):
+    creator = UserSerializer(many=False)
+    firstComment = CommentSerializer(many=False)
+
+    class Meta:
+        model = Post
+        fields = (
+            'postNumber', 'postTitle', 'channel', 'creator', 'creationDate', 'updateVal', 'firstComment', 'likesNum',
+            'image',
+            'text')
+        extra_kwargs = {'postNumber': {'read_only': True, 'required': True}}
 
     def create(self, validated_data):
         return None
