@@ -72,8 +72,9 @@ class CommentReadView(APIView):
             sup_comment = Comment.objects.get(id=request.data['fatherId'])
         except Comment.DoesNotExist:
             return Response('Invalid Father', status=status.HTTP_400_BAD_REQUEST)
-        print(request.user)
+        if request.user.is_anonymous:
+            return Response("You're not logged in", status=status.HTTP_400_BAD_REQUEST)
 
         comments = sup_comment.subComments.filter(commentNumber__gte=request.data['from'],
-                                                  commentNumber__lt=request.data['to'])
+                                                  commentNumber__lte=request.data['to'])
         return Response(CommentSerializer(comments, many=True).data, status=status.HTTP_201_CREATED)
