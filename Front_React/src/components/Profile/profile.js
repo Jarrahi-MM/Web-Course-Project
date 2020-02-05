@@ -54,9 +54,7 @@ class Profile extends Component {
         }).then(response => response.json())
             .then(res => {
                 this.setState({channels: res});
-                console.log(res[0].channelId);
                 for (let r in res) {
-                    console.log(r);
                     if (res[r].channelId === this.props.username)
                         this.setState({myAccount: true});
                 }
@@ -71,7 +69,8 @@ class Profile extends Component {
             <div className="containStyle">
                 <div className="ui piled raised very padded container segment">
                     {this.state.myAccount ? (<div>
-                            <Link to={'/editProfile'} className="circular ui icon big button settingsStyle">
+                            <Link to={`/editProfile/${this.props.username}`}
+                                  className="circular ui icon big button settingsStyle">
                                 <i className="icon settings big"/>
                             </Link>
                             <Link to={'/createPost'} className="circular ui icon big button settingsStyle">

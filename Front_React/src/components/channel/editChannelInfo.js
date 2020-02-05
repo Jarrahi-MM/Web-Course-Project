@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import EditProfilePic from "./editProfilePic";
+import EditProfilePic from "../Profile/editProfilePic";
 
 
 class EditChannelInfo extends Component {
