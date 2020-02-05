@@ -97,7 +97,7 @@ class EditProfile extends Component {
                                     <ChangePassword/>
                                 }
                             </div>) :
-                            <EditChannel/>
+                            <EditChannel channelId={this.props.username}/>
                         }
 
                     </div>

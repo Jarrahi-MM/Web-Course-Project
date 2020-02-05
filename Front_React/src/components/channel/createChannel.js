@@ -19,6 +19,7 @@ class CreateChannel extends Component {
                 channelId: '',
                 channelName: '',
                 description: '',
+                lastId: this.props.channelId
             }
         }
     }
@@ -26,17 +27,31 @@ class CreateChannel extends Component {
 
     submitClicked = event => {
         console.log(this.state.token);
-        fetch(`http://127.0.0.1:8000/api1/channel/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${this.state.token}`
-            },
-            body: JSON.stringify(this.state.channel)
-        }).then(response => response.json())
-            .then(resp => console.log(resp))
-            .then(window.location.href = window.location.origin + '/channel')
-            .catch(error => console.log(error))
+        if (!this.props.update) {
+            fetch(`http://127.0.0.1:8000/api1/channel/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${this.state.token}`
+                },
+                body: JSON.stringify(this.state.channel)
+            }).then(response => response.json())
+                .then(resp => console.log(resp))
+                .then(window.location.href = window.location.origin + '/channel')
+                .catch(error => console.log(error))
+        } else {
+            fetch(`http://127.0.0.1:8000/api1/channel/`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${this.state.token}`
+                },
+                body: JSON.stringify(this.state.channel)
+            }).then(response => response.json())
+                .then(resp => console.log(resp))
+                /*.then(window.location.href = window.location.origin + '/channel')*/
+                .catch(error => console.log(error))
+        }
     };
 
     changeTrigger = event => {
@@ -58,11 +73,13 @@ class CreateChannel extends Component {
                                     <input type="text" placeholder="channel name" name="channelName"
                                            onChange={this.changeTrigger}/>
                                 </div>
-                                <div className="field">
-                                    <label>Channel Id</label>
-                                    <input type="text" placeholder="channel Id" name="channelId"
-                                           onChange={this.changeTrigger}/>
-                                </div>
+                                {!this.props.update ?
+                                    <div className="field">
+                                        <label>Channel Id</label>
+                                        <input type="text" placeholder="channel Id" name="channelId"
+                                               onChange={this.changeTrigger}/>
+                                    </div> : <span></span>}
+
                             </div>
                         </div>
                         <div className="ui form">
@@ -76,7 +93,6 @@ class CreateChannel extends Component {
                         <button className="ui button" onClick={this.submitClicked} style={containStyle}>
                             create channel
                         </button>
-
                     </div>
                 </div>
             </React.Fragment>

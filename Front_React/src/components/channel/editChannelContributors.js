@@ -44,7 +44,7 @@ class EditChannelContributors extends Component {
                     return (
                         <div key={contributor.id} className="blue">
                             <Link to={`/profile/${contributor.username}`}>
-                                <button className=" ui button  big containStyle" >
+                                <button className=" ui button  big contain3Style">
                                     <span>{contributor.username}</span>
                                 </button>
                             </Link>

@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import EditProfilePic from "../Profile/editProfilePic";
+import CreateChannel from "./createChannel";
 
 
 class EditChannelInfo extends Component {
@@ -7,7 +8,7 @@ class EditChannelInfo extends Component {
     render() {
         return (
             <React.Fragment>
-                <EditProfilePic/>
+                <CreateChannel update={true} channelId={this.props.channelId}/>
             </React.Fragment>
         )
     }

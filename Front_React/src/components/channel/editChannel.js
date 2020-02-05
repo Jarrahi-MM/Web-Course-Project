@@ -31,7 +31,7 @@ class EditChannel extends Component {
                 <div>
                     {this.state.isContributors ?
                         <EditChannelContributors/>
-                        : <EditChannelInfo/>}
+                        : <EditChannelInfo channelId={this.props.channelId}/>}
                 </div>
             </React.Fragment>
         )

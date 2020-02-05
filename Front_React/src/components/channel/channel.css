@@ -1,4 +1,4 @@
-.containStyle {
+.contain3Style {
     width: 40%;
     background: #ffa69c;
 }
@@ -6,4 +6,9 @@
 .contain2Style {
     position: relative;
     top: 28px;
+}
+
+.containStyle {
+    position: relative;
+    top: 10px;
 }
