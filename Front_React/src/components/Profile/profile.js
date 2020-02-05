@@ -24,7 +24,8 @@ class Profile extends Component {
         myAccount: true,
         following: true,
         token: this.props.cookies.get('myToken'),
-        username: this.props.cookies.get('userName')
+        username: this.props.cookies.get('userName'),
+        channels: []
     };
 
     followClicked = followed => {
@@ -43,12 +44,25 @@ class Profile extends Component {
             .then(res => {
                 this.setState({userInfo: res})
             })
-            .catch(error => console.log(error))
+            .catch(error => console.log(error));
 
-        if (this.state.username === this.props.username)
-            this.setState({myAccount: true});
-        else
-            this.setState({myAccount: false})
+        fetch(`http://127.0.0.1:8000/api1/channel/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${this.state.token}`
+            }
+        }).then(response => response.json())
+            .then(res => {
+                this.setState({channels: res});
+                console.log(res[0].channelId);
+                for (let r in res) {
+                    console.log(r);
+                    if (res[r].channelId === this.props.username)
+                        this.setState({myAccount: true});
+                }
+            })
+            .catch(error => console.log(error));
+
     }
 
 

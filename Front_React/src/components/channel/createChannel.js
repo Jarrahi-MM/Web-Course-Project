@@ -2,8 +2,14 @@ import React, {Component} from "react";
 import {withCookies} from "react-cookie";
 import EditProfilePic from "../Profile/editProfilePic";
 
-class CreateChannel extends Component {
 
+const containStyle = {
+    position: 'relative',
+    top: '25px'
+};
+
+
+class CreateChannel extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -67,8 +73,7 @@ class CreateChannel extends Component {
                             </div>
                         </div>
 
-                        <h3>inja bayad betunr contributor azafe kone </h3>
-                        <button className="ui button" onClick={this.submitClicked}>
+                        <button className="ui button" onClick={this.submitClicked} style={containStyle}>
                             create channel
                         </button>
 
