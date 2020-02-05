@@ -19,7 +19,7 @@ class App extends Component {
         super(props);
         this.state = {
             token: props.cookies.get('myToken'),
-            username: '',
+            username: props.cookies.get('userName'),
         };
     }
 
@@ -38,10 +38,11 @@ class App extends Component {
                         <Login/>
                     </Route>
                     <Switch>
-                        <Route path='/post/:postId' render={({match}) => {
+                        <Route path='/post/:channelId/:postNum' render={({match}) => {
                             return (
                                 <div>
-                                    <Post postId={match.params.postId}/>
+                                    <Post channelId={match.params.channelId} postNum={match.params.postNum}
+                                          username={this.state.username} token={this.state.token}/>
                                 </div>
                             );
                         }}/>
