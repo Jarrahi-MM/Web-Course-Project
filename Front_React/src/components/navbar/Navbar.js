@@ -22,7 +22,7 @@ margin-right: 3%;
 class Navbar extends Component {
     componentDidMount() {
         this.props.setUnreadAlerts()
-        setInterval(this.props.setUnreadAlerts,2000)
+        //setInterval(this.props.setUnreadAlerts,2000)
     }
 
     onAlertsClick = (e) => {
@@ -30,7 +30,7 @@ class Navbar extends Component {
     };
 
     onProfileClick = (e) => {
-        this.props.history.push('/users/'+this.props.username)
+        this.props.history.push('/profile/'+this.props.username)
     };
 
     onSmallSearchClick = (e) => {

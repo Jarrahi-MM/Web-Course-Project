@@ -49,7 +49,7 @@ class PostLikesView(APIView):
         return Response(PostSerializer(post, many=False).data, status=status.HTTP_202_ACCEPTED)
 
     @staticmethod
-    def get(request):
+    def post(request):
         # value is ignored
         try:
             channel = Channel.objects.get(channelId=request.data['channelId'])
@@ -110,7 +110,7 @@ class CommentLikesView(APIView):
         return Response(CommentSerializer(comment, many=False).data, status=status.HTTP_202_ACCEPTED)
 
     @staticmethod
-    def get(request):
+    def post(request):
         # value is ignored
         try:
             comment = Comment.objects.get(id=request.data['commentId'])

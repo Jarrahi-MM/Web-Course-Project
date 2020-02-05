@@ -12,6 +12,7 @@ import {connect} from "react-redux";
 import {loadTokenAndUsernameFromCookies} from "./redux/action_creators/authActions";
 import Channel from "./components/channel/channel";
 import CreateChannel from "./components/channel/createChannel";
+import FollowList from "./components/followList";
 
 
 class App extends Component {
@@ -19,12 +20,13 @@ class App extends Component {
         super(props);
         this.state = {
             token: props.cookies.get('myToken'),
-            username: '',
+            username: props.cookies.get('userName'),
         };
     }
 
     componentDidMount() {
         this.props.loadTokenAndUsernameFromCookies(this.props.cookies);
+        // console.log(this.state.token);
     }
 
     render() {
@@ -38,10 +40,11 @@ class App extends Component {
                         <Login/>
                     </Route>
                     <Switch>
-                        <Route path='/post/:postId' render={({match}) => {
+                        <Route path='/post/:channelId/:postNum' render={({match}) => {
                             return (
                                 <div>
-                                    <Post postId={match.params.postId}/>
+                                    <Post channelId={match.params.channelId} postNum={match.params.postNum}
+                                          username={this.state.username} token={this.state.token}/>
                                 </div>
                             );
                         }}/>
@@ -55,9 +58,13 @@ class App extends Component {
                                 </div>
                             );
                         }}/>
-                        <Route path={'/followList'}>
-                            <Profile/>
-                        </Route>
+                        <Route path='/followList/:username' render={({match}) => {
+                            return (
+                                <div>
+                                    <FollowList username={match.params.username}/>
+                                </div>
+                            );
+                        }}/>
                         <Route path={'/createChannel'}>
                             <CreateChannel/>
                         </Route>
@@ -67,9 +74,13 @@ class App extends Component {
                         <Route path={'/createChannel'}>
                             <Channel/>
                         </Route>
-                        <Route path={'/editProfile'}>
-                            <EditProfile/>
-                        </Route>
+                        <Route path='/editProfile/:username' render={({match}) => {
+                            return (
+                                <div>
+                                    <EditProfile username={match.params.username}/>
+                                </div>
+                            );
+                        }}/>
                         <Route path={'/alerts'}>
                             <AlertsPage/>
                         </Route>
@@ -82,8 +93,8 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    token : state.auth.authorization,
+    token: state.auth.authorization,
 
 })
 
-export default connect(mapStateToProps,{loadTokenAndUsernameFromCookies})(withCookies(App));
+export default connect(mapStateToProps, {loadTokenAndUsernameFromCookies})(withCookies(App));

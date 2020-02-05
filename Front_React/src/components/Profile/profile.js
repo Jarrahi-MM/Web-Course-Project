@@ -24,7 +24,8 @@ class Profile extends Component {
         myAccount: true,
         following: true,
         token: this.props.cookies.get('myToken'),
-        username: this.props.cookies.get('userName')
+        username: this.props.cookies.get('userName'),
+        channels: []
     };
 
     followClicked = followed => {
@@ -43,12 +44,23 @@ class Profile extends Component {
             .then(res => {
                 this.setState({userInfo: res})
             })
-            .catch(error => console.log(error))
+            .catch(error => console.log(error));
 
-        if (this.state.username === this.props.username)
-            this.setState({myAccount: true});
-        else
-            this.setState({myAccount: false})
+        fetch(`http://127.0.0.1:8000/api1/channel/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${this.state.token}`
+            }
+        }).then(response => response.json())
+            .then(res => {
+                this.setState({channels: res});
+                for (let r in res) {
+                    if (res[r].channelId === this.props.username)
+                        this.setState({myAccount: true});
+                }
+            })
+            .catch(error => console.log(error));
+
     }
 
 
@@ -57,7 +69,8 @@ class Profile extends Component {
             <div className="containStyle">
                 <div className="ui piled raised very padded container segment">
                     {this.state.myAccount ? (<div>
-                            <Link to={'/editProfile'} className="circular ui icon big button settingsStyle">
+                            <Link to={`/editProfile/${this.props.username}`}
+                                  className="circular ui icon big button settingsStyle">
                                 <i className="icon settings big"/>
                             </Link>
                             <Link to={'/createPost'} className="circular ui icon big button settingsStyle">
@@ -86,7 +99,9 @@ class Profile extends Component {
                     <ProfileDetails
                         followingNum={this.state.userInfo.followingsNum}
                         followerNum={this.state.userInfo.followersNum}
-                        postNum={this.state.userInfo.postsNum}/>
+                        postNum={this.state.userInfo.postsNum}
+                        username={this.props.username}
+                    />
                     <hr/>
                     <h3>{this.state.userInfo.description}</h3>
                     <hr/>

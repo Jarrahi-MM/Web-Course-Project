@@ -41,7 +41,8 @@ class Posts(APIView):
                                                  likesNum=0, creationDate=datetime.now())
         post = Post.objects.create(postNumber=channel.postsNum, channel=channel, creator=request.user,
                                    creationDate=datetime.now(), updateVal=0, firstComment=initial_comment,
-                                   likesNum=0, image=request.data['image'], text=request.data['text'])
+                                   likesNum=0, image=request.data['image'], text=request.data['text'],
+                                   postTitle=request.data['postTitle'])
         initial_comment.save()
         post.save()
         channel.save()
@@ -67,6 +68,7 @@ class Posts(APIView):
         post.updateVal += 1
         post.image = request.data['image']
         post.text = request.data['text']
+        post.postTitle = request.data['postTitle']
         post.save()
         return Response(PostSerializer(post, many=False).data, status=status.HTTP_400_BAD_REQUEST)
 
