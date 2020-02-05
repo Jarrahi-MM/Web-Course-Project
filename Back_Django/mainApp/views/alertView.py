@@ -1,12 +1,12 @@
 from datetime import datetime
 
 from django.db.models import Min
-from rest_framework import status, permissions
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework import status, permissions,authentication
+from rest_framework.decorators import api_view, permission_classes,authentication_classes
 from rest_framework.response import Response
 
 from ..constants import paginateBy, date_time_formatter
-from ..models import Alert
+from ..models import Alert, Post
 from ..serializers import AlertViewSerializer
 
 
@@ -20,28 +20,28 @@ def alert_items(request):
     else:
         checkpoint = datetime.strptime(request.query_params.get('checkpoint'), date_time_formatter)
 
-    alert_list = Alert.objects.filter(creationDate__lt=checkpoint, user=user) \
-        .order_by('-creationDate')
+    alert_list = Alert.objects.filter(creation_date__lt=checkpoint, user=user) \
+        .order_by('-creation_date')
 
     if alert_list.count() == 0:
         return Response(status=status.HTTP_204_NO_CONTENT)
     has_more_items = alert_list.count() > paginateBy
     alert_list = alert_list[:paginateBy]
-    new_checkpoint = alert_list.aggregate(mc=Min('creationDate')).get('mc')
+    new_checkpoint = alert_list.aggregate(mc=Min('creation_date')).get('mc')
+    new_checkpoint = datetime.strftime(new_checkpoint, date_time_formatter)
+
+    serializer = AlertViewSerializer({
+        'alerts': alert_list,
+        'checkpoint': new_checkpoint,
+        'hasMoreItems': has_more_items
+    })
+    res_data = serializer.data
 
     for alert in alert_list:
         alert.has_been_seen = True
         alert.save()
 
-    new_checkpoint = datetime.strftime(new_checkpoint, date_time_formatter)
-    alert_list = alert_list.all()
-
-    serializer = AlertViewSerializer(data={
-        'alerts': alert_list,
-        'checkpoint': new_checkpoint,
-        'hasMoreItems': has_more_items
-    })
-    return Response(data=serializer.data, status=status.HTTP_200_OK)
+    return Response(data=res_data, status=status.HTTP_200_OK)
 
 
 @api_view()

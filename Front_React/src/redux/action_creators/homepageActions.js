@@ -66,7 +66,6 @@ export const loadMoreItems = () => (dispatch, getState) => {
             'Authorization': getState().auth.authorization
         }
     }).then(resp => {
-        console.log(resp)
         if (resp.ok) {
             resp.json().then(function (json) {
                 dispatch({

@@ -17,7 +17,7 @@ class ChannelSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'password', 'first_name', 'last_name', 'email', 'followings')
+        fields = ('username', 'password', 'first_name', 'last_name', 'email', 'followings', 'id')
         extra_kwargs = {
             'password': {'write_only': True, 'required': True},
             'followings': {'required': False, 'read_only': True}
@@ -102,6 +102,8 @@ class HomepageViewSerializer(serializers.Serializer):
 
 
 class AlertSerializer(serializers.ModelSerializer):
+    by_user = UserSerializer()
+
     class Meta:
         model = Alert
         exclude = ['user']

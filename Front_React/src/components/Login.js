@@ -65,6 +65,7 @@ class Login extends Component {
         }).then(response => response.json())
             .then(response => {
                 this.props.cookies.set('myToken', response.token);
+                this.props.cookies.set('userName', this.state.signUpCredentials.username);
                 if (response.token)
                     window.location.href = window.location.origin + '/';
                 else {
