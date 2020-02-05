@@ -3,39 +3,43 @@ import {Comment} from 'semantic-ui-react'
 import './Post.css'
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-// function processComment(props, comment) {
-//     if (!comment.id.startsWith(props.startingId))
-//         return null;
-//     if (comment.id === props.startingId)
-//         return null;
-//     let extractedId = comment.id.replace(props.startingId, '');
-//     return (!extractedId.includes('.')) ?
-//         <React.Fragment>
-//             <Comment>
-//                 <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/matt.jpg'/>
-//                 <Comment.Content>
-//                     <Comment.Author as='a'>{comment.username}</Comment.Author>
-//                     <Comment.Metadata>
-//                         <div>Today at 5:42PM</div>
-//                     </Comment.Metadata>
-//                     <Comment.Text>{comment.text}</Comment.Text>
-//                     <Comment.Actions>
-//                         <Comment.Action>Reply</Comment.Action>
-//                     </Comment.Actions>
-//                 </Comment.Content>
-//                 <Comments comments={props.comments} startingId={comment.id + '.'}/>
-//             </Comment>
-//         </React.Fragment> :
-//         null;
-// }
+function processComment(props, comment) {
+    if (!comment.treeId.startsWith(props.startingId))
+        return null;
+    if (comment.treeId === props.startingId)
+        return null;
+    let extractedId = comment.treeId.replace(props.startingId, '');
+    return (!extractedId.includes('.')) ?
+        <React.Fragment>
+            <Comment id={comment.id}>
+                <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/matt.jpg'/>
+                <Comment.Content>
+                    <Comment.Author as='a'>{comment.username}</Comment.Author>
+                    <Comment.Metadata>
+                        <div>{'Likes:' + comment.likesNum}</div>
+                        <div>{'Date:' + comment.creationDate}</div>
+                    </Comment.Metadata>
+                    <Comment.Text>{comment.text}</Comment.Text>
+                    <Comment.Actions>
+                        <Comment.Action id='reply'>Reply</Comment.Action>
+                        <Comment.Action id='Like'>Like</Comment.Action>
+                        <Comment.Action id='DisLike'>DisLike</Comment.Action>
+                        <Comment.Action id='Load'>Load</Comment.Action>
+                    </Comment.Actions>
+                </Comment.Content>
+                <Comments comments={props.comments} startingId={comment.id + '.'}/>
+            </Comment>
+        </React.Fragment> :
+        null;
+}
 
-// function Comments(props) {
-//     return (
-//         <Comment.Group>
-//             {props.comments.map(comment => processComment(props, comment))}
-//         </Comment.Group>
-//     )
-// }
+function Comments(props) {
+    return (
+        <Comment.Group>
+            {props.comments.map(comment => processComment(props, comment))}
+        </Comment.Group>
+    )
+}
 
 
 class Post extends Component {
@@ -52,7 +56,8 @@ class Post extends Component {
             likesNum: '',
             image: '',
             text: '',
-            firstCommentId : '',
+            firstCommentId: '',
+            comments: [],
         };
     }
 
@@ -69,6 +74,7 @@ class Post extends Component {
         })
             .then(resp => resp.json())
             .then(resp => {
+                console.log(resp);
                 this.setState({postTitle: resp.postTitle});
                 this.setState({creator: resp.creator});
                 this.setState({creationDate: resp.creationDate});
@@ -76,13 +82,38 @@ class Post extends Component {
                 this.setState({likesNum: resp.likesNum});
                 this.setState({image: resp.image});
                 this.setState({text: resp.text});
-                // let comments = [];
-                // comments.push({username: 'username 1', id: '.1', text: 'comment 1'});
-                // comments.push({username: 'username 2', id: '.2', text: 'comment 2'});
-                // comments.push({username: 'username 1.2.1', id: '.1.2.1', text: 'comment 1-2-1'});
-                // comments.push({username: 'username 1.2', id: '.1.2', text: 'comment 1-2'});
-                // comments.push({username: 'username 1.1', id: '.1.1', text: 'comment 1-1'});
-                // this.setState({comments: comments});
+                this.loadComments(resp.firstComment, 0, 5);
+            })
+            .catch(e => console.log(e))
+    }
+
+    loadComments(fatherId, from, to) {
+        fetch('http://127.0.0.1:8000/api1/commentread/', {
+            method: 'POST',
+            headers: {
+                'Authorization': this.state.token,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({fatherId: fatherId, from: from.toString(), to: to.toString()})
+        })
+            .then(resp => resp.json())
+            .then(resp => {
+                let updatedComments = this.state.comments.slice();
+                resp.map(comment => {
+                    console.log(comment);
+
+                    updatedComments.push({
+                        username: comment.creator.username,
+                        id: comment.id,
+                        treeId: '.' + comment.commentNumber,
+                        text: comment.text,
+                        creationDate: comment.creationDate,
+                        subCommentsNum: comment.subCommentsNum,
+                        likesNum: comment.likesNum,
+                    })
+                });
+                this.setState({comments: updatedComments});
             })
             .catch(e => console.log(e))
     }
@@ -136,7 +167,7 @@ class Post extends Component {
 
 
                 {/*<CommentExampleComment/>*/}
-                {/*<Comments comments={this.state.comments} startingId='.'/>*/}
+                <Comments comments={this.state.comments} startingId='.'/>
             </div>
         );
     }

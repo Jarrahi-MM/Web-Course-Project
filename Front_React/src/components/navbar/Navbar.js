@@ -22,7 +22,7 @@ margin-right: 3%;
 class Navbar extends Component {
     componentDidMount() {
         this.props.setUnreadAlerts()
-        setInterval(this.props.setUnreadAlerts,2000)
+        //setInterval(this.props.setUnreadAlerts,2000)
     }
 
     onAlertsClick = (e) => {
