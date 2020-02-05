@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom'
+import {BrowserRouter, Route, Switch, withRouter} from 'react-router-dom'
 import Navbar from "./components/navbar/Navbar";
 import Profile from "./components/Profile/profile";
 import EditProfile from "./components/Profile/editProfile";
@@ -10,6 +10,8 @@ import Login from "./components/Login"
 import {CookiesProvider, withCookies} from "react-cookie";
 import {connect} from "react-redux";
 import {loadTokenAndUsernameFromCookies} from "./redux/action_creators/authActions";
+import Channel from "./components/channel/channel";
+import CreateChannel from "./components/channel/createChannel";
 
 
 class App extends Component {
@@ -46,11 +48,24 @@ class App extends Component {
                         <Route exact path={'/'}>
                             <Homepage/>
                         </Route>
-                        <Route path={'/profile'}>
-                            <Profile/>
-                        </Route>
+                        <Route path='/profile/:username' render={({match}) => {
+                            return (
+                                <div>
+                                    <Profile username={match.params.username}/>
+                                </div>
+                            );
+                        }}/>
                         <Route path={'/followList'}>
                             <Profile/>
+                        </Route>
+                        <Route path={'/createChannel'}>
+                            <CreateChannel/>
+                        </Route>
+                        <Route path={'/channel'}>
+                            <Channel/>
+                        </Route>
+                        <Route path={'/createChannel'}>
+                            <Channel/>
                         </Route>
                         <Route path={'/editProfile'}>
                             <EditProfile/>
@@ -66,4 +81,9 @@ class App extends Component {
 
 }
 
-export default connect(null,{loadTokenAndUsernameFromCookies})(withCookies(App));
+const mapStateToProps = (state) => ({
+    token : state.auth.authorization,
+
+})
+
+export default connect(mapStateToProps,{loadTokenAndUsernameFromCookies})(withCookies(App));

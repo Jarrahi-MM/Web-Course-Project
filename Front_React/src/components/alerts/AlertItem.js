@@ -8,13 +8,10 @@ class AlertItem extends Component {
     render() {
         let {alert} = this.props;
 
-        switch (alert.type) {
-            case 'follow':
-                return this.generateFollowAlert(alert);
-            case 'comment':
-                return this.generateCommentAlert(alert);
-            default:
-                return null
+        if (alert.isComment){
+            return this.generateFollowAlert(alert);
+        }else {
+            return this.generateCommentAlert(alert);
         }
     }
 
@@ -26,19 +23,19 @@ class AlertItem extends Component {
     generateCommentAlert(alert) {
         return (
             <Feed.Event className={this.bsClasses}>
-                <Feed.Label image={alert.imageURL}/>
+                <Feed.Label icon={'comment alternate outline'}/>
                 <Feed.Content>
                     <Feed.Summary>
-                        <Link to={'/profiles/' + alert.byUsername}>{alert.byUsername}</Link>
+                        <Link to={'/profiles/' + alert.by_user.username}>{alert.by_user.username}</Link>
                         &nbsp;commented on you post:&nbsp;
                         <Link
-                            to={'/posts/' + alert.postChannelId + '/' + alert.postId}>
-                            {_.truncate(alert.postTitle, {length: this.titleMaxLength})}
+                            to={'/posts/' + alert.post.channel + '/' + alert.post.postNumber}>
+                            {_.truncate(alert.post.postTitle, {length: this.titleMaxLength})}
                         </Link>
-                        <Feed.Date><TimeAgo date={alert.date}/></Feed.Date>
+                        <Feed.Date><TimeAgo date={alert.creation_date}/></Feed.Date>
                     </Feed.Summary>
                     <Feed.Extra text>
-                        {_.truncate(alert.comment, {length: this.commentPreviewMaxLength})}
+                        {_.truncate(alert.comment.text, {length: this.commentPreviewMaxLength})}
                     </Feed.Extra>
                 </Feed.Content>
             </Feed.Event>
@@ -48,12 +45,12 @@ class AlertItem extends Component {
     generateFollowAlert(alert) {
         return (
             <Feed.Event className={this.bsClasses}>
-                <Feed.Label image={alert.imageURL}/>
+                <Feed.Label icon={'handshake outline'}/>
                 <Feed.Content>
                     <Feed.Summary>
-                        <Link to={'/profile/' + alert.byUsername}>{alert.byUsername}</Link>
+                        <Link to={'/profile/' + alert.by_user.username}>{alert.by_user.username}</Link>
                         &nbsp;started following you!
-                        <Feed.Date><TimeAgo date={alert.date}/></Feed.Date>
+                        <Feed.Date><TimeAgo date={alert.creation_date}/></Feed.Date>
                     </Feed.Summary>
                 </Feed.Content>
             </Feed.Event>
