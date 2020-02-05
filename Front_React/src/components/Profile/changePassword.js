@@ -3,8 +3,22 @@ import React, {Component} from "react";
 class ChangePassword extends Component {
 
 
-    changed = event => {
+    state = {
+        password: {
+            new_password: '',
+            old_password: '',
+        },
+    };
 
+
+    changed = event => {
+        let password = this.state.password;
+        password[event.target.name] = event.target.value;
+        this.setState({password: password});
+    };
+
+    passwordChangeClicked = ev => {
+        /*fetch*/
     };
 
 
@@ -36,8 +50,8 @@ class ChangePassword extends Component {
                         </div>
                     </div>
                 </form>
-                <button className="ui button"  >
-                   change password
+                <button className="ui button" onClick={this.passwordChangeClicked}>
+                    change password
                 </button>
 
             </React.Fragment>

@@ -79,7 +79,10 @@ class EditProfile extends Component {
                                 <div className="ui vertical labeled icon buttons" style={contain2Style}>
                                     <button className="ui button" onClick={this.togglePressed}>
                                         <i className="settings icon"/>
-                                        view profile details
+                                        {this.state.pressed ?
+                                            <span>change password</span> :
+                                            <span>change profile information</span>
+                                        }
                                     </button>
                                 </div>
                                 {this.state.pressed ?
