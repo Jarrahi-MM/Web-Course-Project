@@ -21,7 +21,7 @@ class Profile extends Component {
     state = {
         userInfo: [],
         proPicture: avatars[Math.floor(Math.random() * avatars.length)],
-        myAccount: true,
+        myAccount: false,
         following: true,
         token: this.props.cookies.get('myToken'),
         username: this.props.cookies.get('userName'),
