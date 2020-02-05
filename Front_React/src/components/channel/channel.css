@@ -1,0 +1,9 @@
+.containStyle {
+    width: 40%;
+    background: #ffa69c;
+}
+
+.contain2Style {
+    position: relative;
+    top: 28px;
+}

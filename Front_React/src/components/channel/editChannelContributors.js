@@ -1,14 +1,6 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
-
-const containStyle = {
-    width: '50%',
-    background: '#a4deff'
-};
-const contain2Style = {
-    width: '10%',
-    background: '#ff728a'
-};
+import './channel.css'
 
 
 class EditChannelContributors extends Component {
@@ -44,10 +36,7 @@ class EditChannelContributors extends Component {
                                 <input type="text" name="newContributor" placeholder="new Contributor"
                                        onChange={this.newContributorAdded}/>
                             </div>
-                            <button className="ui button mini blue" onClick={this.addClicked}>
-                                Add
-                            </button>
-
+                            <i className=" icon big plus contain2Style" onClick={this.addClicked}/>
                         </div>
                     </div>
                 </form>
@@ -55,11 +44,11 @@ class EditChannelContributors extends Component {
                     return (
                         <div key={contributor.id} className="blue">
                             <Link to={`/profile/${contributor.username}`}>
-                                <button className=" ui button  big" style={containStyle}>
+                                <button className=" ui button  big containStyle" >
                                     <span>{contributor.username}</span>
                                 </button>
                             </Link>
-                            <i className=" icon big trash" onClick={this.deleteClicked}/>
+                            <i className=" icon big trash alternate" onClick={this.deleteClicked}/>
                             <br/>
                         </div>
                     )
