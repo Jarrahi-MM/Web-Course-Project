@@ -32,3 +32,15 @@ class Channels(APIView):
             channel.save()
             return Response('channel created', status=status.HTTP_201_CREATED)
         return Response('this channel id is taken before', status=status.HTTP_400_BAD_REQUEST)
+
+    @staticmethod
+    def put(request):
+        try:
+            channel = Channel.objects.get(channelId=request.data['lastId'])
+            channel.channelName = request.data['channelName']
+            channel.description = request.data['description']
+            channel.save()
+
+        except Channel.DoesNotExist:
+            return Response('this channel Id doesnt exist', status=status.HTTP_400_BAD_REQUEST)
+        return Response('channel created', status=status.HTTP_202_ACCEPTED)

@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import EditProfilePic from "./editProfilePic";
 import EditUserProfileForm from "./editUserProfileForm";
-import EditChannel from "./editChannel";
+import EditChannel from "../channel/editChannel";
 import {withCookies} from "react-cookie";
 import ChangePassword from "./changePassword";
 
@@ -20,7 +20,6 @@ const contain2Style = {
 class EditProfile extends Component {
 
     state = {
-        isNotChannel: true,
         token: this.props.cookies.get('myToken'),
         username: this.props.cookies.get('userName'),
         profile: {
@@ -30,7 +29,8 @@ class EditProfile extends Component {
             phoneNum: ""
         },
         channel: {},
-        pressed: false
+        pressed: false,
+        isNotChannel: true,
     };
 
     componentDidMount() {
@@ -53,26 +53,16 @@ class EditProfile extends Component {
             }).then(response => response.json())
                 .then(res => {
                     this.setState({channel: res})
-                })
+                }).then(re => {
+                if (this.state.username !== this.props.username) {
+                    this.setState({isNotChannel: false})
+                }
+            })
                 .catch(error => console.log(error))
 
         } else {
             window.location.href = '/'
         }
-
-        fetch(`http://127.0.0.1:8000/api1/channel/`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Token ${this.state.token}`
-            }
-        }).then(response => response.json())
-            .then(res => {
-                this.setState({channels: res});
-                console.log(res[0].channelId);
-                if (res[0].channelId === this.state.username)
-                    this.setState({isNotChannel: false});
-            })
-            .catch(error => console.log(error));
 
     }
 
@@ -107,7 +97,7 @@ class EditProfile extends Component {
                                     <ChangePassword/>
                                 }
                             </div>) :
-                            <EditChannel/>
+                            <EditChannel channelId={this.props.username}/>
                         }
 
                     </div>

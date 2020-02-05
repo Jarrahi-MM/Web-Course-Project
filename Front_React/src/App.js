@@ -58,9 +58,13 @@ class App extends Component {
                                 </div>
                             );
                         }}/>
-                        <Route path={'/followList'}>
-                            <FollowList/>
-                        </Route>
+                        <Route path='/followList/:username' render={({match}) => {
+                            return (
+                                <div>
+                                    <FollowList username={match.params.username}/>
+                                </div>
+                            );
+                        }}/>
                         <Route path={'/createChannel'}>
                             <CreateChannel/>
                         </Route>
@@ -70,9 +74,13 @@ class App extends Component {
                         <Route path={'/createChannel'}>
                             <Channel/>
                         </Route>
-                        <Route path={'/editProfile'}>
-                            <EditProfile/>
-                        </Route>
+                        <Route path='/editProfile/:username' render={({match}) => {
+                            return (
+                                <div>
+                                    <EditProfile username={match.params.username}/>
+                                </div>
+                            );
+                        }}/>
                         <Route path={'/alerts'}>
                             <AlertsPage/>
                         </Route>

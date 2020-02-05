@@ -11,7 +11,7 @@ class ChannelSerializer(serializers.ModelSerializer):
         model = Channel
         fields = (
             'channelId', 'channelName', 'owner', 'contributors', 'followersNum', 'followingsNum', 'postsNum',
-            'isPersonal', 'description')
+            'isPersonal', 'description', 'followers')
 
 
 class UserSerializer(serializers.ModelSerializer):
