@@ -17,9 +17,13 @@ class Post extends Component {
             likesNum: '',
             image: '',
             text: '',
-            firstCommentId: '',
             comments: [],
-        };
+            initialComment: {
+                id: '',
+                loadedSubComments: 0,
+                subCommentsNum: 0
+            },
+        }
     }
 
     updateComment(comment) {
@@ -48,11 +52,19 @@ class Post extends Component {
                 this.setState({postTitle: resp.postTitle});
                 this.setState({creator: resp.creator});
                 this.setState({creationDate: resp.creationDate});
-                this.setState({firstCommentId: resp.firstComment});
+                this.setState({
+                    initialComment: {
+                        id: resp.firstComment.id,
+                        loadedSubComments: 0,
+                        subCommentsNum: resp.firstComment.subCommentsNum,
+                        treeId: ''
+                    }
+                });
                 this.setState({likesNum: resp.likesNum});
                 this.setState({image: resp.image});
                 this.setState({text: resp.text});
-                this.loadComments(resp.firstComment, '', 0, 500);
+                // this.loadSubComments(this.state.initialComment)();
+                this.loadComments(this.state.initialComment.id, '', 0, 10000);
             })
             .catch(e => console.log(e))
     }
@@ -152,12 +164,12 @@ class Post extends Component {
     }
 
     loadSubComments(comment) {
-        return ((evt) => {
+        return (() => {
             let loaded = comment.loadedSubComments;
             let subNum = comment.subCommentsNum;
             if (loaded + 5 < subNum) {
                 comment.loadedSubComments += 5;
-                this.loadComments(comment.id, comment.treeId, loaded + 1, subNum + 5);
+                this.loadComments(comment.id, comment.treeId, loaded + 1, loaded + 5);
             } else {
                 comment.loadedSubComments = comment.subCommentsNum;
                 this.loadComments(comment.id, comment.treeId, loaded + 1, subNum);
@@ -222,28 +234,6 @@ class Post extends Component {
                         {this.state.text}
                     </p>
                 </div>
-
-                {/*<InfiniteScroll*/}
-                {/*    dataLength={items.length} //This is important field to render the next data*/}
-                {/*    next={fetchData}*/}
-                {/*    hasMore={true}*/}
-                {/*    loader={<h4>Loading...</h4>}*/}
-                {/*    endMessage={*/}
-                {/*        <p style={{textAlign: 'center'}}>*/}
-                {/*            <b>Yay! You have seen it all</b>*/}
-                {/*        </p>*/}
-                {/*    }*/}
-                {/*    // below props only if you need pull down functionality*/}
-                {/*    refreshFunction={this.refresh}*/}
-                {/*    pullDownToRefresh*/}
-                {/*    pullDownToRefreshContent={*/}
-                {/*        <h3 style={{textAlign: 'center'}}>&#8595; Pull down to refresh</h3>*/}
-                {/*    }*/}
-                {/*    releaseToRefreshContent={*/}
-                {/*        <h3 style={{textAlign: 'center'}}>&#8593; Release to refresh</h3>*/}
-                {/*    }>*/}
-                {/*    {items}*/}
-                {/*</InfiniteScroll>*/}
 
                 <Comment.Group>
                     {this.state.comments.map(comment => this.processComment('.', comment))}

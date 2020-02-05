@@ -24,7 +24,7 @@ class Posts(APIView):
         return Response(PostSerializer(post).data, status.HTTP_200_OK)
 
     @staticmethod
-    def post(request, channelId, postNumber):
+    def post(request, channelId):
         try:
             channel = Channel.objects.get(channelId=channelId)
         except Channel.DoesNotExist:
