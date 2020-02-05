@@ -12,6 +12,7 @@ import {connect} from "react-redux";
 import {loadTokenAndUsernameFromCookies} from "./redux/action_creators/authActions";
 import Channel from "./components/channel/channel";
 import CreateChannel from "./components/channel/createChannel";
+import FollowList from "./components/followList";
 
 
 class App extends Component {
@@ -57,7 +58,7 @@ class App extends Component {
                             );
                         }}/>
                         <Route path={'/followList'}>
-                            <Profile/>
+                            <FollowList/>
                         </Route>
                         <Route path={'/createChannel'}>
                             <CreateChannel/>
@@ -83,8 +84,8 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    token : state.auth.authorization,
+    token: state.auth.authorization,
 
 })
 
-export default connect(mapStateToProps,{loadTokenAndUsernameFromCookies})(withCookies(App));
+export default connect(mapStateToProps, {loadTokenAndUsernameFromCookies})(withCookies(App));

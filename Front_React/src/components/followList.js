@@ -18,14 +18,13 @@ class FollowList extends Component {
             }).then(response => response.json())
                 .then(res => this.setState({followList: res}))
                 .catch(error => console.log(error))
-        } else {
-            window.location.href = '/'
         }
     }
 
     render() {
         return (
             <React.Fragment>
+                <h3>wtf</h3>
                 <div>{this.state.followList.map(followering => {
                     return (
                         <div key={followering.id}>

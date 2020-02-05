@@ -1,11 +1,17 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
+import {withCookies} from "react-cookie";
 
 
 class ProfileDetails extends Component {
+
+    state = {
+        username: this.props.cookies.get('userName'),
+    };
+
     render() {
         return (<React.Fragment>
-                <Link className="ui labeled button huge" tabIndex="0" to={'/profile'}>
+                <Link className="ui labeled button huge" tabIndex="0" to={`/profile/${this.state.username}`}>
                     <div className="ui  button ">
                         <i className="archive icon big"/> Posts
                     </div>
@@ -34,4 +40,4 @@ class ProfileDetails extends Component {
     }
 }
 
-export default ProfileDetails;
+export default withCookies(ProfileDetails);
