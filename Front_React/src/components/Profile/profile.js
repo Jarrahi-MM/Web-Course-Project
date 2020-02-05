@@ -99,7 +99,9 @@ class Profile extends Component {
                     <ProfileDetails
                         followingNum={this.state.userInfo.followingsNum}
                         followerNum={this.state.userInfo.followersNum}
-                        postNum={this.state.userInfo.postsNum}/>
+                        postNum={this.state.userInfo.postsNum}
+                        username={this.props.username}
+                    />
                     <hr/>
                     <h3>{this.state.userInfo.description}</h3>
                     <hr/>

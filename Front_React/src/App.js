@@ -58,9 +58,13 @@ class App extends Component {
                                 </div>
                             );
                         }}/>
-                        <Route path={'/followList'}>
-                            <FollowList/>
-                        </Route>
+                        <Route path='/followList/:username' render={({match}) => {
+                            return (
+                                <div>
+                                    <FollowList username={match.params.username}/>
+                                </div>
+                            );
+                        }}/>
                         <Route path={'/createChannel'}>
                             <CreateChannel/>
                         </Route>
