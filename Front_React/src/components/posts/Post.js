@@ -1,7 +1,31 @@
 import React, {Component} from 'react';
-import {Comment} from 'semantic-ui-react'
+import {Comment, Button, Form} from 'semantic-ui-react'
 import './Post.css'
 import InfiniteScroll from 'react-infinite-scroll-component';
+
+function likeComment(comment) {
+    return ((evt) => {
+        console.log("liked " + comment.id);
+    });
+}
+
+function disLikeComment(comment) {
+    return ((evt) => {
+        console.log("liked " + comment.id);
+    });
+}
+
+function replyComment(comment) {
+    return ((evt) => {
+        console.log("liked " + comment.id);
+    });
+}
+
+function loadComment(comment) {
+    return ((evt) => {
+        console.log("liked " + comment.id);
+    });
+}
 
 function processComment(props, comment) {
     if (!comment.treeId.startsWith(props.startingId))
@@ -9,27 +33,27 @@ function processComment(props, comment) {
     if (comment.treeId === props.startingId)
         return null;
     let extractedId = comment.treeId.replace(props.startingId, '');
+
     return (!extractedId.includes('.')) ?
-        <React.Fragment>
-            <Comment id={comment.id}>
-                <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/matt.jpg'/>
-                <Comment.Content>
-                    <Comment.Author as='a'>{comment.username}</Comment.Author>
-                    <Comment.Metadata>
-                        <div>{'Likes:' + comment.likesNum}</div>
-                        <div>{'Date:' + comment.creationDate}</div>
-                    </Comment.Metadata>
-                    <Comment.Text>{comment.text}</Comment.Text>
-                    <Comment.Actions>
-                        <Comment.Action id='reply'>Reply</Comment.Action>
-                        <Comment.Action id='Like'>Like</Comment.Action>
-                        <Comment.Action id='DisLike'>DisLike</Comment.Action>
-                        <Comment.Action id='Load'>Load</Comment.Action>
-                    </Comment.Actions>
-                </Comment.Content>
-                <Comments comments={props.comments} startingId={comment.id + '.'}/>
-            </Comment>
-        </React.Fragment> :
+
+        <Comment key={comment.id}>
+            <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/matt.jpg'/>
+            <Comment.Content>
+                <Comment.Author as='a'>{comment.username}</Comment.Author>
+                <Comment.Metadata>
+                    <div>{'Likes:' + comment.likesNum}</div>
+                    <div>{'Date:' + comment.creationDate}</div>
+                </Comment.Metadata>
+                <Comment.Text>{comment.text}</Comment.Text>
+                <Comment.Actions>
+                    <Comment.Action id='reply' onClick={replyComment(comment)}>Reply</Comment.Action>
+                    <Comment.Action id='Like' onClick={likeComment(comment)}>Like</Comment.Action>
+                    <Comment.Action id='DisLike' onClick={disLikeComment(comment)}>DisLike</Comment.Action>
+                    <Comment.Action id='Load' onClick={loadComment(comment)}>Load</Comment.Action>
+                </Comment.Actions>
+            </Comment.Content>
+            <Comments comments={props.comments} startingId={comment.id + '.'}/>
+        </Comment> :
         null;
 }
 
@@ -40,7 +64,6 @@ function Comments(props) {
         </Comment.Group>
     )
 }
-
 
 class Post extends Component {
     constructor(probs) {
@@ -101,8 +124,6 @@ class Post extends Component {
             .then(resp => {
                 let updatedComments = this.state.comments.slice();
                 resp.map(comment => {
-                    console.log(comment);
-
                     updatedComments.push({
                         username: comment.creator.username,
                         id: comment.id,
@@ -165,9 +186,17 @@ class Post extends Component {
                 {/*    {items}*/}
                 {/*</InfiniteScroll>*/}
 
-
-                {/*<CommentExampleComment/>*/}
                 <Comments comments={this.state.comments} startingId='.'/>
+
+                <Form reply>
+                    <Form.TextArea/>
+                    <Button
+                        content='Add Reply'
+                        labelPosition='left'
+                        icon='edit'
+                        primary
+                    />
+                </Form>
             </div>
         );
     }
