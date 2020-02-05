@@ -3,10 +3,18 @@ import EditProfilePic from "./editProfilePic";
 import EditUserProfileForm from "./editUserProfileForm";
 import EditChannel from "./editChannel";
 import {withCookies} from "react-cookie";
+import ChangePassword from "./changePassword";
 
 const containStyle = {
     position: 'relative',
     top: '30px'
+};
+
+const contain2Style = {
+    position: 'relative',
+    top: '30px',
+    bottom: '30px',
+    marginBottom: '50px'
 };
 
 class EditProfile extends Component {
@@ -68,17 +76,18 @@ class EditProfile extends Component {
                             (<div>
                                 <h4 className="ui dividing header">Personal Information</h4>
                                 <EditProfilePic/>
+                                <div className="ui vertical labeled icon buttons" style={contain2Style}>
+                                    <button className="ui button" onClick={this.togglePressed}>
+                                        <i className="settings icon"/>
+                                        view profile details
+                                    </button>
+                                </div>
                                 {this.state.pressed ?
                                     <EditUserProfileForm profileInfo={this.state.profile}
                                                          token={this.state.token}
                                                          username={this.state.username}
                                                          channelInfo={this.state.channel}/> :
-                                    <div className="ui vertical labeled icon buttons" style={containStyle}>
-                                        <button className="ui button" onMouseEnter={this.togglePressed}>
-                                            <i className="settings icon"/>
-                                            view profile details
-                                        </button>
-                                    </div>
+                                    <ChangePassword/>
                                 }
                             </div>) :
                             <EditChannel/>
