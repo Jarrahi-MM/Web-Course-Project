@@ -14,20 +14,37 @@ class PostCard extends Component {
     //channelId
     //postNumber
     state = {
-        copiedToClipboard:false,
+        copiedToClipboard: false,
     }
+
     constructor(props) {
         super(props)
         props.loadPost(this.props.channelId, this.props.postNumber)
     }
 
     shareOnClick = () => {
-        this.setState({copiedToClipboard:true})
-        setTimeout(()=> this.setState({copiedToClipboard:false}),2000)
+        this.setState({copiedToClipboard: true})
+        setTimeout(() => this.setState({copiedToClipboard: false}), 2000)
     }
 
     onLike = () => {
-
+        console.log(this.state.token);
+        // return ((evt) => {
+        //     fetch('http://127.0.0.1:8000/api1/postLikes/', {
+        //         method: 'PUT',
+        //         headers: {
+        //             'Authorization': this.props.token,
+        //             'Accept': 'application/json',
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify({channelId: this.props.channelId, postNumber, this.props.postNumber, value: '1'})
+        //     })
+        //         .then(resp => resp.json())
+        //         .then(resp => {
+        //             this.updateComment(resp);
+        //         })
+        //         .catch(e => console.log(e))
+        // });
     }
 
     onDislike = () => {
@@ -35,16 +52,17 @@ class PostCard extends Component {
     }
 
     onComment = () => {
-        
+
     }
 
     render() {
-        let {post,username} = this.props
+        let {post, username} = this.props
         if (post) {
             return (
                 <div>
                     <div className={'shadow rounded mb-5 container border p-3 overflow-hidden'}>
-                        <Link to={`/${post.channel}/${post.postNumber}`}><h3 className={'my-2'}>{post.postTitle}</h3></Link>
+                        <Link to={`/${post.channel}/${post.postNumber}`}><h3 className={'my-2'}>{post.postTitle}</h3>
+                        </Link>
                         posted by <Link to={`/profile/${post.creator.username}`}>{post.creator.username}</Link>
                         <small className={'text-secondary ml-2'}><TimeAgo date={post.creationDate}/></small>
                         <Divider/>
@@ -53,26 +71,29 @@ class PostCard extends Component {
                         <div className={'d-flex justify-content-around'}>
                             <Popup
                                 trigger={
-                                    <CopyToClipboard text={`${window.location.host}/post/${post.channel}/${post.postNumber}`}>
+                                    <CopyToClipboard
+                                        text={`${window.location.host}/post/${post.channel}/${post.postNumber}`}>
                                         <Button basic icon onClick={this.shareOnClick}>
                                             <Icon name={'share'}/>
                                         </Button>
                                     </CopyToClipboard>
                                 }
-                                content={this.state.copiedToClipboard?"Link copied to clipboard":"Copy link to clipboard"}
+                                content={this.state.copiedToClipboard ? "Link copied to clipboard" : "Copy link to clipboard"}
                                 basic
                             />
                             <Button.Group size={"tiny"}>
-                                <Button onClick={this.onDislike} size={"tiny"} basic color={"orange"}><Icon name={'thumbs down'} fitted/></Button>
+                                <Button onClick={this.onDislike} size={"tiny"} basic color={"orange"}><Icon
+                                    name={'thumbs down'} fitted/></Button>
                                 <Button.Or text={post.likesNum}/>
-                                <Button onClick={this.onLike} size={"tiny"} basic color={"blue"}><Icon name={'thumbs up'} fitted/></Button>
+                                <Button onClick={this.onLike} size={"tiny"} basic color={"blue"}><Icon
+                                    name={'thumbs up'} fitted/></Button>
                             </Button.Group>
                             <Button onClick={this.onComment} basic animated='vertical'>
                                 <Button.Content visible><Icon name={'comment outline'}/></Button.Content>
                                 <Button.Content hidden><small>Comment</small></Button.Content>
                             </Button>
                             {
-                                username==post.creator.username?
+                                username == post.creator.username ?
                                     <Button onClick={this.onComment} basic animated='vertical'>
                                         <Button.Content visible><Icon name={'edit outline'}/></Button.Content>
                                         <Button.Content hidden><small>Edit</small></Button.Content>
@@ -94,9 +115,10 @@ class PostCard extends Component {
 
 function mapStateToProps(state, ownProps) {
     return {
-        post: state.posts.posts[[ownProps.channelId,ownProps.postNumber]],
-        username: state.auth.username
+        post: state.posts.posts[[ownProps.channelId, ownProps.postNumber]],
+        username: state.auth.username,
+        token: state.auth.authorization,
     };
 }
 
-export default connect(mapStateToProps, {loadPost,openModal})(PostCard);
+export default connect(mapStateToProps, {loadPost, openModal})(PostCard);
