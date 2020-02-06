@@ -36,6 +36,7 @@ class Profile extends Component {
     };
 
     followClicked = followed => {
+        this.setState({following: followed});
         let channelToFollow = [];
         if (followed) {
             channelToFollow['follow'] = this.props.username;
@@ -167,6 +168,6 @@ class Profile extends Component {
 const mapStateToProps = (state) => ({
     hasMoreItems: state.channel.hasMoreItems,
     posts: state.channel.posts
-})
+});
 
 export default connect(mapStateToProps, {openModal,loadMoreChannelPosts})(withCookies(Profile));
