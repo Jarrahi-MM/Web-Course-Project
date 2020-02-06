@@ -1,16 +1,13 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
 import './channel.css'
+import {withCookies} from "react-cookie";
 
 
 class EditChannelContributors extends Component {
 
     state = {
-        contributors: [
-            {
-                username: 'negin',
-            },
-        ]
+        channel: this.props.channel
     };
 
     newContributorAdded = event => {
@@ -40,7 +37,8 @@ class EditChannelContributors extends Component {
                         </div>
                     </div>
                 </form>
-                <div>{this.state.contributors.map(contributor => {
+                {console.log(this.props.channel)}
+                <div>{this.props.channel.contributors.map(contributor => {
                     return (
                         <div key={contributor.id} className="blue">
                             <Link to={`/profile/${contributor.username}`}>
