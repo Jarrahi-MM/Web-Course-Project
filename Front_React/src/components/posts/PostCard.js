@@ -7,6 +7,7 @@ import Divider from "semantic-ui-react/dist/commonjs/elements/Divider";
 import TimeAgo from "react-timeago/lib";
 import {Link} from "react-router-dom";
 import {CopyToClipboard} from "react-copy-to-clipboard/lib/Component";
+import {openModal} from "../../redux/action_creators/modalActions";
 
 class PostCard extends Component {
     //props:
@@ -98,4 +99,4 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-export default connect(mapStateToProps, {loadPost})(PostCard);
+export default connect(mapStateToProps, {loadPost,openModal})(PostCard);
