@@ -4,6 +4,8 @@ import ProfilePicture from "./ProfilePicture";
 import ProfileDetails from "./ProfileDetails";
 import './profile.css'
 import {withCookies} from "react-cookie";
+import {connect} from "react-redux";
+import {openModal} from "../../redux/action_creators/modalActions";
 
 
 const avatars = ['https://image.freepik.com/free-vector/cartoon-monster-face-avatar-halloween-monster_6996-1164.jpg'
@@ -63,6 +65,13 @@ class Profile extends Component {
 
     }
 
+    createPostClicked = () => {
+        this.props.openModal(
+            'post_create',
+            {channelId:null}
+        )
+    }
+
 
     render() {
         return (
@@ -73,9 +82,9 @@ class Profile extends Component {
                                   className="circular ui icon big button settingsStyle">
                                 <i className="icon settings big"/>
                             </Link>
-                            <Link to={'/createPost'} className="circular ui icon big button settingsStyle">
+                            <div onClick={this.createPostClicked} className="circular ui icon big button settingsStyle">
                                 <i className="icon plus big"/>
-                            </Link>
+                            </div>
                             <Link to={'/channel'} className="circular ui icon big button settingsStyle">
                                 <i className="icon bullhorn big"/>
                             </Link>
@@ -112,4 +121,4 @@ class Profile extends Component {
     }
 }
 
-export default withCookies(Profile);
+export default connect(null, {openModal})(withCookies(Profile));

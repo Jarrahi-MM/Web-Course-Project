@@ -9,6 +9,8 @@ import MediaQuery from "react-responsive/src/Component";
 import {FOLLOWED_TAB, HOTTEST_TAB, LATEST_TAB, PARTICIPATED_TAB} from "../redux/action_creators/types";
 import {connect} from "react-redux";
 import {loadMoreItems, setActiveTab} from "../redux/action_creators/homepageActions";
+import PostCard from "./posts/PostCard";
+import nextId from "react-id-generator";
 
 class Homepage extends Component {
     panes = [
@@ -92,9 +94,8 @@ class Homepage extends Component {
 
                 {this.props.postObjs.map(postObj => {
                     return (
-                        <div key={postObj.postNumber} className="alert alert-primary">
-                            {postObj.postNumber}&nbsp;
-                            {postObj.channel}
+                        <div key={nextId()}>
+                            <PostCard channelId={postObj.channel} postNumber={postObj.postNumber}/>
                         </div>
                     )
                 })}

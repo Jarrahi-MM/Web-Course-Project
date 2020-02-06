@@ -10,7 +10,7 @@ const postReducer = (state = initState, action) => {
             let ch_p_key = [action.payload.channel, action.payload.postNumber].toString();
             return {
                 posts: {
-                    ...state,
+                    ...state.posts,
                     [ch_p_key]: action.payload
                 }
             };
