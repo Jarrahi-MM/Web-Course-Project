@@ -28,9 +28,8 @@ class EditChannel extends Component {
             }
         }).then(response => response.json())
             .then(res => {
-                this.setState({channel: res})
-                console.log(res)
-                console.log(this.state.contributors)
+                this.setState({channel: res});
+                console.log(res);
             })
             .catch(error => console.log(error));
     }
