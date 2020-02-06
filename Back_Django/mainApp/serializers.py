@@ -33,13 +33,13 @@ class ChannelSerializer(serializers.ModelSerializer):
     owner = UserSerializer(many=False)
     contributors = UserSerializer(many=True)
     followers = UserSerializer(many=True)
-    followings = UserSerializer(many=True)
+    blockedUsers = UserSerializer(many=True)
 
     class Meta:
         model = Channel
         fields = (
             'channelId', 'channelName', 'owner', 'contributors', 'followersNum', 'followingsNum', 'postsNum',
-            'isPersonal', 'description', 'followers', 'followings')
+            'isPersonal', 'description', 'followers', 'blockedUsers')
 
 
 class ProfileSerializer(serializers.ModelSerializer):
