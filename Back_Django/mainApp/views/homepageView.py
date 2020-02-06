@@ -42,14 +42,15 @@ def homepage(request, tab_name):
         return Response(status=status.HTTP_400_BAD_REQUEST)  # never happens
 
     post_list = post_list.filter(creationDate__lt=checkpoint)
-    if post_list.count() == 0:
-        return Response(status=status.HTTP_204_NO_CONTENT)
     has_more_items = post_list.count() > paginateBy
-    post_list = post_list[:paginateBy]
-    new_checkpoint = post_list.aggregate(cp=Min('creationDate')).get('cp')
+    if post_list.count() > 0:
+        post_list = post_list[:paginateBy]
+        new_checkpoint = post_list.aggregate(cp=Min('creationDate')).get('cp')
 
     # post_list = post_list.all() #uncomment if crashed !
-    new_checkpoint = datetime.strftime(new_checkpoint, date_time_formatter)
+        new_checkpoint = datetime.strftime(new_checkpoint, date_time_formatter)
+    else:
+        new_checkpoint = None
 
     data = {
         'postObjs': post_list,

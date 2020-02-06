@@ -1,8 +1,8 @@
 from datetime import datetime
 
 from django.db.models import Min
-from rest_framework import status, permissions,authentication
-from rest_framework.decorators import api_view, permission_classes,authentication_classes
+from rest_framework import status, permissions, authentication
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 
 from ..constants import paginateBy, date_time_formatter
@@ -23,12 +23,13 @@ def alert_items(request):
     alert_list = Alert.objects.filter(creation_date__lt=checkpoint, user=user) \
         .order_by('-creation_date')
 
-    if alert_list.count() == 0:
-        return Response(status=status.HTTP_204_NO_CONTENT)
     has_more_items = alert_list.count() > paginateBy
-    alert_list = alert_list[:paginateBy]
-    new_checkpoint = alert_list.aggregate(mc=Min('creation_date')).get('mc')
-    new_checkpoint = datetime.strftime(new_checkpoint, date_time_formatter)
+    if alert_list.count() > 0:
+        alert_list = alert_list[:paginateBy]
+        new_checkpoint = alert_list.aggregate(mc=Min('creation_date')).get('mc')
+        new_checkpoint = datetime.strftime(new_checkpoint, date_time_formatter)
+    else:
+        new_checkpoint = None
 
     serializer = AlertViewSerializer({
         'alerts': alert_list,
