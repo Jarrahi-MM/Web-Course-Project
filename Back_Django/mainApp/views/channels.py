@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import status, authentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from django.shortcuts import get_object_or_404
 from ..models import ProfileInfo, Channel
 from ..serializers import ProfileSerializer, ChannelSerializer
 
@@ -11,17 +11,21 @@ class Channels(APIView):
     authentication_classes = [authentication.TokenAuthentication]
 
     @staticmethod
-    def get(request):
-        try:
-            channels = Channel.objects.filter(owner=request.user.id)
-        except Channel.DoesNotExist:
-            return Response('Invalid channel', status=status.HTTP_400_BAD_REQUEST)
+    def get(request, channelId):
+        if channelId == '':
+            try:
+                channels = Channel.objects.filter(owner=request.user.id)
+            except Channel.DoesNotExist:
+                return Response('Invalid channel', status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = ChannelSerializer(channels, many=True)
-        return Response(serializer.data, status.HTTP_200_OK)
+            serializer = ChannelSerializer(channels, many=True)
+            return Response(serializer.data, status.HTTP_200_OK)
+        else:
+            channel = get_object_or_404(Channel, channelId=channelId)
+            return Response(ChannelSerializer(channel).data, status.HTTP_200_OK)
 
     @staticmethod
-    def post(request):
+    def post(request, channelId):
         try:
             channel = Channel.objects.get(channelId=request.data['channelId'])
         except Channel.DoesNotExist:
@@ -34,13 +38,12 @@ class Channels(APIView):
         return Response('this channel id is taken before', status=status.HTTP_400_BAD_REQUEST)
 
     @staticmethod
-    def put(request):
+    def put(request, channelId):
         try:
-            channel = Channel.objects.get(channelId=request.data['lastId'])
+            channel = Channel.objects.get(channelId=channelId)
             channel.channelName = request.data['channelName']
             channel.description = request.data['description']
             channel.save()
-
         except Channel.DoesNotExist:
             return Response('this channel Id doesnt exist', status=status.HTTP_400_BAD_REQUEST)
-        return Response('channel created', status=status.HTTP_202_ACCEPTED)
+        return Response('channel updated', status=status.HTTP_202_ACCEPTED)
