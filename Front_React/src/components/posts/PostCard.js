@@ -43,7 +43,7 @@ class PostCard extends Component {
             return (
                 <div>
                     <div className={'shadow rounded mb-5 container border p-3 overflow-hidden'}>
-                        <Link to={`/${post.channel}/${post.postNumber}`}><h3>{post.postTitle}</h3></Link>
+                        <Link to={`/${post.channel}/${post.postNumber}`}><h3 className={'my-2'}>{post.postTitle}</h3></Link>
                         posted by <Link to={`/profile/${post.creator.username}`}>{post.creator.username}</Link>
                         <small className={'text-secondary ml-2'}><TimeAgo date={post.creationDate}/></small>
                         <Divider/>
@@ -52,7 +52,7 @@ class PostCard extends Component {
                         <div className={'d-flex justify-content-around'}>
                             <Popup
                                 trigger={
-                                    <CopyToClipboard text={`${window.location.host}/${post.channel}/${post.postNumber}`}>
+                                    <CopyToClipboard text={`${window.location.host}/post/${post.channel}/${post.postNumber}`}>
                                         <Button basic icon onClick={this.shareOnClick}>
                                             <Icon name={'share'}/>
                                         </Button>
