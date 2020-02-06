@@ -18,6 +18,8 @@ import FollowList from "./components/followList";
 class App extends Component {
     constructor(props) {
         super(props);
+        if ((!props.cookies.get('myToken') || props.cookies.get('myToken').length < 15) && !window.location.href.endsWith('login'))
+            window.location.href = window.location.origin + '/login';
         this.state = {
             token: props.cookies.get('myToken'),
             username: props.cookies.get('userName'),
@@ -27,8 +29,6 @@ class App extends Component {
 
     componentDidMount() {
         this.props.loadTokenAndUsernameFromCookies(this.props.cookies);
-        if ((!this.state.token || this.state.token.length < 15) && !window.location.href.endsWith('login'))
-            window.location.href = window.location.origin + '/login';
     }
 
     render() {
