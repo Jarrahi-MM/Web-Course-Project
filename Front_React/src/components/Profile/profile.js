@@ -30,7 +30,7 @@ class Profile extends Component {
         userInfo: [],
         proPicture: avatars[Math.floor(Math.random() * avatars.length)],
         myAccount: false,
-        following: true,
+        following: false,
         token: this.props.cookies.get('myToken'),
         username: this.props.cookies.get('userName'),
         channels: [],
@@ -39,8 +39,24 @@ class Profile extends Component {
 
     followClicked = followed => {
         this.setState({following: followed});
-        console.log(this.state.token);
-        console.log(this.state.username)
+        let channelToFollow = [];
+        if (followed) {
+            channelToFollow['follow'] = this.props.username;
+        }else {
+            channelToFollow['unfollow'] = this.props.username;
+        }
+        fetch(`http://127.0.0.1:8000/api1/profiles/${this.state.username}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${this.state.token}`
+            },
+            body: JSON.stringify(channelToFollow)
+        }).then(response => response.json())
+            .then(resp => {
+                console.log(resp)
+            })
+            .catch(error => console.log(error))
     };
 
     componentDidMount() {
@@ -89,7 +105,7 @@ class Profile extends Component {
             'post_create',
             {channelId: this.props.username}
         )
-    }
+    };
 
 
     render() {
@@ -166,7 +182,7 @@ class Profile extends Component {
 const mapStateToProps = (state) => ({
     hasMoreItems: state.channel.hasMoreItems,
     posts: state.channel.posts
-})
+});
 
 export default connect(mapStateToProps, {
     openModal,
