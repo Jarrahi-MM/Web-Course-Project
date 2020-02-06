@@ -6,6 +6,7 @@ import authReducer from "./authReducer";
 import alertReducer from "./alertReducer";
 import postReducer from  "./postReducer"
 import modalReducer from "./modalReducer";
+import channelReducer from "./channelReducer";
 
 const rootReducer = combineReducers({
     homepage: homepageReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
     alerts: alertReducer,
     posts: postReducer,
     modal: modalReducer,
+    channel:channelReducer,
 });
 
 export default rootReducer

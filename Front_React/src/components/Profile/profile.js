@@ -6,6 +6,11 @@ import './profile.css'
 import {withCookies} from "react-cookie";
 import {connect} from "react-redux";
 import {openModal} from "../../redux/action_creators/modalActions";
+import {Loader} from "semantic-ui-react";
+import nextId from "react-id-generator";
+import InfiniteScroll from "react-infinite-scroller";
+import PostCard from "../posts/PostCard";
+import {loadMoreChannelPosts} from "../../redux/action_creators/channelActions";
 
 
 const avatars = ['https://image.freepik.com/free-vector/cartoon-monster-face-avatar-halloween-monster_6996-1164.jpg'
@@ -68,7 +73,7 @@ class Profile extends Component {
     createPostClicked = () => {
         this.props.openModal(
             'post_create',
-            {channelId:null}
+            {channelId: null}
         )
     }
 
@@ -114,11 +119,39 @@ class Profile extends Component {
                     <hr/>
                     <h3>{this.state.userInfo.description}</h3>
                     <hr/>
-                    <h3>posts</h3>
+                    <div>
+                        <InfiniteScroll
+                            loadMore={() => this.loadMore()}
+                            hasMore={this.props.hasMoreItems}
+                            loader={this.getLoaderComponent()}>
+
+                            {this.props.posts.map(post => {
+                                return (
+                                    <PostCard channelId={post.channel} postNumber={post.postNumber} key={nextId()}/>
+                                )
+                            })}
+
+                        </InfiniteScroll>
+                    </div>
                 </div>
             </div>
         );
     }
+
+    loadMore() {
+        this.props.loadMoreChannelPosts(/*this.props.channelId*/'jarrahi1')
+    }
+
+    getLoaderComponent() {
+        return (
+            <Loader key={-1} active inline={"centered"}/>
+        )
+    }
 }
 
-export default connect(null, {openModal})(withCookies(Profile));
+const mapStateToProps = (state) => ({
+    hasMoreItems: state.channel.hasMoreItems,
+    posts: state.channel.posts
+})
+
+export default connect(mapStateToProps, {openModal,loadMoreChannelPosts})(withCookies(Profile));
