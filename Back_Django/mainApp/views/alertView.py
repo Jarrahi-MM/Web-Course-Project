@@ -18,7 +18,7 @@ def alert_items(request):
     if checkpoint == 'null' or checkpoint is None:
         checkpoint = datetime.max
     else:
-        checkpoint = datetime.strptime(request.query_params.get('checkpoint'), date_time_formatter)
+        checkpoint = datetime.strptime(checkpoint, date_time_formatter)
 
     alert_list = Alert.objects.filter(creation_date__lt=checkpoint, user=user) \
         .order_by('-creation_date')

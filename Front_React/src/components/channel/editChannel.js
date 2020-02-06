@@ -1,12 +1,15 @@
 import React, {Component} from "react";
 import EditChannelContributors from "./editChannelContributors";
 import EditChannelInfo from "./editChannelInfo";
+import {withCookies} from "react-cookie";
 
 
 class EditChannel extends Component {
 
     state = {
-        isContributors: true
+        isContributors: false,
+        channel: [],
+        token: this.props.cookies.get('myToken'),
     };
 
     contribClicked = () => {
@@ -16,6 +19,20 @@ class EditChannel extends Component {
     infoClicked = () => {
         this.setState({isContributors: false})
     };
+
+    componentDidMount() {
+        fetch(`http://127.0.0.1:8000/api1/channel/${this.props.channelId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${this.state.token}`
+            }
+        }).then(response => response.json())
+            .then(res => {
+                this.setState({channel: res});
+                console.log(res);
+            })
+            .catch(error => console.log(error));
+    }
 
     render() {
         return (
@@ -30,7 +47,8 @@ class EditChannel extends Component {
                 </div>
                 <div>
                     {this.state.isContributors ?
-                        <EditChannelContributors/>
+                        <EditChannelContributors channelId={this.props.channelId}
+                                                 channel={this.state.channel}/>
                         : <EditChannelInfo channelId={this.props.channelId}/>}
                 </div>
             </React.Fragment>
@@ -39,4 +57,4 @@ class EditChannel extends Component {
 
 }
 
-export default EditChannel
+export default withCookies(EditChannel)

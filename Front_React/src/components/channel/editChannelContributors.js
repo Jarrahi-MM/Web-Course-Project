@@ -1,28 +1,59 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
 import './channel.css'
+import {withCookies} from "react-cookie";
 
 
 class EditChannelContributors extends Component {
 
     state = {
-        contributors: [
-            {
-                username: 'negin',
-            },
-        ]
+        channel: this.props.channel,
+        contributor: '',
+        token: this.props.cookies.get('myToken'),
+        removeThisGuy: '',
     };
 
     newContributorAdded = event => {
-
+        let contrib = event.target.value;
+        this.setState({contributor: contrib});
     };
 
     addClicked = ev => {
-
+        let channel = this.state.channel;
+        channel['addToContributors'] = this.state.contributor;
+        this.setState({channel: channel});
+        fetch(`http://127.0.0.1:8000/api1/channel/${this.props.channelId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${this.state.token}`
+            },
+            body: JSON.stringify(this.state.channel)
+        }).then(response => response.json())
+            .then(resp => {
+                this.setState({channel: resp})
+                console.log(channel)
+            })
+            .catch(error => console.log(error))
     };
 
-    deleteClicked = ev => {
-
+    deleteClicked = thisGuy => {
+        let channel = this.state.channel;
+        channel['removeFromContributors'] = thisGuy;
+        this.setState({channel: channel});
+        fetch(`http://127.0.0.1:8000/api1/channel/${this.props.channelId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${this.state.token}`
+            },
+            body: JSON.stringify(this.state.channel)
+        }).then(response => response.json())
+            .then(resp => {
+                this.setState({channel: resp});
+                console.log(channel)
+            })
+            .catch(error => console.log(error))
     };
 
     render() {
@@ -40,15 +71,17 @@ class EditChannelContributors extends Component {
                         </div>
                     </div>
                 </form>
-                <div>{this.state.contributors.map(contributor => {
+                <div>{this.state.channel.contributors.map(contributor => {
                     return (
-                        <div key={contributor.id} className="blue">
+                        <div key={contributor.id} className="blue ">
                             <Link to={`/profile/${contributor.username}`}>
                                 <button className=" ui button  big contain3Style">
                                     <span>{contributor.username}</span>
                                 </button>
                             </Link>
-                            <i className=" icon big trash alternate" onClick={this.deleteClicked}/>
+                            <i className="red icon big trash alternate"
+                               onClick={() => this.deleteClicked(contributor.username)}/>
+                            <br/>
                             <br/>
                         </div>
                     )
@@ -60,4 +93,4 @@ class EditChannelContributors extends Component {
 
 }
 
-export default EditChannelContributors
+export default withCookies(EditChannelContributors)

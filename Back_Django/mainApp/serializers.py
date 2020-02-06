@@ -120,3 +120,8 @@ class AlertViewSerializer(serializers.Serializer):
     alerts = AlertSerializer(many=True)
     checkpoint = serializers.DateTimeField()
     hasMoreItems = serializers.BooleanField()
+
+class ChannelPostsViewSerializer(serializers.Serializer):
+    posts = PostSerializer(many=True)
+    checkpoint = serializers.DateTimeField()
+    hasMoreItems = serializers.BooleanField()
