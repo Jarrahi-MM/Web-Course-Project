@@ -3,7 +3,7 @@ from django.urls import path
 from rest_framework import routers
 
 from .views import alertView
-from .views.UserView import ChannelViewSet, ProfileViewSet, UserViewSet
+from .views.UserView import  ProfileViewSet, UserViewSet
 from .views.channels import Channels
 from .views.comments import CommentView, CommentReadView
 from .views.homepageView import homepage
@@ -15,14 +15,14 @@ from .views.updatePassword import UpdatePassword
 from .views.users import Users
 
 router = routers.DefaultRouter()
-router.register('channels', ChannelViewSet)
 router.register('profile', ProfileViewSet)  # Todo:Negin Check
 router.register('register', UserViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
     path('change-password/', UpdatePassword.as_view()),
-    path('channel/', Channels.as_view()),
+    path('channel/<str:channelId>', Channels.as_view()),
+    path('channel/', Channels.as_view(), kwargs={'channelId': ''}),
     path('users/', Users.as_view()),
     path('profiles/<str:username>/', Profiles.as_view()),
     path('posts/<str:channelId>', Posts.as_view(), kwargs={'postNumber': 0}),
