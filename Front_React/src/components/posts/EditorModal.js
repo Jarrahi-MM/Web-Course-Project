@@ -54,4 +54,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps,{closeModal})(EditorModal);
+export default connect(mapStateToProps, {closeModal})(EditorModal);

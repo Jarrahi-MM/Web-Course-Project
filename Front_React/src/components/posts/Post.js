@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Comment, Button, Form} from 'semantic-ui-react'
+import PostCard from "./PostCard";
 import './Post.css'
+import render from 'html-react-parser'
 
 class Post extends Component {
     constructor(probs) {
@@ -214,30 +216,30 @@ class Post extends Component {
         let horizontalMargin = (window.innerWidth - containerWidth) / 2;
         return (
             <div id='postContainer' style={{width: containerWidth, left: horizontalMargin}}>
-                <div>
-                    <img src="https://www.google.com/images/hpp/shield_privacy_checkup_green_2x_web_96dp.png"
-                         className="ui avatar image"
-                    />
-                    <h3>{this.state.postTitle}</h3>
-                    <h4>{this.state.creator.username}</h4>
-                </div>
-                <div className="ui justified container">
-                    <b>Image:</b>
-                    <div className="ui divider"></div>
-                    <img src={this.state.image}/>
-                </div>
-                <div className="ui justified container">
-                    <b>Text:</b>
-                    <div className="ui divider"></div>
-                    <p>
-                        {this.state.text}
-                    </p>
-                </div>
 
+                {/*<div>*/}
+                {/*    <img src="https://www.google.com/images/hpp/shield_privacy_checkup_green_2x_web_96dp.png"*/}
+                {/*         className="ui avatar image"*/}
+                {/*    />*/}
+                {/*    <h3>{this.state.postTitle}</h3>*/}
+                {/*    <h4>{this.state.creator.username}</h4>*/}
+                {/*</div>*/}
+                {/*<div className="ui justified container">*/}
+                {/*    <b>Image:</b>*/}
+                {/*    <div className="ui divider"></div>*/}
+                {/*    <img src={this.state.image}/>*/}
+                {/*</div>*/}
+                {/*<div className="ui justified container">*/}
+                {/*    <div className="ui divider"></div>*/}
+                {/*    <div className={'ck-content'}>*/}
+                {/*        {render(this.state.text)}*/}
+                {/*    </div>*/}
+                {/*    <div className="ui divider"></div>*/}
+                {/*</div>*/}
+                <PostCard channelId={this.state.channelId} postNumber={this.state.postNum}/>
                 <Comment.Group>
                     {this.state.comments.map(comment => this.processComment('.', comment))}
                 </Comment.Group>
-
             </div>
         );
     }
