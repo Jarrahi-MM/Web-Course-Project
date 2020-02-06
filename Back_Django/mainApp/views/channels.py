@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from rest_framework import status, authentication, permissions
 from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
@@ -34,12 +35,23 @@ class Channels(APIView):
     def put(request):
         try:
             channel = Channel.objects.get(channelId=request.data['lastId'])
-            if channel.owner.username != request.user.username:
-                return Response("You Can't edit", status=status.HTTP_400_BAD_REQUEST)
-            channel.channelName = request.data['channelName']
-            channel.description = request.data['description']
-            channel.save()
-
         except Channel.DoesNotExist:
             return Response('this channel Id doesnt exist', status=status.HTTP_400_BAD_REQUEST)
+        if channel.owner.username != request.user.username:
+            return Response("You Can't edit", status=status.HTTP_400_BAD_REQUEST)
+        channel.channelName = request.data['channelName']
+        channel.description = request.data['description']
+        if 'block' in request.data:
+            try:
+                blocking_user = User.objects.get(username=request.data['block'])
+                channel.blockedUsers.add(blocking_user)
+            except User.DoesNotExist:
+                return Response("Invalid Blocking Username", status=status.HTTP_400_BAD_REQUEST)
+        if 'unblock' in request.data:
+            try:
+                unblocking_user = User.objects.get(username=request.data['block'])
+                channel.blockedUsers.remove(unblocking_user)
+            except User.DoesNotExist:
+                return Response("Invalid Blocking Username", status=status.HTTP_400_BAD_REQUEST)
+        channel.save()
         return Response('channel created', status=status.HTTP_202_ACCEPTED)
