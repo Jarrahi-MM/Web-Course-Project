@@ -36,8 +36,10 @@ class CreateChannel extends Component {
                 },
                 body: JSON.stringify(this.state.channel)
             }).then(response => response.json())
-                .then(resp => console.log(resp))
-                .then(window.location.href = window.location.origin + '/channel')
+                .then(resp => {
+                    console.log(resp);
+                    window.location.href = window.location.origin + '/channel';
+                })
                 .catch(error => console.log(error))
         } else {
             fetch(`http://127.0.0.1:8000/api1/channel/${this.props.channelId}`, {
@@ -48,8 +50,10 @@ class CreateChannel extends Component {
                 },
                 body: JSON.stringify(this.state.channel)
             }).then(response => response.json())
-                .then(resp => console.log(resp))
-                .then(window.location.href = window.location.origin + '/channel')
+                .then(resp => {
+                    console.log(resp);
+                    window.location.href = window.location.origin + '/channel';
+                })
                 .catch(error => console.log(error))
         }
     };

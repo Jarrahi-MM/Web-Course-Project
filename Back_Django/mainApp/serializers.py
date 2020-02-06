@@ -6,14 +6,6 @@ from rest_framework.authtoken.models import Token
 from .models import Channel, ProfileInfo, Post, Comment, Alert
 
 
-class ChannelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Channel
-        fields = (
-            'channelId', 'channelName', 'owner', 'contributors', 'followersNum', 'followingsNum', 'postsNum',
-            'isPersonal', 'description', 'followers')
-
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -35,6 +27,19 @@ class UserSerializer(serializers.ModelSerializer):
                                          followingsNum=0, postsNum=0, isPersonal=True, description='bio...')
         channel.save()
         return user
+
+
+class ChannelSerializer(serializers.ModelSerializer):
+    owner = UserSerializer(many=False)
+    contributors = UserSerializer(many=True)
+    followers = UserSerializer(many=True)
+    blockedUsers = UserSerializer(many=True)
+
+    class Meta:
+        model = Channel
+        fields = (
+            'channelId', 'channelName', 'owner', 'contributors', 'followersNum', 'followingsNum', 'postsNum',
+            'isPersonal', 'description', 'followers', 'blockedUsers')
 
 
 class ProfileSerializer(serializers.ModelSerializer):
