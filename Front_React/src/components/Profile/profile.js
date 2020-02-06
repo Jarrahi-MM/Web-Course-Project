@@ -21,7 +21,7 @@ class Profile extends Component {
     state = {
         userInfo: [],
         proPicture: avatars[Math.floor(Math.random() * avatars.length)],
-        myAccount: true,
+        myAccount: false,
         following: true,
         token: this.props.cookies.get('myToken'),
         username: this.props.cookies.get('userName'),
@@ -35,7 +35,7 @@ class Profile extends Component {
     };
 
     componentDidMount() {
-        fetch(`http://127.0.0.1:8000/api1/channels/${this.props.username}/`, {
+        fetch(`http://127.0.0.1:8000/api1/channel/${this.props.username}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Token ${this.state.token}`
@@ -54,9 +54,7 @@ class Profile extends Component {
         }).then(response => response.json())
             .then(res => {
                 this.setState({channels: res});
-                console.log(res[0].channelId);
                 for (let r in res) {
-                    console.log(r);
                     if (res[r].channelId === this.props.username)
                         this.setState({myAccount: true});
                 }
@@ -71,7 +69,8 @@ class Profile extends Component {
             <div className="containStyle">
                 <div className="ui piled raised very padded container segment">
                     {this.state.myAccount ? (<div>
-                            <Link to={'/editProfile'} className="circular ui icon big button settingsStyle">
+                            <Link to={`/editProfile/${this.props.username}`}
+                                  className="circular ui icon big button settingsStyle">
                                 <i className="icon settings big"/>
                             </Link>
                             <Link to={'/createPost'} className="circular ui icon big button settingsStyle">
@@ -100,7 +99,9 @@ class Profile extends Component {
                     <ProfileDetails
                         followingNum={this.state.userInfo.followingsNum}
                         followerNum={this.state.userInfo.followersNum}
-                        postNum={this.state.userInfo.postsNum}/>
+                        postNum={this.state.userInfo.postsNum}
+                        username={this.props.username}
+                    />
                     <hr/>
                     <h3>{this.state.userInfo.description}</h3>
                     <hr/>

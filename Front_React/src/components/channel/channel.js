@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Link} from "react-router-dom";
 import {withCookies} from "react-cookie";
 
+
 class Channel extends Component {
 
     state = {
@@ -27,7 +28,6 @@ class Channel extends Component {
                 this.setState({profile: res});
             })
             .catch(error => console.log(error));
-
         fetch(`http://127.0.0.1:8000/api1/channel/`, {
             method: 'GET',
             headers: {
@@ -35,10 +35,10 @@ class Channel extends Component {
             }
         }).then(response => response.json())
             .then(res => {
-                this.setState({channels: res})
+                this.setState({channels: res});
             }).then(res => {
-            const channels = this.state.channels.filter(channel => channel.owner === this.state.profile.user.id);
-            this.setState({channels: channels})
+            const channels = this.state.channels.filter(channel => channel.owner.id === this.state.profile.user.id);
+            this.setState({channels: channels});
         }).catch(error => console.log(error))
 
     }

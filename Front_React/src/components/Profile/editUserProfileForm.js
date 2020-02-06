@@ -55,7 +55,7 @@ class EditUserProfileForm extends Component {
     };
 
     channelUpdateClicked = () => {
-        fetch(`http://127.0.0.1:8000/api1/channels/${this.props.username}/`, {
+        fetch(`http://127.0.0.1:8000/api1/channel/${this.props.username}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -82,11 +82,6 @@ class EditUserProfileForm extends Component {
                                 <label>last name</label>
                                 <input type="text" name="last_name" value={this.state.profileInf.user.last_name}
                                        onChange={this.userInputChanged}/>
-                            </div>
-                            <div className="field">
-                                <label>id</label>
-                                <input type="text" name="channelId" value={this.state.channel.channelId}
-                                       onChange={this.channelChanged}/>
                             </div>
                         </div>
                     </div>

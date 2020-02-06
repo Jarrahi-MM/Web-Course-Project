@@ -5,36 +5,41 @@ class FollowList extends Component {
 
     state = {
         followList: [],
-        token: this.props.cookies.get('mr-token')
+        token: this.props.cookies.get('myToken')
     };
 
     componentDidMount() {
         if (this.state.token) {
-            fetch("http://127.0.0.1:8000/api/channelInfo/", {
+            fetch(`http://127.0.0.1:8000/api1/channels/${this.props.username}/`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Token ${this.state.token}`
                 }
             }).then(response => response.json())
-                .then(res => this.setState({followList: res}))
+                .then(res => {
+                    this.setState({followList: res.followers})
+                })
                 .catch(error => console.log(error))
-        } else {
-            window.location.href = '/'
         }
     }
 
     render() {
         return (
             <React.Fragment>
-                <div>{this.state.followList.map(followering => {
-                    return (
-                        <div key={followering.id}>
-                            <h3>
-                                {followering}
-                            </h3>
+                <div className="containStyle">
+                    <div className="ui piled raised very padded container segment">
+                        <h3>wtf</h3>
+                        <div>{this.state.followList.map(followering => {
+                            return (
+                                <div key={followering.id}>
+                                    <h3>
+                                        {followering}
+                                    </h3>
+                                </div>
+                            )
+                        })}
                         </div>
-                    )
-                })}
+                    </div>
                 </div>
             </React.Fragment>
         )

@@ -1,12 +1,12 @@
 from datetime import datetime
 
 from django.db.models import Min
-from rest_framework import status, permissions, authentication
-from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework import status, permissions
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 
 from ..constants import paginateBy, date_time_formatter
-from ..models import Alert, Post
+from ..models import Alert
 from ..serializers import AlertViewSerializer
 
 

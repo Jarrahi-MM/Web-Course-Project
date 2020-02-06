@@ -1,16 +1,16 @@
-from rest_framework import authentication, status
-from rest_framework.views import APIView
+from rest_framework import authentication, status, permissions
+from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
-from django.contrib.auth.models import User
+from rest_framework.views import APIView
 
 
+@permission_classes((permissions.IsAuthenticated,))
 class Users(APIView):
     authentication_classes = [authentication.TokenAuthentication]
 
     @staticmethod
     def put(request):
-        username = request.user.username
-        user = User.objects.get(username=username)
+        user = request.user
         user.first_name = (request.data['first_name'])
         user.last_name = (request.data['last_name'])
         user.email = (request.data['email'])

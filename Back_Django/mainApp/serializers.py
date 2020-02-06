@@ -6,14 +6,6 @@ from rest_framework.authtoken.models import Token
 from .models import Channel, ProfileInfo, Post, Comment, Alert
 
 
-class ChannelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Channel
-        fields = (
-            'channelId', 'channelName', 'owner', 'contributors', 'followersNum', 'followingsNum', 'postsNum',
-            'isPersonal', 'description')
-
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -37,30 +29,25 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
+class ChannelSerializer(serializers.ModelSerializer):
+    owner = UserSerializer(many=False)
+    contributors = UserSerializer(many=True)
+    followers = UserSerializer(many=True)
+    blockedUsers = UserSerializer(many=True)
+
+    class Meta:
+        model = Channel
+        fields = (
+            'channelId', 'channelName', 'owner', 'contributors', 'followersNum', 'followingsNum', 'postsNum',
+            'isPersonal', 'description', 'followers', 'blockedUsers')
+
+
 class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(many=False)
 
     class Meta:
         model = ProfileInfo
         fields = ('user', 'city', 'country', 'phoneNum')
-
-
-class PostSerializer(serializers.ModelSerializer):
-    creator = UserSerializer(many=False)
-
-    class Meta:
-        model = Post
-        fields = (
-            'postNumber', 'postTitle', 'channel', 'creator', 'creationDate', 'updateVal', 'firstComment', 'likesNum',
-            'image',
-            'text')
-        extra_kwargs = {'postNumber': {'read_only': True, 'required': True}}
-
-    def create(self, validated_data):
-        return None
-
-    def update(self, instance, validated_data):
-        return None
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -72,6 +59,25 @@ class CommentSerializer(serializers.ModelSerializer):
             'id', 'commentNumber', 'supComment', 'creator', 'text', 'likesNum', 'subCommentsNum', 'creationDate',
         )
         extra_kwargs = {'commentNumber': {'read_only': True, 'required': True}}
+
+    def create(self, validated_data):
+        return None
+
+    def update(self, instance, validated_data):
+        return None
+
+
+class PostSerializer(serializers.ModelSerializer):
+    creator = UserSerializer(many=False)
+    firstComment = CommentSerializer(many=False)
+
+    class Meta:
+        model = Post
+        fields = (
+            'postNumber', 'postTitle', 'channel', 'creator', 'creationDate', 'updateVal', 'firstComment', 'likesNum',
+            'image',
+            'text')
+        extra_kwargs = {'postNumber': {'read_only': True, 'required': True}}
 
     def create(self, validated_data):
         return None

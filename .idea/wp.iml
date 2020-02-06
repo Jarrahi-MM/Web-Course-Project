@@ -97,10 +97,22 @@
       <excludeFolder url="file://$MODULE_DIR$/build" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
-    <orderEntry type="jdk" jdkName="Pipenv (Web-Course-Project)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.7 (Web-Course-Project)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="31911bf619" level="application" />
     <orderEntry type="library" name="semantic" level="application" />
+    <orderEntry type="library" name="modal" level="application" />
+    <orderEntry type="library" name="jquery-3.4.1" level="application" />
+    <orderEntry type="library" name="src-components-ComponentDoc.5ff8246d" level="application" />
+    <orderEntry type="library" name="main.63fa5f90" level="application" />
+    <orderEntry type="library" name="minified" level="application" />
+    <orderEntry type="library" name="anchor" level="application" />
+    <orderEntry type="library" name="babel" level="application" />
+    <orderEntry type="library" name="babel-preset-env" level="application" />
+    <orderEntry type="library" name="prop-types" level="application" />
+    <orderEntry type="library" name="CodeEditor.47068a90" level="application" />
+    <orderEntry type="library" name="src-pages-Introduction.8b8491c7" level="application" />
+    <orderEntry type="library" name="src-components-DocumentationPage.5a8dfae1" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />

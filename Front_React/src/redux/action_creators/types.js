@@ -17,3 +17,8 @@ export const APPEND_ALERTS = 'APPEND ALERTS';
 
 export const SET_TOKEN_USERNAME = 'SET TOKEN USERNAME'
 
+export const ADD_POST = 'ADD POST'
+
+export const OPEN_MODAL = 'OPEN MODAL'
+export const CLOSE_MODAL = 'CLOSE MODAL'
+
