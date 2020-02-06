@@ -39,8 +39,10 @@ class Channels(APIView):
             return Response('this channel Id doesnt exist', status=status.HTTP_400_BAD_REQUEST)
         if channel.owner.username != request.user.username:
             return Response("You Can't edit", status=status.HTTP_400_BAD_REQUEST)
-        channel.channelName = request.data['channelName']
-        channel.description = request.data['description']
+        if 'channelName' in request.data:
+            channel.channelName = request.data['channelName']
+        if 'description' in request.data:
+            channel.description = request.data['description']
         if 'block' in request.data:
             try:
                 blocking_user = User.objects.get(username=request.data['block'])
@@ -54,4 +56,4 @@ class Channels(APIView):
             except User.DoesNotExist:
                 return Response("Invalid Blocking Username", status=status.HTTP_400_BAD_REQUEST)
         channel.save()
-        return Response('channel created', status=status.HTTP_202_ACCEPTED)
+        return Response(ChannelSerializer(channel, many=False).data, status=status.HTTP_202_ACCEPTED)
