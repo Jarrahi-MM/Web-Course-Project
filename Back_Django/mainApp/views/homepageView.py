@@ -18,7 +18,7 @@ def homepage(request, tab_name):
     if checkpoint == 'null' or checkpoint is None:
         checkpoint = datetime.max
     else:
-        checkpoint = datetime.strptime(request.query_params.get('checkpoint'), date_time_formatter)
+        checkpoint = datetime.strptime(checkpoint, date_time_formatter)
     user = request.user
 
     if tab_name == 'FOLLOWED':
