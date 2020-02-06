@@ -4,6 +4,8 @@ import ProfilePicture from "./ProfilePicture";
 import ProfileDetails from "./ProfileDetails";
 import './profile.css'
 import {withCookies} from "react-cookie";
+import {connect} from "react-redux";
+import {openModal} from "../../redux/action_creators/modalActions";
 
 
 const avatars = ['https://image.freepik.com/free-vector/cartoon-monster-face-avatar-halloween-monster_6996-1164.jpg'
@@ -112,4 +114,4 @@ class Profile extends Component {
     }
 }
 
-export default withCookies(Profile);
+export default connect(null, {openModal})(withCookies(Profile));

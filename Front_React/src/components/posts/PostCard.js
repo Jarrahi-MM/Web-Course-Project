@@ -52,7 +52,11 @@ class PostCard extends Component {
     }
 
     onComment = () => {
+this.props.openModal('comment_create',{supCommentId:this.props.post.firstComment})
+    }
 
+    onEdit = () => {
+        this.props.openModal('post_edit',{channelId:this.props.channelId,postId:this.props.postNumber})
     }
 
     render() {
@@ -95,7 +99,7 @@ class PostCard extends Component {
                             </Button>
                             {
                                 username == post.creator.username ?
-                                    <Button onClick={this.onComment} basic animated='vertical'>
+                                    <Button onClick={this.onEdit} basic animated='vertical'>
                                         <Button.Content visible><Icon name={'edit outline'}/></Button.Content>
                                         <Button.Content hidden><small>Edit</small></Button.Content>
                                     </Button>

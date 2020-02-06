@@ -4,7 +4,6 @@
 //data: the text to post
 
 export const saveData = (editorState) => (dispatch, getState) => {
-    console.log(editorState.data)
     switch (editorState.action) {
         case 'comment_create':
             let url = new URL('http://localhost:8000/api1/comments/')
