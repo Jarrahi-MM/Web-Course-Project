@@ -45,7 +45,7 @@ class EditProfile extends Component {
                     this.setState({profile: res});
                 })
                 .catch(error => console.log(error));
-            fetch(`http://127.0.0.1:8000/api1/channels/${this.state.username}/`, {
+            fetch(`http://127.0.0.1:8000/api1/channel/${this.state.username}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Token ${this.state.token}`

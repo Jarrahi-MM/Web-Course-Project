@@ -40,7 +40,7 @@ class CreateChannel extends Component {
                 .then(window.location.href = window.location.origin + '/channel')
                 .catch(error => console.log(error))
         } else {
-            fetch(`http://127.0.0.1:8000/api1/channel/`, {
+            fetch(`http://127.0.0.1:8000/api1/channel/${this.props.channelId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

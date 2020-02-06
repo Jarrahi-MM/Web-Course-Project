@@ -35,7 +35,7 @@ class Profile extends Component {
     };
 
     componentDidMount() {
-        fetch(`http://127.0.0.1:8000/api1/channels/${this.props.username}/`, {
+        fetch(`http://127.0.0.1:8000/api1/channel/${this.props.username}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Token ${this.state.token}`
