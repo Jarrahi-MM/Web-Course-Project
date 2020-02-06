@@ -21,7 +21,7 @@ class Profile extends Component {
     state = {
         userInfo: [],
         proPicture: avatars[Math.floor(Math.random() * avatars.length)],
-        myAccount: true,
+        myAccount: false,
         following: true,
         token: this.props.cookies.get('myToken'),
         username: this.props.cookies.get('userName'),
@@ -35,7 +35,7 @@ class Profile extends Component {
     };
 
     componentDidMount() {
-        fetch(`http://127.0.0.1:8000/api1/channels/${this.props.username}/`, {
+        fetch(`http://127.0.0.1:8000/api1/channel/${this.props.username}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Token ${this.state.token}`

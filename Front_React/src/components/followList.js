@@ -9,10 +9,7 @@ class FollowList extends Component {
     };
 
     componentDidMount() {
-        console.log("fuck u ")
-        console.log(this.state.token)
         if (this.state.token) {
-            console.log("fuck u ")
             fetch(`http://127.0.0.1:8000/api1/channels/${this.props.username}/`, {
                 method: 'GET',
                 headers: {
@@ -20,8 +17,6 @@ class FollowList extends Component {
                 }
             }).then(response => response.json())
                 .then(res => {
-                    console.log(res)
-                    console.log(res.followers)
                     this.setState({followList: res.followers})
                 })
                 .catch(error => console.log(error))
