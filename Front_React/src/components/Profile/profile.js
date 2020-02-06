@@ -65,6 +65,13 @@ class Profile extends Component {
 
     }
 
+    createPostClicked = () => {
+        this.props.openModal(
+            'post_create',
+            {channelId:null}
+        )
+    }
+
 
     render() {
         return (
@@ -75,9 +82,9 @@ class Profile extends Component {
                                   className="circular ui icon big button settingsStyle">
                                 <i className="icon settings big"/>
                             </Link>
-                            <Link to={'/createPost'} className="circular ui icon big button settingsStyle">
+                            <div onClick={this.createPostClicked} className="circular ui icon big button settingsStyle">
                                 <i className="icon plus big"/>
-                            </Link>
+                            </div>
                             <Link to={'/channel'} className="circular ui icon big button settingsStyle">
                                 <i className="icon bullhorn big"/>
                             </Link>

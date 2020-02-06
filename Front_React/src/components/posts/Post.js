@@ -3,6 +3,8 @@ import {Comment, Button, Form} from 'semantic-ui-react'
 import PostCard from "./PostCard";
 import './Post.css'
 import render from 'html-react-parser'
+import {connect} from "react-redux";
+import {openModal} from "../../redux/action_creators/modalActions";
 
 class Post extends Component {
     constructor(probs) {
@@ -160,7 +162,10 @@ class Post extends Component {
 
     replyComment(comment) {
         return ((evt) => {
-            console.log("liked " + comment.id);
+            this.props.openModal(
+                'comment_create',
+                {supCommentId:comment.supComment}
+            )
         });
     }
 
@@ -245,4 +250,4 @@ class Post extends Component {
     }
 }
 
-export default Post;
+export default connect(null,{openModal})(Post);

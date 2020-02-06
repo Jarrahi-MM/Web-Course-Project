@@ -14,8 +14,9 @@ class Editor extends Component {
     //initialText: the initial html(when editing)
     state = {
         data: '',
-        editorIsLoading:true,
-        ...this.props
+        editorIsLoading: true,
+        ...this.props,
+        initialText: ''
     };
 
 
@@ -34,8 +35,8 @@ class Editor extends Component {
                         const data = editor.getData();
                         this.setState({data})
                     }}
-                    onInit={(editor)=>{
-                        this.setState({editorIsLoading:false})
+                    onInit={(editor) => {
+                        this.setState({editorIsLoading: false, initialText: this.props.initialText})
                     }}
                     config={{
                         cloudServices: {
@@ -45,19 +46,19 @@ class Editor extends Component {
                         placeholder: 'Type right here...'
                     }}
                 />
-                {this.state.editorIsLoading?
+                {this.state.editorIsLoading ?
                     <Placeholder>
-                        <Placeholder.Line />
-                        <Placeholder.Line />
-                        <Placeholder.Line />
-                        <Placeholder.Line />
-                        <Placeholder.Line />
+                        <Placeholder.Line/>
+                        <Placeholder.Line/>
+                        <Placeholder.Line/>
+                        <Placeholder.Line/>
+                        <Placeholder.Line/>
                     </Placeholder>
                     :
-                <div className={'text-center mt-3'}>
-                    <Button basic color='green' onClick={this.handleSave}>Save</Button>
-                    <Button basic color='red' onClick={this.props.closeModal}>Cancel</Button>
-                </div>
+                    <div className={'text-center mt-3'}>
+                        <Button basic color='green' onClick={this.handleSave}>Save</Button>
+                        <Button basic color='red' onClick={this.props.closeModal}>Cancel</Button>
+                    </div>
                 }
             </div>
         );
