@@ -46,6 +46,7 @@ class Channels(APIView):
         if 'block' in request.data:
             try:
                 blocking_user = User.objects.get(username=request.data['block'])
+                channel.followers.remove(blocking_user)
                 channel.blockedUsers.add(blocking_user)
             except User.DoesNotExist:
                 return Response("Invalid Blocking Username", status=status.HTTP_400_BAD_REQUEST)
@@ -55,5 +56,23 @@ class Channels(APIView):
                 channel.blockedUsers.remove(unblocking_user)
             except User.DoesNotExist:
                 return Response("Invalid Blocking Username", status=status.HTTP_400_BAD_REQUEST)
+        if 'addToContributors' in request.data:
+            try:
+                add_contributor_user = User.objects.get(username=request.data['addToContributors'])
+                channel.contributors.add(add_contributor_user)
+            except User.DoesNotExist:
+                return Response("Invalid addToContributors Username", status=status.HTTP_400_BAD_REQUEST)
+        if 'removeFromContributors' in request.data:
+            try:
+                remove_contributor_user = User.objects.get(username=request.data['removeFromContributors'])
+                channel.contributors.remove(remove_contributor_user)
+            except User.DoesNotExist:
+                return Response("Invalid removeFromContributors Username", status=status.HTTP_400_BAD_REQUEST)
+        if 'removeFromFollowers' in request.data:
+            try:
+                remove_follower_user = User.objects.get(username=request.data['removeFromFollowers'])
+                channel.blockedUsers.remove(remove_follower_user)
+            except User.DoesNotExist:
+                return Response("Invalid removeFromFollowers Username", status=status.HTTP_400_BAD_REQUEST)
         channel.save()
         return Response(ChannelSerializer(channel, many=False).data, status=status.HTTP_202_ACCEPTED)
