@@ -5,6 +5,7 @@ import './Post.css'
 import render from 'html-react-parser'
 import {connect} from "react-redux";
 import {openModal} from "../../redux/action_creators/modalActions";
+import TimeAgo from "react-timeago/lib";
 
 class Post extends Component {
     constructor(probs) {
@@ -197,7 +198,8 @@ class Post extends Component {
                     <Comment.Author as='a'>{comment.username + ' ID:' + comment.id}</Comment.Author>
                     <Comment.Metadata>
                         <div>{'Likes:' + comment.likesNum}</div>
-                        <div>{'Date:' + comment.creationDate}</div>
+                        Time: <TimeAgo date={comment.creationDate}/>
+                        {/*<div>{'Date:' + comment.creationDate}</div>*/}
                     </Comment.Metadata>
                     <Comment.Text>{comment.text /*Todo Amir*/}</Comment.Text>
                     <Comment.Actions>

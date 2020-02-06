@@ -1,4 +1,4 @@
-import {APPEND_CHANNEL_POSTS} from "../action_creators/types";
+import {APPEND_CHANNEL_POSTS, CHANNEL_HOLD_ON, CLEAR_CHANNEL_POSTS} from "../action_creators/types";
 
 const initState = {
     posts: [],
@@ -12,8 +12,17 @@ const channelReducer = (state = initState, action) => {
             return {
                 ...state,
                 ...action.payload,
-                alerts: [...state.posts,...action.payload.posts]
+                posts: [...state.posts,...action.payload.posts]
             };
+        case CLEAR_CHANNEL_POSTS:
+            return {
+                ...initState
+            }
+        case CHANNEL_HOLD_ON:
+            return {
+                ...state,
+                hasMoreItems: false
+            }
         default:
             return state
     }
