@@ -22,3 +22,4 @@ export const ADD_POST = 'ADD POST'
 export const OPEN_MODAL = 'OPEN MODAL'
 export const CLOSE_MODAL = 'CLOSE MODAL'
 
+export const APPEND_CHANNEL_POSTS = 'APPEND CHANNEL POSTS'

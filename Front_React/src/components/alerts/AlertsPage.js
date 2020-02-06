@@ -4,7 +4,7 @@ import InfiniteScroll from "react-infinite-scroller";
 import AlertItem from "./AlertItem";
 import {connect} from "react-redux";
 import nextId from "react-id-generator";
-import {loadMoreItems} from "../../redux/action_creators/alertActions";
+import {loadMoreAlerts} from "../../redux/action_creators/alertActions";
 
 class AlertsPage extends Component {
     render() {
@@ -29,7 +29,7 @@ class AlertsPage extends Component {
     }
 
     loadMore() {
-        this.props.loadMoreItems()
+        this.props.loadMoreAlerts()
     }
 
     getLoaderComponent() {
@@ -44,4 +44,4 @@ const mapStateToProps = (state) => ({
     alerts: state.alerts.alerts
 })
 
-export default connect(mapStateToProps, {loadMoreItems})(AlertsPage);
+export default connect(mapStateToProps, {loadMoreAlerts})(AlertsPage);
