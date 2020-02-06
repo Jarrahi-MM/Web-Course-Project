@@ -35,7 +35,7 @@ const fake_alerts = {
     hasMoreItems: true
 };
 
-export const loadMoreItems = () => (dispatch, getState) => {
+export const loadMoreAlerts = () => (dispatch, getState) => {
     let url = new URL('http://127.0.0.1:8000/api1/alerts/all')
     url.search = new URLSearchParams({'checkpoint': getState().alerts.checkpoint}).toString()
     fetch(url,{

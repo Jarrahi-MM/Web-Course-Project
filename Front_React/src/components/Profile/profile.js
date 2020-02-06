@@ -6,6 +6,11 @@ import './profile.css'
 import {withCookies} from "react-cookie";
 import {connect} from "react-redux";
 import {openModal} from "../../redux/action_creators/modalActions";
+import {Loader} from "semantic-ui-react";
+import nextId from "react-id-generator";
+import InfiniteScroll from "react-infinite-scroller";
+import PostCard from "../posts/PostCard";
+import {loadMoreChannelPosts} from "../../redux/action_creators/channelActions";
 
 
 const avatars = ['https://image.freepik.com/free-vector/cartoon-monster-face-avatar-halloween-monster_6996-1164.jpg'
@@ -24,7 +29,7 @@ class Profile extends Component {
         userInfo: [],
         proPicture: avatars[Math.floor(Math.random() * avatars.length)],
         myAccount: false,
-        following: true,
+        following: false,
         token: this.props.cookies.get('myToken'),
         username: this.props.cookies.get('userName'),
         channels: []
@@ -32,8 +37,24 @@ class Profile extends Component {
 
     followClicked = followed => {
         this.setState({following: followed});
-        console.log(this.state.token);
-        console.log(this.state.username)
+        let channelToFollow = [];
+        if (followed) {
+            channelToFollow['follow'] = this.props.username;
+        }else {
+            channelToFollow['unfollow'] = this.props.username;
+        }
+        fetch(`http://127.0.0.1:8000/api1/profiles/${this.state.username}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${this.state.token}`
+            },
+            body: JSON.stringify(channelToFollow)
+        }).then(response => response.json())
+            .then(resp => {
+                console.log(resp)
+            })
+            .catch(error => console.log(error))
     };
 
     componentDidMount() {
@@ -68,9 +89,9 @@ class Profile extends Component {
     createPostClicked = () => {
         this.props.openModal(
             'post_create',
-            {channelId:null}
+            {channelId: null}
         )
-    }
+    };
 
 
     render() {
@@ -114,11 +135,39 @@ class Profile extends Component {
                     <hr/>
                     <h3>{this.state.userInfo.description}</h3>
                     <hr/>
-                    <h3>posts</h3>
+                    <div>
+                        <InfiniteScroll
+                            loadMore={() => this.loadMore()}
+                            hasMore={this.props.hasMoreItems}
+                            loader={this.getLoaderComponent()}>
+
+                            {this.props.posts.map(post => {
+                                return (
+                                    <PostCard channelId={post.channel} postNumber={post.postNumber} key={nextId()}/>
+                                )
+                            })}
+
+                        </InfiniteScroll>
+                    </div>
                 </div>
             </div>
         );
     }
+
+    loadMore() {
+        this.props.loadMoreChannelPosts(/*this.props.channelId*/'jarrahi1')
+    }
+
+    getLoaderComponent() {
+        return (
+            <Loader key={-1} active inline={"centered"}/>
+        )
+    }
 }
 
-export default connect(null, {openModal})(withCookies(Profile));
+const mapStateToProps = (state) => ({
+    hasMoreItems: state.channel.hasMoreItems,
+    posts: state.channel.posts
+});
+
+export default connect(mapStateToProps, {openModal,loadMoreChannelPosts})(withCookies(Profile));
