@@ -9,10 +9,10 @@ const fake_channels = [
 const fake_unread_alerts_count = 2;
 
 export const loadChannels = () => (dispatch, state) => {
-   /* let url = new URL('http://127.0.0.1:8000/api1/profiles/' + state().auth.username);
+    let url = new URL('http://127.0.0.1:8000/api1/profiles/' + state().auth.username);
     fetch(url, {
             headers: {
-                'Authorization': `Token ${state().auth.authorization}`
+                'Authorization': state().auth.authorization
             }
         }
     ).then(function (resp) {
@@ -25,7 +25,7 @@ export const loadChannels = () => (dispatch, state) => {
                 })
             })
         }
-    })*/
+    })
     // dispatch({
     //     type: STORE_CHANNELS,
     //     payload: fake_channels,
@@ -65,11 +65,4 @@ export const setUnreadAlerts = () => (dispatch, state) => {
     //     type: UNREAD_ALERTS_COUNT,
     //     payload: fake_unread_alerts_count
     // })
-};
-
-export const readAllAlerts = () => (dispatch, state) => {
-    dispatch({
-        type: UNREAD_ALERTS_COUNT,
-        payload: 0
-    })
 };

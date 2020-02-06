@@ -22,7 +22,7 @@ margin-right: 3%;
 class Navbar extends Component {
     componentDidMount() {
         this.props.setUnreadAlerts()
-        //setInterval(this.props.setUnreadAlerts,2000)
+        // setInterval(this.props.setUnreadAlerts, 2000)
     }
 
     onAlertsClick = (e) => {
@@ -30,7 +30,7 @@ class Navbar extends Component {
     };
 
     onProfileClick = (e) => {
-        this.props.history.push('/profile/'+this.props.username)
+        this.props.history.push('/profile/' + this.props.username)
     };
 
     onSmallSearchClick = (e) => {
@@ -44,7 +44,7 @@ class Navbar extends Component {
                     <div className="container-lg">
                         <div className={'text-center'}>
                             <Link to={'/'} className="navbar-brand">
-                                <MediaQuery minWidth={750}>
+                                <MediaQuery minWidth={770}>
                                     <Img src={logo} alt={'website logo'}/>
                                     Project
                                 </MediaQuery>
@@ -82,7 +82,7 @@ class Navbar extends Component {
                     <div className="container-lg">
                         <div className={'text-center'}>
                             <Link to={'/'} className="navbar-brand">
-                                <MediaQuery minWidth={750}>
+                                <MediaQuery minWidth={770}>
                                     <Img src={logo} alt={'website logo'}/>
                                     Project
                                 </MediaQuery>
@@ -126,4 +126,4 @@ const mapStateToProps = (state) => ({
     unreadAlerts: state.navbar.unreadAlerts,
 });
 
-export default withRouter(connect(mapStateToProps,{setUnreadAlerts})(Navbar));
+export default withRouter(connect(mapStateToProps, {setUnreadAlerts})(Navbar));

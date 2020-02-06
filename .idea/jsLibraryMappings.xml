@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="PROJECT" libraries="{31911bf619, semantic}" />
+    <file url="PROJECT" libraries="{31911bf619, CodeEditor.47068a90, anchor, babel, babel-preset-env, jquery-3.4.1, main.63fa5f90, minified, modal, prop-types, semantic, src-components-ComponentDoc.5ff8246d, src-components-DocumentationPage.5a8dfae1, src-pages-Introduction.8b8491c7}" />
   </component>
 </project>
