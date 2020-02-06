@@ -28,35 +28,47 @@ class PostCard extends Component {
     }
 
     onLike = () => {
-        console.log(this.props.token);
-        // return ((evt) => {
-        //     fetch('http://127.0.0.1:8000/api1/postLikes/', {
-        //         method: 'PUT',
-        //         headers: {
-        //             'Authorization': this.props.token,
-        //             'Accept': 'application/json',
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify({channelId: this.props.channelId, postNumber, this.props.postNumber, value: '1'})
-        //     })
-        //         .then(resp => resp.json())
-        //         .then(resp => {
-        //             this.updateComment(resp);
-        //         })
-        //         .catch(e => console.log(e))
-        // });
+        fetch('http://127.0.0.1:8000/api1/postLikes/', {
+            method: 'PUT',
+            headers: {
+                'Authorization': this.props.token,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({channelId: this.props.channelId, postNumber: this.props.postNumber, value: '1'})
+        })
+            .then(resp => resp.json())
+            .then(resp => {
+                //console.log(resp); Fuck Redux
+                this.props.loadPost(this.props.channelId, this.props.postNumber)
+            })
+            .catch(e => console.log(e))
     }
 
     onDislike = () => {
-
+        fetch('http://127.0.0.1:8000/api1/postLikes/', {
+            method: 'PUT',
+            headers: {
+                'Authorization': this.props.token,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({channelId: this.props.channelId, postNumber: this.props.postNumber, value: '2'})
+        })
+            .then(resp => resp.json())
+            .then(resp => {
+                //console.log(resp); Fuck Redux
+                this.props.loadPost(this.props.channelId, this.props.postNumber)
+            })
+            .catch(e => console.log(e))
     }
 
     onComment = () => {
-this.props.openModal('comment_create',{supCommentId:this.props.post.firstComment})
+        this.props.openModal('comment_create', {supCommentId: this.props.post.firstComment})
     }
 
     onEdit = () => {
-        this.props.openModal('post_edit',{channelId:this.props.channelId,postId:this.props.postNumber})
+        this.props.openModal('post_edit', {channelId: this.props.channelId, postId: this.props.postNumber})
     }
 
     render() {
