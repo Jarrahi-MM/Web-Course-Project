@@ -24,9 +24,11 @@ class App extends Component {
         };
     }
 
+
     componentDidMount() {
         this.props.loadTokenAndUsernameFromCookies(this.props.cookies);
-        // console.log(this.state.token);
+        if ((!this.state.token || this.state.token.length < 15) && !window.location.href.endsWith('login'))
+            window.location.href = window.location.origin + '/login';
     }
 
     render() {
