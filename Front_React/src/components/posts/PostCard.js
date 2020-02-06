@@ -17,7 +17,7 @@ class PostCard extends Component {
     }
     constructor(props) {
         super(props)
-        props.loadPost(/*this.props.channelId, this.props.postNumber*/'jarrahi1', 21)
+        props.loadPost(this.props.channelId, this.props.postNumber)
     }
 
     shareOnClick = () => {
@@ -42,7 +42,7 @@ class PostCard extends Component {
         if (post) {
             return (
                 <div>
-                    <div className={'shadow rounded m-3 container border p-3'}>
+                    <div className={'shadow rounded mb-5 container border p-3 overflow-hidden'}>
                         <Link to={`/${post.channel}/${post.postNumber}`}><h3>{post.postTitle}</h3></Link>
                         posted by <Link to={`/profile/${post.creator.username}`}>{post.creator.username}</Link>
                         <small className={'text-secondary ml-2'}><TimeAgo date={post.creationDate}/></small>
@@ -93,7 +93,7 @@ class PostCard extends Component {
 
 function mapStateToProps(state, ownProps) {
     return {
-        post: state.posts.posts[[/*ownProps.channelId,ownProps.postNumber*/'jarrahi1', 21]],
+        post: state.posts.posts[[ownProps.channelId,ownProps.postNumber]],
         username: state.auth.username
     };
 }

@@ -8,9 +8,10 @@ const postReducer = (state = initState, action) => {
     switch (action.type) {
         case ADD_POST:
             let ch_p_key = [action.payload.channel, action.payload.postNumber].toString();
+            console.log(state)
             return {
                 posts: {
-                    ...state,
+                    ...state.posts,
                     [ch_p_key]: action.payload
                 }
             };
