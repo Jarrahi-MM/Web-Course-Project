@@ -28,7 +28,7 @@ class PostCard extends Component {
     }
 
     onLike = () => {
-        console.log(this.state.token);
+        console.log(this.props.token);
         // return ((evt) => {
         //     fetch('http://127.0.0.1:8000/api1/postLikes/', {
         //         method: 'PUT',
