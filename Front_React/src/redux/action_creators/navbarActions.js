@@ -66,10 +66,3 @@ export const setUnreadAlerts = () => (dispatch, state) => {
     //     payload: fake_unread_alerts_count
     // })
 };
-
-export const readAllAlerts = () => (dispatch, state) => {
-    dispatch({
-        type: UNREAD_ALERTS_COUNT,
-        payload: 0
-    })
-};

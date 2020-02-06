@@ -12,6 +12,11 @@ import {connect} from "react-redux";
 import {loadTokenAndUsernameFromCookies} from "./redux/action_creators/authActions";
 import Channel from "./components/channel/channel";
 import CreateChannel from "./components/channel/createChannel";
+import Editor from "./components/posts/Editor";
+import PostCard from "./components/posts/PostCard";
+import EditorModal from "./components/posts/EditorModal";
+import {Button} from "semantic-ui-react";
+import {openModal} from "./redux/action_creators/modalActions";
 
 
 class App extends Component {
@@ -33,6 +38,7 @@ class App extends Component {
                 <CookiesProvider>
                     <Route path={'/'}>
                         <Navbar/>
+                        <EditorModal/>
                     </Route>
                     <Route path={'/login'}>
                         <Login/>
@@ -74,6 +80,21 @@ class App extends Component {
                         <Route path={'/alerts'}>
                             <AlertsPage/>
                         </Route>
+
+                        <Route path={'/fortest_editor'}>
+                            <Editor/>
+                        </Route>
+                        <Route path={'/fortest_postcard'}>
+                            <PostCard/>
+                        </Route>
+                        <Route path={'/fortest_modal'}>
+                            <Button
+                                onClick={()=>this.props.openModal(
+                                    'comment_create',
+                                    {supCommentId:25},
+                                )}
+                            >hiie</Button>
+                        </Route>,
                     </Switch>
                 </CookiesProvider>
             </BrowserRouter>
@@ -84,7 +105,6 @@ class App extends Component {
 
 const mapStateToProps = (state) => ({
     token : state.auth.authorization,
-
 })
 
-export default connect(mapStateToProps,{loadTokenAndUsernameFromCookies})(withCookies(App));
+export default connect(mapStateToProps,{loadTokenAndUsernameFromCookies,openModal})(withCookies(App));

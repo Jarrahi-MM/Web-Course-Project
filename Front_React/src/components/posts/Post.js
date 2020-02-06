@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Comment} from 'semantic-ui-react'
 import './Post.css'
-import InfiniteScroll from 'react-infinite-scroll-component';
 
 // function processComment(props, comment) {
 //     if (!comment.id.startsWith(props.startingId))
