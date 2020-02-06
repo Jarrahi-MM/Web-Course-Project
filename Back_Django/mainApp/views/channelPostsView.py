@@ -12,8 +12,7 @@ from ..serializers import ChannelPostsViewSerializer
 
 @api_view()
 @permission_classes((permissions.IsAuthenticated,))
-def channel_posts(request,channel_id):
-    user = request.user
+def channel_posts(request, channel_id):
     checkpoint = request.query_params.get('checkpoint')
     if checkpoint == 'null' or checkpoint is None:
         checkpoint = datetime.max
@@ -31,6 +30,7 @@ def channel_posts(request,channel_id):
     else:
         new_checkpoint = None
 
+    print(checkpoint, new_checkpoint, has_more_items)
     serializer = ChannelPostsViewSerializer({
         'posts': post_list,
         'checkpoint': new_checkpoint,
