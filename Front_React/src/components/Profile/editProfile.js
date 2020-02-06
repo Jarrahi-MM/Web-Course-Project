@@ -1,18 +1,25 @@
 import React, {Component} from "react";
 import EditProfilePic from "./editProfilePic";
 import EditUserProfileForm from "./editUserProfileForm";
-import EditChannel from "./editChannel";
+import EditChannel from "../channel/editChannel";
 import {withCookies} from "react-cookie";
+import ChangePassword from "./changePassword";
 
 const containStyle = {
     position: 'relative',
     top: '30px'
 };
 
+const contain2Style = {
+    position: 'relative',
+    top: '30px',
+    bottom: '30px',
+    marginBottom: '50px'
+};
+
 class EditProfile extends Component {
 
     state = {
-        isNotChannel: true,
         token: this.props.cookies.get('myToken'),
         username: this.props.cookies.get('userName'),
         profile: {
@@ -22,7 +29,8 @@ class EditProfile extends Component {
             phoneNum: ""
         },
         channel: {},
-        pressed: false
+        pressed: false,
+        isNotChannel: true,
     };
 
     componentDidMount() {
@@ -37,7 +45,7 @@ class EditProfile extends Component {
                     this.setState({profile: res});
                 })
                 .catch(error => console.log(error));
-            fetch(`http://127.0.0.1:8000/api1/channels/${this.state.username}/`, {
+            fetch(`http://127.0.0.1:8000/api1/channel/${this.state.username}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Token ${this.state.token}`
@@ -45,7 +53,11 @@ class EditProfile extends Component {
             }).then(response => response.json())
                 .then(res => {
                     this.setState({channel: res})
-                })
+                }).then(re => {
+                if (this.state.username !== this.props.username) {
+                    this.setState({isNotChannel: false})
+                }
+            })
                 .catch(error => console.log(error))
 
         } else {
@@ -68,20 +80,24 @@ class EditProfile extends Component {
                             (<div>
                                 <h4 className="ui dividing header">Personal Information</h4>
                                 <EditProfilePic/>
+                                <div className="ui vertical labeled icon buttons" style={contain2Style}>
+                                    <button className="ui button" onClick={this.togglePressed}>
+                                        <i className="settings icon"/>
+                                        {this.state.pressed ?
+                                            <span>change password</span> :
+                                            <span>change profile information</span>
+                                        }
+                                    </button>
+                                </div>
                                 {this.state.pressed ?
                                     <EditUserProfileForm profileInfo={this.state.profile}
                                                          token={this.state.token}
                                                          username={this.state.username}
                                                          channelInfo={this.state.channel}/> :
-                                    <div className="ui vertical labeled icon buttons" style={containStyle}>
-                                        <button className="ui button" onMouseEnter={this.togglePressed}>
-                                            <i className="settings icon"/>
-                                            view profile details
-                                        </button>
-                                    </div>
+                                    <ChangePassword/>
                                 }
                             </div>) :
-                            <EditChannel/>
+                            <EditChannel channelId={this.props.username}/>
                         }
 
                     </div>

@@ -9,6 +9,7 @@ class Channel(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name='owningChannels')
     contributors = models.ManyToManyField(User, blank=True, related_name='contributedChannels')
     followers = models.ManyToManyField(User, blank=True, related_name='followings')
+    blockedUsers = models.ManyToManyField(User, blank=True)
     followersNum = models.IntegerField(default=0)
     followingsNum = models.IntegerField(default=0)
     postsNum = models.IntegerField(default=0)

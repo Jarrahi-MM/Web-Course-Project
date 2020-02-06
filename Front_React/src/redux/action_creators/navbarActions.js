@@ -12,7 +12,7 @@ export const loadChannels = () => (dispatch, state) => {
     let url = new URL('http://127.0.0.1:8000/api1/profiles/' + state().auth.username);
     fetch(url, {
             headers: {
-                'Authorization': `Token ${state().auth.authorization}`
+                'Authorization': state().auth.authorization
             }
         }
     ).then(function (resp) {

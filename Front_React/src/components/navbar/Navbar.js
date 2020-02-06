@@ -30,7 +30,7 @@ class Navbar extends Component {
     };
 
     onProfileClick = (e) => {
-        this.props.history.push('/users/' + this.props.username)
+        this.props.history.push('/profile/' + this.props.username)
     };
 
     onSmallSearchClick = (e) => {
