@@ -10,6 +10,7 @@ class EditChannelContributors extends Component {
         channel: this.props.channel,
         contributor: '',
         token: this.props.cookies.get('myToken'),
+        removeThisGuy: '',
     };
 
     newContributorAdded = event => {
@@ -36,8 +37,23 @@ class EditChannelContributors extends Component {
             .catch(error => console.log(error))
     };
 
-    deleteClicked = ev => {
-
+    deleteClicked = thisGuy => {
+        let channel = this.state.channel;
+        channel['removeFromContributors'] = thisGuy;
+        this.setState({channel: channel});
+        fetch(`http://127.0.0.1:8000/api1/channel/${this.props.channelId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${this.state.token}`
+            },
+            body: JSON.stringify(this.state.channel)
+        }).then(response => response.json())
+            .then(resp => {
+                this.setState({channel: resp});
+                console.log(channel)
+            })
+            .catch(error => console.log(error))
     };
 
     render() {
@@ -63,7 +79,8 @@ class EditChannelContributors extends Component {
                                     <span>{contributor.username}</span>
                                 </button>
                             </Link>
-                            <i className="red icon big trash alternate" onClick={this.deleteClicked}/>
+                            <i className="red icon big trash alternate"
+                               onClick={() => this.deleteClicked(contributor.username)}/>
                             <br/>
                             <br/>
                         </div>
