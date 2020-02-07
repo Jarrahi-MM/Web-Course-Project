@@ -6,11 +6,11 @@ from .models import Comment, Alert, Channel
 
 @receiver(m2m_changed, sender=Channel.followers.through, dispatch_uid='in_new_follow')
 def on_new_follow(sender, instance, model, **kwargs):
-    if instance.isPersonal:
+    if model.isPersonal:
         Alert.objects.create(
             is_comment=False,
-            user=instance.creator,
-            by_user=model,
+            user=model.creator,
+            by_user=instance,
         )
 
 
