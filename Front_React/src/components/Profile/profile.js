@@ -30,6 +30,7 @@ class Profile extends Component {
         userInfo: [],
         proPicture: avatars[Math.floor(Math.random() * avatars.length)],
         myAccount: false,
+        isContributor: false,
         following: false,
         token: this.props.cookies.get('myToken'),
         username: this.props.cookies.get('userName'),
@@ -42,7 +43,7 @@ class Profile extends Component {
         let channelToFollow = [];
         if (followed) {
             channelToFollow['follow'] = this.props.username;
-        }else {
+        } else {
             channelToFollow['unfollow'] = this.props.username;
         }
         fetch(`http://127.0.0.1:8000/api1/profiles/${this.state.username}/`, {
@@ -60,6 +61,10 @@ class Profile extends Component {
     };
 
     componentDidMount() {
+        this.fetchProfileAndSetState()
+    }
+
+    fetchProfileAndSetState = () => {
         fetch(`http://127.0.0.1:8000/api1/channel/${this.props.username}`, {
             method: 'GET',
             headers: {
@@ -68,6 +73,11 @@ class Profile extends Component {
         }).then(response => response.json())
             .then(res => {
                 this.setState({userInfo: res})
+                for (let i in res.contributors) {
+                    if (res.contributors[i].username === this.state.username) {
+                        this.setState({isContributor: true})
+                    }
+                }
             })
             .catch(error => console.log(error));
 
@@ -91,6 +101,7 @@ class Profile extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.username !== this.props.username) {
+            this.fetchProfileAndSetState()
             this.props.mountedChannel(this.props.username)
             this.props.clearChannels()
         }
@@ -112,17 +123,23 @@ class Profile extends Component {
         return (
             <div className="containStyle">
                 <div className="ui piled raised very padded container segment">
-                    {this.state.myAccount ? (<div>
-                            <Link to={`/editProfile/${this.props.username}`}
-                                  className="circular ui icon big button settingsStyle">
-                                <i className="icon settings big"/>
-                            </Link>
+                    {(this.state.myAccount || this.state.isContributor) ? (<div>
                             <div onClick={this.createPostClicked} className="circular ui icon big button settingsStyle">
                                 <i className="icon plus big"/>
                             </div>
+                            {this.state.myAccount ?
+                                (<span>
+                                      <Link to={`/editProfile/${this.props.username}`}
+                                            className="circular ui icon big button settingsStyle">
+                                <i className="icon settings big"/>
+                            </Link>
                             <Link to={'/channel'} className="circular ui icon big button settingsStyle">
                                 <i className="icon bullhorn big"/>
                             </Link>
+                                </span>)
+                                : <span/>
+                            }
+
                         </div>) :
                         (
                             <div>

@@ -64,7 +64,7 @@ class PostCard extends Component {
     }
 
     onComment = () => {
-        this.props.openModal('comment_create', {supCommentId: this.props.post.firstComment})
+        this.props.openModal('comment_create', {supCommentId: this.props.post.firstComment.id})
     }
 
     onEdit = () => {
