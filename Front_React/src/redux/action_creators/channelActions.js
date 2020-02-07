@@ -1,5 +1,7 @@
-import {APPEND_ALERTS, APPEND_CHANNEL_POSTS, APPEND_POSTS, FOLLOWED_TAB, HOTTEST_TAB} from "./types";
-import _ from 'lodash'
+import {
+    APPEND_CHANNEL_POSTS,
+    CHANNEL_HOLD_ON, CLEAR_CHANNEL_POSTS
+} from "./types";
 
 const fake_posts = {
     posts: [
@@ -13,9 +15,13 @@ const fake_posts = {
 };
 
 export const loadMoreChannelPosts = (channelId) => (dispatch, getState) => {
-    let url = new URL('http://127.0.0.1:8000/api1/posts/'+channelId)
-    url.search = new URLSearchParams({'checkpoint': getState().alerts.checkpoint}).toString()
-    fetch(url,{
+    dispatch({ //cause this infinite scroller doesn't trust me, keeps calling load more.
+        type:CHANNEL_HOLD_ON
+    })
+
+    let url = new URL('http://127.0.0.1:8000/api1/posts/' + channelId)
+    url.search = new URLSearchParams({'checkpoint': getState().channel.checkpoint}).toString()
+    fetch(url, {
         headers: {
             'Authorization': getState().auth.authorization
         }
@@ -30,3 +36,9 @@ export const loadMoreChannelPosts = (channelId) => (dispatch, getState) => {
         }
     });
 };
+
+export const clearChannels = () => (dispatch,getState) => {
+    dispatch({
+        type: CLEAR_CHANNEL_POSTS
+    })
+}

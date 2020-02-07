@@ -10,13 +10,13 @@ class Searchbox extends Component {
     handleResultSelect = (e, {result}) => {
         switch (result.group) {
             case "c":
-                this.props.history.push('/channels/' + result.id)
+                this.props.history.push('/profile/' + result.id)
                 break
             case "p":
-                this.props.history.push('/posts/' + result.channelid + '/' + result.id)
+                this.props.history.push('/post/' + result.channelid + '/' + result.id)
                 break
             case "u":
-                this.props.history.push('/profiles/' + result.title)
+                this.props.history.push('/profile/' + result.title)
                 break
         }
         this.setState({value: ''})

@@ -6,7 +6,7 @@ import {loadChannels} from "../../redux/action_creators/navbarActions";
 
 class ChannelDD extends Component {
     onChannelClick = (name) => {
-        this.props.history.push('/channels/' + name)
+        this.props.history.push('/profile/' + name)
     };
 
     onHomeClick = () => {

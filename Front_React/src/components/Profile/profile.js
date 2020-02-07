@@ -10,7 +10,8 @@ import {Loader} from "semantic-ui-react";
 import nextId from "react-id-generator";
 import InfiniteScroll from "react-infinite-scroller";
 import PostCard from "../posts/PostCard";
-import {loadMoreChannelPosts} from "../../redux/action_creators/channelActions";
+import {clearChannels, loadMoreChannelPosts} from "../../redux/action_creators/channelActions";
+import {mountedChannel, unmountedChannel} from "../../redux/action_creators/navbarActions";
 
 
 const avatars = ['https://image.freepik.com/free-vector/cartoon-monster-face-avatar-halloween-monster_6996-1164.jpg'
@@ -33,7 +34,8 @@ class Profile extends Component {
         following: false,
         token: this.props.cookies.get('myToken'),
         username: this.props.cookies.get('userName'),
-        channels: []
+        channels: [],
+        identity: null
     };
 
     followClicked = followed => {
@@ -90,12 +92,24 @@ class Profile extends Component {
             })
             .catch(error => console.log(error));
 
+        this.props.mountedChannel(this.props.username)
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.username !== this.props.username) {
+            this.props.mountedChannel(this.props.username)
+            this.props.clearChannels()
+        }
+    }
+
+    componentWillUnmount() {
+        this.props.unmountedChannel()
     }
 
     createPostClicked = () => {
         this.props.openModal(
             'post_create',
-            {channelId: null}
+            {channelId: this.props.username}
         )
     };
 
@@ -167,7 +181,7 @@ class Profile extends Component {
     }
 
     loadMore() {
-        this.props.loadMoreChannelPosts(/*this.props.channelId*/'jarrahi1')
+        this.props.loadMoreChannelPosts(this.props.username)
     }
 
     getLoaderComponent() {
@@ -182,4 +196,10 @@ const mapStateToProps = (state) => ({
     posts: state.channel.posts
 });
 
-export default connect(mapStateToProps, {openModal, loadMoreChannelPosts})(withCookies(Profile));
+export default connect(mapStateToProps, {
+    openModal,
+    loadMoreChannelPosts,
+    mountedChannel,
+    unmountedChannel,
+    clearChannels
+})(withCookies(Profile));

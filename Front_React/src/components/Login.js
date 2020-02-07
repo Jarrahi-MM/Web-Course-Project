@@ -36,16 +36,17 @@ class Login extends Component {
             body: JSON.stringify(this.state.loginCredentials)
         }).then(response => response.json())
             .then(response => {
-                this.props.cookies.set('myToken', response.token);
-                this.props.cookies.set('userName', this.state.loginCredentials.username);
-                if (response.token){
+                if (response.token) {
+                    this.props.cookies.set('myToken', response.token);
+                    this.props.cookies.set('userName', this.state.loginCredentials.username);
                     this.props.loadTokenAndUsernameFromCookies(this.props.cookies);
                     window.location.href = window.location.origin + '/';
-                }
-                else {
+                } else {
                     this.setState({loginError: "Unable to login"});
                     this.setState({signUpError: ""});
-                    console.log(response);
+                    this.props.cookies.set('myToken', '');
+                    this.props.cookies.set('userName', '');
+                    this.props.loadTokenAndUsernameFromCookies(this.props.cookies);
                 }
             })
             .catch(error => {
@@ -64,13 +65,15 @@ class Login extends Component {
             body: JSON.stringify(this.state.signUpCredentials)
         }).then(response => response.json())
             .then(response => {
-                this.props.cookies.set('myToken', response.token);
-                this.props.cookies.set('userName', this.state.signUpCredentials.username);
-                if (response.token)
+                if (response.token) {
+                    this.props.cookies.set('myToken', response.token);
+                    this.props.cookies.set('userName', this.state.signUpCredentials.username);
                     window.location.href = window.location.origin + '/';
-                else {
+                } else {
                     this.setState({loginError: ""});
                     this.setState({signUpError: "Not Valid"});
+                    this.props.cookies.set('myToken', '');
+                    this.props.cookies.set('userName', '');
                 }
             })
             .catch(error => {
@@ -168,4 +171,4 @@ class Login extends Component {
 
 }
 
-export default connect(null,{loadTokenAndUsernameFromCookies})(withCookies(Login));
+export default connect(null, {loadTokenAndUsernameFromCookies})(withCookies(Login));

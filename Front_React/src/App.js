@@ -18,6 +18,7 @@ import EditorModal from "./components/posts/EditorModal";
 import {Button} from "semantic-ui-react";
 import {openModal} from "./redux/action_creators/modalActions";
 import FollowList from "./components/followList";
+import EditProfilePic from "./components/Profile/editProfilePic";
 
 
 class App extends Component {
@@ -89,6 +90,7 @@ class App extends Component {
                             <AlertsPage/>
                         </Route>
 
+
                         <Route path={'/fortest_editor'}>
                             <Editor/>
                         </Route>
@@ -102,7 +104,10 @@ class App extends Component {
                                     {supCommentId:25},
                                 )}
                             >hiie</Button>
-                        </Route>,
+                        </Route>
+                        <Route path={'/fortest_epp'}>
+                            <EditProfilePic/>
+                        </Route>
                     </Switch>
                 </CookiesProvider>
             </BrowserRouter>
