@@ -18,7 +18,6 @@ class PostCard extends Component {
     }
 
     constructor(props) {
-        console.log(props)
         super(props)
         props.loadPost(this.props.channelId, this.props.postNumber)
     }

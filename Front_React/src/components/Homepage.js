@@ -87,7 +87,6 @@ class Homepage extends Component {
     }
 
     inTabComponent() {
-        // console.log(this.props.postObjs)
         return (
             <InfiniteScroll
                 loadMore={() => this.loadMore()}

@@ -3,15 +3,16 @@ import {Feed} from "semantic-ui-react";
 import TimeAgo from "react-timeago/lib";
 import {Link} from "react-router-dom";
 import _ from 'lodash'
+import render from 'html-react-parser'
 
 class AlertItem extends Component {
     render() {
         let {alert} = this.props;
 
         if (alert.isComment){
-            return this.generateFollowAlert(alert);
-        }else {
             return this.generateCommentAlert(alert);
+        }else {
+            return this.generateFollowAlert(alert);
         }
     }
 
@@ -35,7 +36,7 @@ class AlertItem extends Component {
                         <Feed.Date><TimeAgo date={alert.creation_date}/></Feed.Date>
                     </Feed.Summary>
                     <Feed.Extra text>
-                        {_.truncate(alert.comment.text, {length: this.commentPreviewMaxLength})}
+                        {render(_.truncate(alert.comment.text, {length: this.commentPreviewMaxLength}))}
                     </Feed.Extra>
                 </Feed.Content>
             </Feed.Event>
