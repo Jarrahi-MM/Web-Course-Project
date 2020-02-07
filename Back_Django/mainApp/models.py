@@ -23,6 +23,7 @@ class ProfileInfo(models.Model):
     city = models.CharField(max_length=16, blank=True, null=True)
     country = models.CharField(max_length=16, blank=True, null=True)
     phoneNum = models.CharField(max_length=16, blank=True, null=True)
+    profilePic = models.URLField(max_length=400, blank=True, null=True)
 
 
 class Comment(models.Model):
