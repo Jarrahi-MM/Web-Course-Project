@@ -35,7 +35,8 @@ class Profile extends Component {
         token: this.props.cookies.get('myToken'),
         username: this.props.cookies.get('userName'),
         channels: [],
-        identity: null
+        identity: null,
+        followingsNum: 0
     };
 
     followClicked = followed => {
@@ -95,6 +96,18 @@ class Profile extends Component {
                 }
             })
             .catch(error => console.log(error));
+        if (this.props.isPersonal) {
+            fetch(`http://127.0.0.1:8000/api1/profiles/${this.props.username}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Token ${this.state.token}`
+                }
+            }).then(response => response.json())
+                .then(res => {
+                    this.setState({followingsNum: res.followingsNum});
+                })
+                .catch(error => console.log(error));
+        }
 
         this.props.mountedChannel(this.props.username)
     };
@@ -160,7 +173,7 @@ class Profile extends Component {
                     <ProfilePicture image={this.state.proPicture}/>
                     <ProfileDetails
                         isPersonal={this.state.userInfo.isPersonal}
-                        followingNum={this.state.userInfo.followingsNum}
+                        followingNum={this.state.followingsNum}
                         followerNum={this.state.userInfo.followersNum}
                         postNum={this.state.userInfo.postsNum}
                         username={this.props.username}
