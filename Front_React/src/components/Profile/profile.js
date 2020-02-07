@@ -36,17 +36,19 @@ class Profile extends Component {
         username: this.props.cookies.get('userName'),
         channels: [],
         identity: null,
-        followingsNum: 0
+        followingsNum: null
     };
 
     followClicked = followed => {
+        console.log(followed)
         this.setState({following: followed});
-        let channelToFollow = [];
+        let channelToFollow = {};
         if (followed) {
-            channelToFollow['follow'] = this.props.username;
+            channelToFollow.follow = this.props.username;
         } else {
-            channelToFollow['unfollow'] = this.props.username;
+            channelToFollow.unfollow = this.props.username;
         }
+        console.log(channelToFollow);
         fetch(`http://127.0.0.1:8000/api1/profiles/${this.state.username}/`, {
             method: 'PUT',
             headers: {
@@ -56,7 +58,15 @@ class Profile extends Component {
             body: JSON.stringify(channelToFollow)
         }).then(response => response.json())
             .then(resp => {
-                console.log(resp)
+                if (followed) {
+                    let channel = this.state.userInfo;
+                    channel['followersNum'] = channel['followersNum'] + 1;
+                    this.setState({userInfo: channel})
+                } else {
+                    let channel = this.state.userInfo;
+                    channel['followersNum'] = channel['followersNum'] - 1;
+                    this.setState({userInfo: channel})
+                }
             })
             .catch(error => console.log(error))
     };
@@ -73,11 +83,27 @@ class Profile extends Component {
             }
         }).then(response => response.json())
             .then(res => {
-                this.setState({userInfo: res})
+                for (let r in res.followers) {
+                    if (res.followers[r].username === this.state.username)
+                        this.setState({following: true});
+                }
+                this.setState({userInfo: res});
                 for (let i in res.contributors) {
                     if (res.contributors[i].username === this.state.username) {
                         this.setState({isContributor: true})
                     }
+                }
+                if (this.state.userInfo.isPersonal) {
+                    fetch(`http://127.0.0.1:8000/api1/profiles/${this.props.username}`, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Token ${this.state.token}`
+                        }
+                    }).then(response => response.json())
+                        .then(res => {
+                            this.setState({followingsNum: res.followingsNum});
+                        })
+                        .catch(error => console.log(error));
                 }
             })
             .catch(error => console.log(error));
@@ -96,18 +122,6 @@ class Profile extends Component {
                 }
             })
             .catch(error => console.log(error));
-        if (this.props.isPersonal) {
-            fetch(`http://127.0.0.1:8000/api1/profiles/${this.props.username}`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Token ${this.state.token}`
-                }
-            }).then(response => response.json())
-                .then(res => {
-                    this.setState({followingsNum: res.followingsNum});
-                })
-                .catch(error => console.log(error));
-        }
 
         this.props.mountedChannel(this.props.username)
     };
