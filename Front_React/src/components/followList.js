@@ -12,22 +12,40 @@ class FollowList extends Component {
     };
 
     removeClicked = thisGuy => {
-        /* let channel = this.state.channel;
-         channel['removeFromContributors'] = thisGuy;
-         this.setState({channel: channel});
-         fetch(`http://127.0.0.1:8000/api1/channel/${this.props.channelId}`, {
-             method: 'PUT',
-             headers: {
-                 'Content-Type': 'application/json',
-                 'Authorization': `Token ${this.state.token}`
-             },
-             body: JSON.stringify(this.state.channel)
-         }).then(response => response.json())
-             .then(resp => {
-                 this.setState({channel: resp});
-                 console.log(channel)
-             })
-             .catch(error => console.log(error))*/
+        let channel = {removeFromFollowers: ''};
+        channel['removeFromFollowers'] = thisGuy;
+        fetch(`http://127.0.0.1:8000/api1/channel/${this.state.username}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${this.state.token}`
+            },
+            body: JSON.stringify(channel)
+        }).then(response => response.json())
+            .then(resp => {
+                console.log(channel);
+                this.componentDidMount()
+            })
+            .catch(error => console.log(error))
+    };
+
+    blockClicked = thisGuy => {
+        let channel = this.state.channel;
+        channel['removeFromContributors'] = thisGuy;
+        this.setState({channel: channel});
+        fetch(`http://127.0.0.1:8000/api1/channel/${this.state.username}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${this.state.token}`
+            },
+            body: JSON.stringify(this.state.channel)
+        }).then(response => response.json())
+            .then(resp => {
+                this.setState({channel: resp});
+                console.log(channel)
+            })
+            .catch(error => console.log(error))
     };
 
     componentDidMount() {
@@ -78,9 +96,9 @@ class FollowList extends Component {
                                             {(this.state.username === this.props.username) ?
                                                 (<span>
                                                     <i className="blue icon big trash alternate"
-                                                       onClick={() => this.removeClicked(followering)}/>
+                                                       onClick={() => this.removeClicked(followering.username)}/>
                                                      <i className="red icon big ban"
-                                                        onClick={() => this.removeClicked(followering)}/>
+                                                        onClick={() => this.blockClicked(followering.username)}/>
                                                 </span>) :
                                                 <span/>}
                                             <br/>
@@ -94,14 +112,6 @@ class FollowList extends Component {
                                                     <span>{followering}</span>
                                                 </button>
                                             </Link>
-                                            {(this.state.username === this.props.username) ?
-                                                (<span>
-                                                    <i className="blue icon big trash alternate"
-                                                       onClick={() => this.removeClicked(followering)}/>
-                                                     <i className="red icon big ban"
-                                                        onClick={() => this.removeClicked(followering)}/>
-                                                </span>) :
-                                                <span/>}
                                             <br/>
                                             <br/>
                                         </div>}
