@@ -15,6 +15,7 @@ const fake_posts = {
 };
 
 export const loadMoreChannelPosts = (channelId) => (dispatch, getState) => {
+    console.log(channelId)
     dispatch({ //cause this infinite scroller doesn't trust me, keeps calling load more.
         type:CHANNEL_HOLD_ON
     })

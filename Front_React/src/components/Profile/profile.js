@@ -61,6 +61,10 @@ class Profile extends Component {
     };
 
     componentDidMount() {
+        this.fetchProfileAndSetState()
+    }
+
+    fetchProfileAndSetState = () => {
         fetch(`http://127.0.0.1:8000/api1/channel/${this.props.username}`, {
             method: 'GET',
             headers: {
@@ -97,6 +101,7 @@ class Profile extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.username !== this.props.username) {
+            this.fetchProfileAndSetState()
             this.props.mountedChannel(this.props.username)
             this.props.clearChannels()
         }
