@@ -35,7 +35,6 @@ class Profile extends Component {
         token: this.props.cookies.get('myToken'),
         username: this.props.cookies.get('userName'),
         channels: [],
-        identity: null
     };
 
     followClicked = followed => {

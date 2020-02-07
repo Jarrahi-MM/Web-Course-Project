@@ -3,19 +3,18 @@ import {
     CHANNEL_HOLD_ON, CLEAR_CHANNEL_POSTS
 } from "./types";
 
-const fake_posts = {
-    posts: [
-        {
-            postNumber: 1,
-            channel: 2
-        },
-    ],
-    checkpoint: 'some date',
-    hasMoreItems: true
-};
+// const fake_posts = {
+//     posts: [
+//         {
+//             postNumber: 1,
+//             channel: 2
+//         },
+//     ],
+//     checkpoint: 'some date',
+//     hasMoreItems: true
+// };
 
 export const loadMoreChannelPosts = (channelId) => (dispatch, getState) => {
-    console.log(channelId)
     dispatch({ //cause this infinite scroller doesn't trust me, keeps calling load more.
         type:CHANNEL_HOLD_ON
     })

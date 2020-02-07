@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {Comment, Button, Form} from 'semantic-ui-react'
+import {Comment} from 'semantic-ui-react'
 import PostCard from "./PostCard";
 import './Post.css'
-import render from 'html-react-parser'
 import {connect} from "react-redux";
 import {openModal} from "../../redux/action_creators/modalActions";
 import TimeAgo from "react-timeago/lib";

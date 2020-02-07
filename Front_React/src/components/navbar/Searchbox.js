@@ -18,6 +18,8 @@ class Searchbox extends Component {
             case "u":
                 this.props.history.push('/profile/' + result.title)
                 break
+            default:
+                return
         }
         this.setState({value: ''})
     };

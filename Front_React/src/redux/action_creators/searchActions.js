@@ -1,46 +1,46 @@
 import {SEARCH_LOADING_DONE, SEARCH_LOADING_STARTED, SEARCH_RESULTS} from "./types";
 
-const fakeSearchData = {
-    'Users': [
-        {
-            username : 'amir',
-        },
-        {
-            username : 'hasan',
-        },
-        {
-            username : 'naghi',
-        },
-    ],
-    'Channels': [
-        {
-            'channelId' : 3,
-            'channelName': 'science'
-        },
-        {
-            'channelId' : 5,
-            'channelName': 'jokes'
-        },
-        {
-            'channelId' : 1,
-            'channelName': 'news'
-        },
-
-    ],
-    'Posts': [
-        {
-            'channel': 4,
-            'postNumber': 1,
-            'postTitle': 'a title'
-        },
-        {
-            'channel': 8,
-            'postNumber': 2,
-            'postTitle': 'another title'
-        },
-
-    ],
-};
+// const fakeSearchData = {
+//     'Users': [
+//         {
+//             username : 'amir',
+//         },
+//         {
+//             username : 'hasan',
+//         },
+//         {
+//             username : 'naghi',
+//         },
+//     ],
+//     'Channels': [
+//         {
+//             'channelId' : 3,
+//             'channelName': 'science'
+//         },
+//         {
+//             'channelId' : 5,
+//             'channelName': 'jokes'
+//         },
+//         {
+//             'channelId' : 1,
+//             'channelName': 'news'
+//         },
+//
+//     ],
+//     'Posts': [
+//         {
+//             'channel': 4,
+//             'postNumber': 1,
+//             'postTitle': 'a title'
+//         },
+//         {
+//             'channel': 8,
+//             'postNumber': 2,
+//             'postTitle': 'another title'
+//         },
+//
+//     ],
+// };
 
 export const search = (value) => (dispatch, getState) => {
     dispatch({
