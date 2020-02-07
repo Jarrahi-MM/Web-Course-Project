@@ -45,7 +45,7 @@ class Post extends Component {
     }
 
     getPostData() {
-        fetch(`http://127.0.0.1:8000/api1/posts/${this.state.channelId}/${this.state.postNum}/`, {
+        fetch(`http://127.0.0.1:8000/api1/post/${this.state.channelId}/${this.state.postNum}/`, {
             method: 'GET',
             headers: {
                 'Authorization': 'Token  ' + this.state.token,
