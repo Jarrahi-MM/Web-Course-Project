@@ -161,11 +161,17 @@ class Post extends Component {
         });
     }
 
+    editComment(comment) {
+        return ((evt) => {
+            console.log('Edit ' + comment.id);
+        });
+    }
+
     replyComment(comment) {
         return ((evt) => {
             this.props.openModal(
                 'comment_create',
-                {supCommentId:comment.supComment}
+                {supCommentId: comment.supComment}
             )
         });
     }
@@ -184,6 +190,15 @@ class Post extends Component {
         });
     }
 
+    unloadSubComments(comment) {
+        return (() => {
+            let startingTreeId = comment.treeId + '.';
+            let updatedComments = this.state.comments.filter(com => !com.treeId.startsWith(startingTreeId))
+            this.setState({comments: updatedComments});
+            comment.loadedSubComments = 0;
+        });
+    }
+
     processComment(startingId, comment) {
         if (!comment.treeId.startsWith(startingId))
             return null;
@@ -199,7 +214,6 @@ class Post extends Component {
                     <Comment.Metadata>
                         <div>{'Likes:' + comment.likesNum}</div>
                         Time: <TimeAgo date={comment.creationDate}/>
-                        {/*<div>{'Date:' + comment.creationDate}</div>*/}
                     </Comment.Metadata>
                     <Comment.Text>{comment.text /*Todo Amir*/}</Comment.Text>
                     <Comment.Actions>
@@ -207,8 +221,12 @@ class Post extends Component {
                         <Comment.Action id='Like' onClick={this.likeComment(comment)}>Like</Comment.Action>
                         <Comment.Action id='UnLike' onClick={this.unLikeComment(comment)}>UnLike</Comment.Action>
                         <Comment.Action id='DisLike' onClick={this.disLikeComment(comment)}>DisLike</Comment.Action>
+                        {this.state.myusername == comment.username ?
+                            <Comment.Action id='edit' onClick={this.editComment(comment)}>Edit</Comment.Action> : null}
                         <Comment.Action id='Load'
                                         onClick={this.loadSubComments(comment)}>Load</Comment.Action>
+                        <Comment.Action id='UnLoad'
+                                        onClick={this.unloadSubComments(comment)}>UnLoad</Comment.Action>
                     </Comment.Actions>
                 </Comment.Content>
                 <Comment.Group>
@@ -243,6 +261,7 @@ class Post extends Component {
                 {/*    </div>*/}
                 {/*    <div className="ui divider"></div>*/}
                 {/*</div>*/}
+                <div>{this.state.myusername}</div>
                 <PostCard channelId={this.state.channelId} postNumber={this.state.postNum}/>
                 <Comment.Group>
                     {this.state.comments.map(comment => this.processComment('.', comment))}
@@ -252,4 +271,4 @@ class Post extends Component {
     }
 }
 
-export default connect(null,{openModal})(Post);
+export default connect(null, {openModal})(Post);
