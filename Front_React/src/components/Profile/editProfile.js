@@ -23,10 +23,11 @@ class EditProfile extends Component {
         token: this.props.cookies.get('myToken'),
         username: this.props.cookies.get('userName'),
         profile: {
-            user: [],
+            user: null,
             city: "",
             country: "",
-            phoneNum: ""
+            phoneNum: "",
+            profilePic: "",
         },
         channel: {},
         pressed: false,
@@ -70,6 +71,10 @@ class EditProfile extends Component {
         this.setState({pressed: !this.state.pressed})
     };
 
+    saveNewImageUrl = (newUrl) => {
+        this.setState({profile: {...this.state.profile, profilePic: newUrl}})
+        //todo negin: profile in state is updated, save it how ever you do
+    }
 
     render() {
         return (
@@ -79,7 +84,10 @@ class EditProfile extends Component {
                         {this.state.isNotChannel ?
                             (<div>
                                 <h4 className="ui dividing header">Personal Information</h4>
-                                <EditProfilePic/>
+                                <EditProfilePic imagePreviewUrl={this.state.profile.profilePic}
+                                                saveNewImageUrl={this.saveNewImageUrl}
+                                                username={this.state.username}
+                                />
                                 <div className="ui vertical labeled icon buttons" style={contain2Style}>
                                     <button className="ui button" onClick={this.togglePressed}>
                                         <i className="settings icon"/>
