@@ -192,7 +192,10 @@ class Post extends Component {
 
     unloadSubComments(comment) {
         return (() => {
-            console.log('Unload ' + comment.treeId);
+            let startingTreeId = comment.treeId + '.';
+            let updatedComments = this.state.comments.filter(com => !com.treeId.startsWith(startingTreeId))
+            this.setState({comments: updatedComments});
+            comment.loadedSubComments = 0;
         });
     }
 
