@@ -5,6 +5,7 @@ import './Post.css'
 import {connect} from "react-redux";
 import {openModal} from "../../redux/action_creators/modalActions";
 import TimeAgo from "react-timeago/lib";
+import render from 'html-react-parser'
 
 class Post extends Component {
     constructor(probs) {
@@ -164,7 +165,7 @@ class Post extends Component {
         return ((evt) => {
             this.props.openModal(
                 'comment_edit',
-                {commentId:comment.id},
+                {commentId: comment.id},
                 comment.text
             )
         });
@@ -218,7 +219,9 @@ class Post extends Component {
                         <div>{'Likes:' + comment.likesNum}</div>
                         Time: <TimeAgo date={comment.creationDate}/>
                     </Comment.Metadata>
-                    <Comment.Text>{comment.text /*Todo Amir*/}</Comment.Text>
+                    <Comment.Text>
+                        {render(comment.text)}
+                    </Comment.Text>
                     <Comment.Actions>
                         <Comment.Action id='reply' onClick={this.replyComment(comment)}>Reply</Comment.Action>
                         <Comment.Action id='Like' onClick={this.likeComment(comment)}>Like</Comment.Action>
