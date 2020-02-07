@@ -7,6 +7,7 @@ class FollowList extends Component {
     state = {
         followList: [],
         token: this.props.cookies.get('myToken'),
+        username: this.props.cookies.get('userName'),
         follower: this.props.follower,
     };
 
@@ -69,26 +70,38 @@ class FollowList extends Component {
                                     {this.state.follower ?
                                         <div key={followering.username} className="blue ">
                                             <Link to={`/profile/${followering.username}`}>
-                                                <button className=" ui button  big contain4Style">
+                                                <button className=" ui button  huge contain4Style">
                                                     <i className="users icon float-left"/>
                                                     <span>{followering.username}</span>
                                                 </button>
                                             </Link>
-                                            <i className="red icon big trash alternate"
-                                               onClick={() => this.removeClicked(followering)}/>
+                                            {(this.state.username === this.props.username) ?
+                                                (<span>
+                                                    <i className="blue icon big trash alternate"
+                                                       onClick={() => this.removeClicked(followering)}/>
+                                                     <i className="red icon big ban"
+                                                        onClick={() => this.removeClicked(followering)}/>
+                                                </span>) :
+                                                <span/>}
                                             <br/>
                                             <br/>
                                         </div>
                                         :
                                         <div key={followering} className="blue ">
                                             <Link to={`/profile/${followering}`}>
-                                                <button className=" ui button  big contain4Style">
+                                                <button className=" ui button  huge contain4Style">
                                                     <i className="users icon float-left"/>
                                                     <span>{followering}</span>
                                                 </button>
                                             </Link>
-                                            <i className="red icon big trash alternate"
-                                               onClick={() => this.removeClicked(followering)}/>
+                                            {(this.state.username === this.props.username) ?
+                                                (<span>
+                                                    <i className="blue icon big trash alternate"
+                                                       onClick={() => this.removeClicked(followering)}/>
+                                                     <i className="red icon big ban"
+                                                        onClick={() => this.removeClicked(followering)}/>
+                                                </span>) :
+                                                <span/>}
                                             <br/>
                                             <br/>
                                         </div>}
