@@ -50,11 +50,11 @@ class Channel extends Component {
                     <div className="ui piled raised very padded container segment">
                         <Link to={'/createChannel'} className="ui right labeled icon button">
                             ADD NEW CHANNEL
-                            <i className="right arrow icon"/>
+                            <i className="right arrow icon blue"/>
                         </Link><br/><br/>
                         <div onClick={this.toggle} className="ui right labeled icon button">
                             SHOW MY CHANNELS
-                            <i className="right arrow icon"/>
+                            <i className="right arrow icon blue"/>
                         </div>
                         <br/>
                         <br/>

@@ -10,7 +10,6 @@ export const loadPost = (channelId,postNumber) => (dispatch,getState) => {
     }).then(resp => {
         if (resp.ok) {
             resp.json().then(json => {
-                console.log(json)
                 dispatch({
                     type: ADD_POST,
                     payload: json

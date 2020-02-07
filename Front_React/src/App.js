@@ -20,6 +20,7 @@ import {openModal} from "./redux/action_creators/modalActions";
 import FollowList from "./components/followList";
 import EditProfilePic from "./components/Profile/editProfilePic";
 import NotFound from "./components/NotFound";
+import BlockList from "./components/Profile/blockList";
 
 
 class App extends Component {
@@ -61,14 +62,28 @@ class App extends Component {
                             return (
                                 <div>
                                     <Profile username={match.params.username}
-                                             myAccount={this.state.username === match.params.username}/>
+                                             myAccount={(this.state.username === match.params.username)}/>
                                 </div>
                             );
                         }}/>
-                        <Route path='/followList/:username' render={({match}) => {
+                        <Route path='/followersList/:username' render={({match}) => {
                             return (
                                 <div>
-                                    <FollowList username={match.params.username}/>
+                                    <FollowList username={match.params.username} follower={true}/>
+                                </div>
+                            );
+                        }}/>
+                        <Route path='/followingsList/:username' render={({match}) => {
+                            return (
+                                <div>
+                                    <FollowList username={match.params.username} follower={false}/>
+                                </div>
+                            );
+                        }}/>
+                        <Route path='/blockedUsers/:username' render={({match}) => {
+                            return (
+                                <div>
+                                    <BlockList username={match.params.username}/>
                                 </div>
                             );
                         }}/>
@@ -123,6 +138,6 @@ class App extends Component {
 
 const mapStateToProps = (state) => ({
     token: state.auth.authorization,
-})
+});
 
 export default connect(mapStateToProps, {loadTokenAndUsernameFromCookies, openModal})(withCookies(App));

@@ -6,36 +6,70 @@
 export const saveData = (editorState) => (dispatch, getState) => {
     switch (editorState.action) {
         case 'comment_create':
-            console.log(getState().auth.authorization + ' ' + editorState.address.supCommentId + ' ' + editorState.data.toString());
-            // let url = new URL('http://localhost:8000/api1/comments/')
-            // fetch(url, {
-            //     method:'post',
-            //     mode:"cors",
-            //     headers: {
-            //         'Authorization': getState().auth.authorization,
-            //         'Content-Type': 'application/json',
-            //         'Host':'localhost:8000'
-            //     },
-            //     body: {
-            //         fatherId:editorState.address.supCommentId,
-            //         text: editorState.data.toString(),
-            //     }
-            // }).then((resp) => {
-            //     if (!resp.ok) {
-            //         console.log('comment create error: ')
-            //         console.log(resp)
-            //     }
-            // })
+            fetch('http://127.0.0.1:8000/api1/comments/', {
+                method: 'POST',
+                headers: {
+                    'Authorization': getState().auth.authorization,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    fatherId: editorState.address.supCommentId,
+                    text: editorState.data.toString(),
+                })
+            }).then((resp) => {
+                console.log('Created Comment:' + resp);
+            });
             break
         case 'post_create':
-            console.log(getState().auth.authorization + ' ' + editorState.address.channelId + ' ' + editorState.data.toString());
+            fetch(`http://127.0.0.1:8000/api1/post/${editorState.address.channelId}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': getState().auth.authorization,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    image: '',
+                    text: editorState.data.toString(),
+                    postTitle: ''
+                })
+            }).then((resp) => {
+                console.log('Created Post:' + resp);
+            });
             break
         case 'comment_edit':
-            console.log(getState().auth.authorization + ' ' + editorState.address.commentId + ' ' + editorState.data.toString());
+            fetch('http://127.0.0.1:8000/api1/comments/', {
+                method: 'PUT',
+                headers: {
+                    'Authorization': getState().auth.authorization,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: editorState.address.commentId,
+                    text: editorState.data.toString(),
+                })
+            }).then((resp) => {
+                console.log('Editted Comment:' + resp);
+            });
             break
         case 'post_edit':
-            console.log(getState().auth.authorization + ' ' + editorState.address.channelId + ' ' + editorState.address.postId +
-                ' ' + editorState.data.toString());
+            fetch(`http://127.0.0.1:8000/api1/post/${editorState.address.channelId}/${editorState.address.postId}/`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': getState().auth.authorization,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    image: '',
+                    text: editorState.data.toString(),
+                    postTitle: ''
+                })
+            }).then((resp) => {
+                console.log('Edited Post:' + resp);
+            });
             break
     }
 }

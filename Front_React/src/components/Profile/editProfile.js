@@ -4,6 +4,7 @@ import EditUserProfileForm from "./editUserProfileForm";
 import EditChannel from "../channel/editChannel";
 import {withCookies} from "react-cookie";
 import ChangePassword from "./changePassword";
+import {Link} from "react-router-dom";
 
 const containStyle = {
     position: 'relative',
@@ -88,6 +89,13 @@ class EditProfile extends Component {
                                                 saveNewImageUrl={this.saveNewImageUrl}
                                                 username={this.state.username}
                                 />
+                                <br/>
+                                <Link to={`/blockedUsers/${this.state.username}`}
+                                      className="ui right labeled icon button">
+                                   BLOCKED USERS
+                                    <i className="red ban icon"/>
+                                </Link>
+                                <br/>
                                 <div className="ui vertical labeled icon buttons" style={contain2Style}>
                                     <button className="ui button" onClick={this.togglePressed}>
                                         <i className="settings icon"/>
