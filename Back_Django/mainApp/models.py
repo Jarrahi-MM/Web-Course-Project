@@ -15,6 +15,9 @@ class Channel(models.Model):
     isPersonal = models.BooleanField(null=False, blank=False)
     description = models.TextField(default='Description')
 
+    def __str__(self):
+        return self.channelId
+
 
 class ProfileInfo(models.Model):
     user = models.OneToOneField(User, blank=False, null=False, on_delete=models.CASCADE, related_name='profile',
@@ -24,6 +27,9 @@ class ProfileInfo(models.Model):
     phoneNum = models.CharField(max_length=16, blank=True, null=True)
     profilePic = models.URLField(max_length=400, blank=True, null=True)
     followingsNum = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.user.username
 
 
 class Comment(models.Model):
@@ -38,6 +44,9 @@ class Comment(models.Model):
     class Meta:
         # unique_together = ['supComment', 'commentNumber'] Todo:Think
         index_together = ['supComment', 'commentNumber']
+
+    def __str__(self):
+        return self.id
 
 
 class Post(models.Model):
@@ -55,6 +64,9 @@ class Post(models.Model):
     class Meta:
         unique_together = ['channel', 'postNumber']
         index_together = ['channel', 'postNumber']
+
+    def __str__(self):
+        return str(self.channel) + '-' + str(self.postNumber)
 
 
 class PostLike(models.Model):

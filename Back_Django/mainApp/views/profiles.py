@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from rest_framework import status, authentication
 from rest_framework.response import Response
@@ -32,26 +31,27 @@ class Profiles(APIView):
         if 'follow' in request.data:
             try:
                 channel = Channel.objects.get(channelId=request.data['follow'])
-                if channel.blockedUsers.filter(username=username).count() == 1:
+                if channel.blockedUsers.filter(username=username).count() > 0:
                     return Response("You are blocked", status=status.HTTP_400_BAD_REQUEST)
-                if channel.followers.filter(username=username) == 1:
+                if channel.followers.filter(username=username).count() > 0:
                     return Response("You already followed the channel", status=status.HTTP_400_BAD_REQUEST)
+                print('---', channel.followers.filter(username=username).count())
                 channel.followers.add(request.user)
                 channel.followersNum += 1
                 profile.followingsNum += 1
                 channel.save()
-            except User.DoesNotExist:
+            except Channel.DoesNotExist:
                 return Response("Invalid Following Channel", status=status.HTTP_400_BAD_REQUEST)
         if 'unfollow' in request.data:
             try:
                 channel = Channel.objects.get(channelId=request.data['unfollow'])
-                if channel.followers.filter(username=username) == 0:
+                if channel.followers.filter(username=username).count() == 0:
                     return Response("You didn't follow the channel", status=status.HTTP_400_BAD_REQUEST)
                 channel.followers.remove(request.user)
                 channel.followersNum -= 1
                 profile.followingsNum -= 1
                 channel.save()
-            except User.DoesNotExist:
+            except Channel.DoesNotExist:
                 return Response("Invalid unFollowing Channel", status=status.HTTP_400_BAD_REQUEST)
         profile.save()
         request.user.save()
