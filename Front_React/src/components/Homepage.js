@@ -11,6 +11,7 @@ import {connect} from "react-redux";
 import {loadMoreItems, setActiveTab} from "../redux/action_creators/homepageActions";
 import PostCard from "./posts/PostCard";
 import nextId from "react-id-generator";
+import NoContent from "./NoContent";
 
 class Homepage extends Component {
     panes = [
@@ -86,19 +87,23 @@ class Homepage extends Component {
     }
 
     inTabComponent() {
+        // console.log(this.props.postObjs)
         return (
             <InfiniteScroll
                 loadMore={() => this.loadMore()}
                 hasMore={this.props.hasMoreItems}
                 loader={this.getLoaderComponent()}>
 
-                {this.props.postObjs.map(postObj => {
+                {
+                    this.props.postObjs.length>0 ? this.props.postObjs.map(postObj => {
                     return (
                         <div key={nextId()}>
                             <PostCard channelId={postObj.channel} postNumber={postObj.postNumber}/>
                         </div>
                     )
-                })}
+                }) :
+                        (this.props.hasMoreItems? [] :<NoContent/>)
+                }
 
             </InfiniteScroll>
         )
