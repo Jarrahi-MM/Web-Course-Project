@@ -163,7 +163,11 @@ class Post extends Component {
 
     editComment(comment) {
         return ((evt) => {
-            console.log('Edit ' + comment.id);
+            this.props.openModal(
+                'comment_edit',
+                {commentId:comment.id},
+                comment.text
+            )
         });
     }
 
@@ -171,7 +175,7 @@ class Post extends Component {
         return ((evt) => {
             this.props.openModal(
                 'comment_create',
-                {supCommentId: comment.supComment}
+                {supCommentId: comment.id}
             )
         });
     }
