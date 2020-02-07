@@ -11,7 +11,6 @@ class Channel(models.Model):
     followers = models.ManyToManyField(User, blank=True, related_name='followings')
     blockedUsers = models.ManyToManyField(User, blank=True)
     followersNum = models.IntegerField(default=0)
-    followingsNum = models.IntegerField(default=0)
     postsNum = models.IntegerField(default=0)
     isPersonal = models.BooleanField(null=False, blank=False)
     description = models.TextField(default='Description')
@@ -24,6 +23,7 @@ class ProfileInfo(models.Model):
     country = models.CharField(max_length=16, blank=True, null=True)
     phoneNum = models.CharField(max_length=16, blank=True, null=True)
     profilePic = models.URLField(max_length=400, blank=True, null=True)
+    followingsNum = models.IntegerField(default=0)
 
 
 class Comment(models.Model):

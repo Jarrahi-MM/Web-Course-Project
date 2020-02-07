@@ -31,17 +31,28 @@ class Profiles(APIView):
             profile.phoneNum = request.data['phoneNum']
         if 'follow' in request.data:
             try:
-                following_channel = Channel.objects.get(channelId=request.data['follow'])
-                if request.user in following_channel.blockedUsers:
-                    return Response("You are blocked and can't follow ...", status=status.HTTP_400_BAD_REQUEST)
-                request.user.followings.add(following_channel)
+                channel = Channel.objects.get(channelId=request.data['follow'])
+                if channel.blockedUsers.filter(username=username).count() == 1:
+                    return Response("You are blocked", status=status.HTTP_400_BAD_REQUEST)
+                if channel.followers.filter(username=username) == 1:
+                    return Response("You already followed the channel", status=status.HTTP_400_BAD_REQUEST)
+                channel.followers.add(request.user)
+                channel.followersNum += 1
+                profile.followingsNum += 1
+                channel.save()
             except User.DoesNotExist:
                 return Response("Invalid Following Channel", status=status.HTTP_400_BAD_REQUEST)
         if 'unfollow' in request.data:
             try:
-                unfollowing_channel = Channel.objects.get(channelId=request.data['unfollow'])
-                request.user.followings.remove(unfollowing_channel)
+                channel = Channel.objects.get(channelId=request.data['unfollow'])
+                if channel.followers.filter(username=username) == 0:
+                    return Response("You didn't follow the channel", status=status.HTTP_400_BAD_REQUEST)
+                channel.followers.remove(request.user)
+                channel.followersNum -= 1
+                profile.followingsNum -= 1
+                channel.save()
             except User.DoesNotExist:
                 return Response("Invalid unFollowing Channel", status=status.HTTP_400_BAD_REQUEST)
         profile.save()
+        request.user.save()
         return Response(ProfileSerializer(profile).data, status.HTTP_200_OK)
