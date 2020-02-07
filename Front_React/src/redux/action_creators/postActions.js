@@ -2,6 +2,7 @@ import {ADD_POST, APPEND_ALERTS} from "./types";
 
 export const loadPost = (channelId,postNumber) => (dispatch,getState) => {
     let url = new URL(`http://127.0.0.1:8000/api1/post/${channelId}/${postNumber}/`)
+    console.log('here in load post')
     fetch(url,{
         headers: {
             'Authorization': getState().auth.authorization

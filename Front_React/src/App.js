@@ -19,6 +19,8 @@ import {Button} from "semantic-ui-react";
 import {openModal} from "./redux/action_creators/modalActions";
 import FollowList from "./components/followList";
 import EditProfilePic from "./components/Profile/editProfilePic";
+import NotFound from "./components/NotFound";
+import BlockList from "./components/Profile/blockList";
 
 
 class App extends Component {
@@ -41,10 +43,10 @@ class App extends Component {
                         <Navbar/>
                         <EditorModal/>
                     </Route>
-                    <Route path={'/login'}>
-                        <Login/>
-                    </Route>
                     <Switch>
+                        <Route path={'/login'}>
+                            <Login/>
+                        </Route>
                         <Route path='/post/:channelId/:postNum' render={({match}) => {
                             return (
                                 <div>
@@ -75,6 +77,13 @@ class App extends Component {
                             return (
                                 <div>
                                     <FollowList username={match.params.username} follower={false}/>
+                                </div>
+                            );
+                        }}/>
+                        <Route path='/blockedUsers/:username' render={({match}) => {
+                            return (
+                                <div>
+                                    <BlockList username={match.params.username}/>
                                 </div>
                             );
                         }}/>
@@ -115,6 +124,9 @@ class App extends Component {
                         </Route>
                         <Route path={'/fortest_epp'}>
                             <EditProfilePic/>
+                        </Route>
+                        <Route path={''}>
+                            <NotFound/>
                         </Route>
                     </Switch>
                 </CookiesProvider>

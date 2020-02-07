@@ -30,20 +30,19 @@ class FollowList extends Component {
     };
 
     blockClicked = thisGuy => {
-        let channel = this.state.channel;
-        channel['removeFromContributors'] = thisGuy;
-        this.setState({channel: channel});
+        let channel = {block: ''};
+        channel['block'] = thisGuy;
         fetch(`http://127.0.0.1:8000/api1/channel/${this.state.username}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Token ${this.state.token}`
             },
-            body: JSON.stringify(this.state.channel)
+            body: JSON.stringify(channel)
         }).then(response => response.json())
             .then(resp => {
-                this.setState({channel: resp});
-                console.log(channel)
+                console.log(channel);
+                this.componentDidMount()
             })
             .catch(error => console.log(error))
     };
