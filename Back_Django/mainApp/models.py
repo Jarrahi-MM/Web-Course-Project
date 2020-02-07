@@ -22,6 +22,7 @@ class Channel(models.Model):
 class ProfileInfo(models.Model):
     user = models.OneToOneField(User, blank=False, null=False, on_delete=models.CASCADE, related_name='profile',
                                 primary_key=True)
+    image = models.CharField(max_length=32, blank=True, null=True)
     city = models.CharField(max_length=16, blank=True, null=True)
     country = models.CharField(max_length=16, blank=True, null=True)
     phoneNum = models.CharField(max_length=16, blank=True, null=True)
@@ -58,8 +59,8 @@ class Post(models.Model):
     updateVal = models.IntegerField(default=0, blank=False)
     firstComment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     likesNum = models.IntegerField()
-    image = models.CharField(max_length=32, blank=True, null=True)
     text = models.TextField(blank=True, null=True)
+    image = models.CharField(max_length=32, blank=True, null=True)
 
     class Meta:
         unique_together = ['channel', 'postNumber']

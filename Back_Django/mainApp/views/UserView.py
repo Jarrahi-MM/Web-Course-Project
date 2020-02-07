@@ -19,7 +19,6 @@ class UserViewSet(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         my_result = dict(serializer.data)
         my_result['token'] = Token.objects.get(user=User.objects.get(username=request.data['username']).id).key
-        print(my_result)
 
         return Response(my_result, status=status.HTTP_201_CREATED, headers=headers)
 

@@ -1,33 +1,61 @@
-from rest_framework import status, permissions
+import random
+import smtplib
 
+from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ..serializers import ChangePasswordSerializer
+
+def MailPassword(newPass, email):
+    gmail_user = 'webbbbsuttt@gmail.com'
+    gmail_password = '123456mM'
+
+    sent_from = gmail_user
+    to = [email]
+    subject = 'Password Reset'
+    body = 'your pass changed to :' + newPass
+
+    email_text = """\
+    From: %s
+    To: %s
+    Subject: %s
+
+    %s
+    """ % (sent_from, ", ".join(to), subject, body)
+
+    server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+    server.ehlo()
+    server.login(gmail_user, gmail_password)
+    server.sendmail(sent_from, to, email_text)
+    server.close()
+
+    print('Email sent!')
 
 
 class UpdatePassword(APIView):
-    """
-    An endpoint for changing password.
-    """
     permission_classes = (permissions.IsAuthenticated,)
 
-    def get_object(self, queryset=None):
-        return self.request.user
+    @staticmethod
+    def get(request):
+        generator = random.SystemRandom()
+        new_pass = 'RsddRgw' + str(generator.randrange(1000001, 9999999)) + 'w%gTeg'
+        try:
+            MailPassword(new_pass, request.user.email)
+            request.user.set_password(new_pass)
+            request.user.save()
+        except:
+            return Response('not reset', status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        serializer = ChangePasswordSerializer(data=request.data)
+        return Response('reset', status=status.HTTP_200_OK)
 
-        if serializer.is_valid():
-            # Check old password
-            old_password = serializer.data.get("old_password")
-            if not self.object.check_password(old_password):
-                return Response({"old_password": ["Wrong password."]},
-                                status=status.HTTP_400_BAD_REQUEST)
-            # set_password also hashes the password that the user will get
-            self.object.set_password(serializer.data.get("new_password"))
-            self.object.save()
-            return Response(status=status.HTTP_204_NO_CONTENT)
+    @staticmethod
+    def put(request):
+        new_pass = request.data['newPass']
+        try:
+            MailPassword(new_pass, request.user.email)
+            request.user.set_password(new_pass)
+            request.user.save()
+        except:
+            return Response('not reset', status=status.HTTP_400_BAD_REQUEST)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response('reset', status=status.HTTP_200_OK)

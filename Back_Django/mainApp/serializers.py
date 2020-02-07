@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
@@ -20,7 +19,7 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         Token.objects.create(user=user)
-        profile = ProfileInfo.objects.create(user=user, city='', country='', phoneNum='')
+        profile = ProfileInfo.objects.create(user=user, city='', country='', phoneNum='', image='')
         profile.save()
         channel_id = user.username
         channel = Channel.objects.create(channelId=channel_id, channelName=channel_id, owner=user, followersNum=0,
@@ -75,8 +74,7 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = (
             'postNumber', 'postTitle', 'channel', 'creator', 'creationDate', 'updateVal', 'firstComment', 'likesNum',
-            'image',
-            'text')
+            'image', 'text')
         extra_kwargs = {'postNumber': {'read_only': True, 'required': True}}
 
     def create(self, validated_data):
@@ -84,15 +82,6 @@ class PostSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         return None
-
-
-class ChangePasswordSerializer(serializers.Serializer):
-    old_password = serializers.CharField(required=True)
-    new_password = serializers.CharField(required=True)
-
-    def validate_new_password(self, value):
-        validate_password(value)
-        return value
 
 
 class SearchViewSerializer(serializers.Serializer):
