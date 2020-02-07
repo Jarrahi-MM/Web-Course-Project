@@ -65,7 +65,7 @@ class Channels(APIView):
                 return Response("Invalid Blocking Username", status=status.HTTP_400_BAD_REQUEST)
         if 'unblock' in request.data:
             try:
-                unblocking_user = User.objects.get(username=request.data['block'])
+                unblocking_user = User.objects.get(username=request.data['unblock'])
                 channel.blockedUsers.remove(unblocking_user)
             except User.DoesNotExist:
                 return Response("Invalid Blocking Username", status=status.HTTP_400_BAD_REQUEST)
@@ -84,7 +84,7 @@ class Channels(APIView):
         if 'removeFromFollowers' in request.data:
             try:
                 remove_follower_user = User.objects.get(username=request.data['removeFromFollowers'])
-                if channel.followers.filter(username=request.data['removeFromFollowers']).count() ==1:
+                if channel.followers.filter(username=request.data['removeFromFollowers']).count() == 1:
                     channel.followers.remove(remove_follower_user)
                     channel.followersNum -= 1
                     remove_follower_user.profile.followingsNum -= 1
