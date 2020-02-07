@@ -1,9 +1,10 @@
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 from rest_framework import status, authentication, permissions
 from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.shortcuts import get_object_or_404
+
 from ..models import Channel
 from ..serializers import ChannelSerializer
 
@@ -54,8 +55,12 @@ class Channels(APIView):
         if 'block' in request.data:
             try:
                 blocking_user = User.objects.get(username=request.data['block'])
-                channel.followers.remove(blocking_user)
+                if channel.followers.filter(username=request.data['block']).count() == 1:
+                    channel.followers.remove(blocking_user)
+                    channel.followersNum -= 1
+                    blocking_user.profile.followingsNum -= 1
                 channel.blockedUsers.add(blocking_user)
+                blocking_user.save()
             except User.DoesNotExist:
                 return Response("Invalid Blocking Username", status=status.HTTP_400_BAD_REQUEST)
         if 'unblock' in request.data:
@@ -79,7 +84,11 @@ class Channels(APIView):
         if 'removeFromFollowers' in request.data:
             try:
                 remove_follower_user = User.objects.get(username=request.data['removeFromFollowers'])
-                channel.blockedUsers.remove(remove_follower_user)
+                if channel.followers.filter(username=request.data['removeFromFollowers']).count() ==1:
+                    channel.followers.remove(remove_follower_user)
+                    channel.followersNum -= 1
+                    remove_follower_user.profile.followingsNum -= 1
+                    remove_follower_user.save()
             except User.DoesNotExist:
                 return Response("Invalid removeFromFollowers Username", status=status.HTTP_400_BAD_REQUEST)
         channel.save()
