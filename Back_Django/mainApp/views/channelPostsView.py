@@ -30,7 +30,6 @@ def channel_posts(request, channel_id):
     else:
         new_checkpoint = None
 
-    print(checkpoint, new_checkpoint, has_more_items)
     serializer = ChannelPostsViewSerializer({
         'posts': post_list,
         'checkpoint': new_checkpoint,
