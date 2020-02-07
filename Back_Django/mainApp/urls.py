@@ -21,7 +21,7 @@ router.register('register', UserViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('change-password/', UpdatePassword.as_view()),
+    path('pass/', UpdatePassword.as_view()),
     path('channel/<str:channelId>', Channels.as_view()),
     path('channel/', Channels.as_view(), kwargs={'channelId': ''}),
     path('users/', Users.as_view()),
