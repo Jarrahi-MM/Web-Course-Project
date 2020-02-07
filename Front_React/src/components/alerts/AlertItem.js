@@ -29,7 +29,7 @@ class AlertItem extends Component {
                         <Link to={'/profiles/' + alert.by_user.username}>{alert.by_user.username}</Link>
                         &nbsp;commented on you post:&nbsp;
                         <Link
-                            to={'/posts/' + alert.post.channel + '/' + alert.post.postNumber}>
+                            to={'/post/' + alert.post.channel + '/' + alert.post.postNumber}>
                             {_.truncate(alert.post.postTitle, {length: this.titleMaxLength})}
                         </Link>
                         <Feed.Date><TimeAgo date={alert.creation_date}/></Feed.Date>

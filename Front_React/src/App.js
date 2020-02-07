@@ -19,6 +19,7 @@ import {Button} from "semantic-ui-react";
 import {openModal} from "./redux/action_creators/modalActions";
 import FollowList from "./components/followList";
 import EditProfilePic from "./components/Profile/editProfilePic";
+import NotFound from "./components/NotFound";
 
 
 class App extends Component {
@@ -41,10 +42,10 @@ class App extends Component {
                         <Navbar/>
                         <EditorModal/>
                     </Route>
-                    <Route path={'/login'}>
-                        <Login/>
-                    </Route>
                     <Switch>
+                        <Route path={'/login'}>
+                            <Login/>
+                        </Route>
                         <Route path='/post/:channelId/:postNum' render={({match}) => {
                             return (
                                 <div>
@@ -108,6 +109,9 @@ class App extends Component {
                         </Route>
                         <Route path={'/fortest_epp'}>
                             <EditProfilePic/>
+                        </Route>
+                        <Route path={''}>
+                            <NotFound/>
                         </Route>
                     </Switch>
                 </CookiesProvider>
