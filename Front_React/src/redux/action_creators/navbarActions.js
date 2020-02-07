@@ -1,12 +1,12 @@
 import {CHANNEL_MOUNTED, CHANNEL_UNMOUNTED, STORE_CHANNELS, UNREAD_ALERTS_COUNT} from "./types";
 
-const fake_channels = [
-    'Sports',
-    'Jokes',
-    'Home',
-];
+// const fake_channels = [
+//     'Sports',
+//     'Jokes',
+//     'Home',
+// ];
 
-const fake_unread_alerts_count = 2;
+// const fake_unread_alerts_count = 2;
 
 export const loadChannels = () => (dispatch, state) => {
     let url = new URL('http://127.0.0.1:8000/api1/profiles/' + state().auth.username);

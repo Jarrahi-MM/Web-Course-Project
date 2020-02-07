@@ -1,17 +1,18 @@
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.db.models.signals import post_save, m2m_changed
-from .models import Comment, Alert, Channel
+
+from .models import Comment, Alert
 
 
-@receiver(m2m_changed, sender=Channel.followers.through, dispatch_uid='in_new_follow')
-def on_new_follow(sender, instance, model, **kwargs):
-    if model.isPersonal:
-        Alert.objects.create(
-            is_comment=False,
-            user=model.creator,
-            by_user=instance,
-        )
+# @receiver(m2m_changed, sender=Channel.followers.through, dispatch_uid='in_new_follow')
+# def on_new_follow(sender, instance, model, **kwargs):
+#     if model.isPersonal:
+#         Alert.objects.create(
+#             is_comment=False,
+#             user=model.creator,
+#             by_user=instance,
+#         )
 
 
 @receiver(post_save, sender=Comment, dispatch_uid='on_new_comment')

@@ -1,60 +1,60 @@
 import {APPEND_POSTS, FOLLOWED_TAB, HOTTEST_TAB, NEW_TAB} from "./types";
 import _ from 'lodash'
 
-const fake_followed_tab_response = {
-    postObjs: [
-        {
-            postNumber: 1,
-            channel: 2
-        },
-        {
-            postNumber: 2,
-            channel: 3
-        },
-        {
-            postNumber: 3,
-            channel: 23
-        },
-        {
-            postNumber: 4,
-            channel: 123
-        },
-        {
-            postNumber: 5,
-            channel: 233
-        },
-    ],
-    checkpoint: 'a date maybe',
-    hasMoreItems: true
-};
+// const fake_followed_tab_response = {
+//     postObjs: [
+//         {
+//             postNumber: 1,
+//             channel: 2
+//         },
+//         {
+//             postNumber: 2,
+//             channel: 3
+//         },
+//         {
+//             postNumber: 3,
+//             channel: 23
+//         },
+//         {
+//             postNumber: 4,
+//             channel: 123
+//         },
+//         {
+//             postNumber: 5,
+//             channel: 233
+//         },
+//     ],
+//     checkpoint: 'a date maybe',
+//     hasMoreItems: true
+// };
 
-const fake_hottest_tab_response = {
-    postIds: [
-        {
-            id: 6,
-        },
-        {
-            id: 7,
-        },
-        {
-            id: 8,
-        },
-        {
-            id: 9,
-        },
-        {
-            id: 10,
-        },
-    ],
-    checkpoint: 'a date maybe',
-    hasMoreItems: false
-};
+// const fake_hottest_tab_response = {
+//     postIds: [
+//         {
+//             id: 6,
+//         },
+//         {
+//             id: 7,
+//         },
+//         {
+//             id: 8,
+//         },
+//         {
+//             id: 9,
+//         },
+//         {
+//             id: 10,
+//         },
+//     ],
+//     checkpoint: 'a date maybe',
+//     hasMoreItems: false
+// };
 
-const fake_other_tabs_response = {
-    postIds: [],
-    checkpoint: 'a date maybe',
-    hasMoreItems: false
-};
+// const fake_other_tabs_response = {
+//     postIds: [],
+//     checkpoint: 'a date maybe',
+//     hasMoreItems: false
+// };
 
 
 export const loadMoreItems = () => (dispatch, getState) => {

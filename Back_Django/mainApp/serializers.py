@@ -38,7 +38,7 @@ class ChannelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Channel
         fields = (
-            'channelId', 'channelName', 'owner', 'contributors', 'followersNum', 'followingsNum', 'postsNum',
+            'channelId', 'channelName', 'owner', 'contributors', 'followersNum', 'postsNum',
             'isPersonal', 'description', 'followers', 'blockedUsers')
 
 
@@ -47,7 +47,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProfileInfo
-        fields = ('user', 'city', 'country', 'phoneNum')
+        fields = ('user', 'city', 'country', 'phoneNum', 'followingsNum')
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -120,6 +120,7 @@ class AlertViewSerializer(serializers.Serializer):
     alerts = AlertSerializer(many=True)
     checkpoint = serializers.DateTimeField()
     hasMoreItems = serializers.BooleanField()
+
 
 class ChannelPostsViewSerializer(serializers.Serializer):
     posts = PostSerializer(many=True)

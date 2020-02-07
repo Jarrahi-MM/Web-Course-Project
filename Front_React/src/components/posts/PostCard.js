@@ -113,7 +113,7 @@ class PostCard extends Component {
                                 <Button.Content hidden><small>Comment</small></Button.Content>
                             </Button>
                             {
-                                username == post.creator.username ?
+                                username === post.creator.username ?
                                     <Button onClick={this.onEdit} basic animated='vertical'>
                                         <Button.Content visible><Icon name={'edit outline'}/></Button.Content>
                                         <Button.Content hidden><small>Edit</small></Button.Content>

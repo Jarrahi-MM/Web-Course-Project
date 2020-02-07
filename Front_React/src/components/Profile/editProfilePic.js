@@ -12,11 +12,6 @@ class EditProfilePic extends Component {
     //saveNewImageUrl()
     //username
 
-    state = {
-        selectedFile: null,
-        imagePreviewUrl: 'https://image.freepik.com/free-vector/cartoon-monster-face-avatar-halloween-monster_6996-1156.jpg'
-    };
-
     fileChangedHandler = event => {
         // this.setState({
         //     selectedFile: event.target.files[0]
@@ -32,9 +27,27 @@ class EditProfilePic extends Component {
         //
         // reader.readAsDataURL(event.target.files[0])
 
-        let url = new URL('https://59788.cke-cs.com/easyimage/upload/')
         let fd = new FormData()
-        fd.append('profilePic',event.target.files[0],'')
+        fd.append('profilePic', event.target.files[0], this.props.username)
+        let url = new URL('https://59788.cke-cs.com/token/dev/D4EUlj4fwrGlaxEwLwLqfkedrU6RZwlwhF0b1NhgtydQPokOdVxaa2FFAEz0')
+        fetch(url).then((resp) => resp.json).then((token) => {
+            let url = new URL('https://59788.cke-cs.com/easyimage/upload/')
+            fetch(url, {
+                headers: {
+                    Authorization: token
+                },
+                body: fd
+            }).then((resp) => {
+                if (!resp.ok) {
+                    console.log('error upload error:')
+                    console.log(resp)
+                } else {
+                    resp.json().then((json) => {
+                        this.props.saveNewImageUrl(json['300'])
+                    })
+                }
+            })
+        })
     };
 
     render() {
@@ -47,11 +60,11 @@ class EditProfilePic extends Component {
                     <div className="custom-file">
                         <input type="file" className="custom-file-input" id="inputGroupFile01" name="avatar"
                                onChange={this.fileChangedHandler}
-                                 aria-describedby="inputGroupFileAddon01"/>
+                               aria-describedby="inputGroupFileAddon01"/>
                         <label className="custom-file-label" htmlFor="inputGroupFile01">Choose file</label>
                     </div>
                 </div>
-                <ProfilePicture image={this.state.imagePreviewUrl}/>
+                <ProfilePicture image={this.props.imagePreviewUrl}/>
             </div>
         );
     }
