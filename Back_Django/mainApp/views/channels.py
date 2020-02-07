@@ -34,8 +34,7 @@ class Channels(APIView):
         except Channel.DoesNotExist:
             channel = Channel.objects.create(owner=request.user, channelName=request.data['channelName'],
                                              channelId=request.data['channelId'], isPersonal=False,
-                                             followersNum=0,
-                                             postsNum=0, description=request.data['description'])
+                                             followersNum=0, postsNum=0, description=request.data['description'])
             channel.save()
             return Response('channel created', status=status.HTTP_201_CREATED)
         return Response('this channel id is taken before', status=status.HTTP_400_BAD_REQUEST)

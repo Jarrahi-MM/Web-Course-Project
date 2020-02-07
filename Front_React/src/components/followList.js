@@ -57,7 +57,6 @@ class FollowList extends Component {
                     }
                 }).then(response => response.json())
                     .then(res => {
-                        console.log(res.followers)
                         this.setState({followList: res.followers})
                     })
                     .catch(error => console.log(error))
