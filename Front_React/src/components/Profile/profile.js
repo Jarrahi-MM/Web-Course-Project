@@ -159,6 +159,7 @@ class Profile extends Component {
                         )}
                     <ProfilePicture image={this.state.proPicture}/>
                     <ProfileDetails
+                        isPersonal={this.state.userInfo.isPersonal}
                         followingNum={this.state.userInfo.followingsNum}
                         followerNum={this.state.userInfo.followersNum}
                         postNum={this.state.userInfo.postsNum}
