@@ -29,7 +29,7 @@ class Profile extends Component {
     state = {
         userInfo: [],
         proPicture: avatars[Math.floor(Math.random() * avatars.length)],
-        myAccount: false,
+        myAccount: this.props.myAccount,
         isContributor: false,
         following: false,
         token: this.props.cookies.get('myToken'),
@@ -96,13 +96,14 @@ class Profile extends Component {
             .catch(error => console.log(error));
 
         this.props.mountedChannel(this.props.username)
-    }
+    };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.username !== this.props.username) {
-            this.fetchProfileAndSetState()
-            this.props.mountedChannel(this.props.username)
-            this.props.clearChannels()
+            this.fetchProfileAndSetState();
+            this.setState({myAccount: this.props.myAccount});
+            this.props.mountedChannel(this.props.username);
+            this.props.clearChannels();
         }
     }
 
@@ -157,6 +158,7 @@ class Profile extends Component {
                         )}
                     <ProfilePicture image={this.state.proPicture}/>
                     <ProfileDetails
+                        isPersonal={this.state.userInfo.isPersonal}
                         followingNum={this.state.userInfo.followingsNum}
                         followerNum={this.state.userInfo.followersNum}
                         postNum={this.state.userInfo.postsNum}

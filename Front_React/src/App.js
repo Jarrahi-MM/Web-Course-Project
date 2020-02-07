@@ -59,7 +59,8 @@ class App extends Component {
                         <Route path='/profile/:username' render={({match}) => {
                             return (
                                 <div>
-                                    <Profile username={match.params.username}/>
+                                    <Profile username={match.params.username}
+                                             myAccount={this.state.username === match.params.username}/>
                                 </div>
                             );
                         }}/>
@@ -99,9 +100,9 @@ class App extends Component {
                         </Route>
                         <Route path={'/fortest_modal'}>
                             <Button
-                                onClick={()=>this.props.openModal(
+                                onClick={() => this.props.openModal(
                                     'comment_create',
-                                    {supCommentId:25},
+                                    {supCommentId: 25},
                                 )}
                             >hiie</Button>
                         </Route>
@@ -120,4 +121,4 @@ const mapStateToProps = (state) => ({
     token: state.auth.authorization,
 })
 
-export default connect(mapStateToProps, {loadTokenAndUsernameFromCookies,openModal})(withCookies(App));
+export default connect(mapStateToProps, {loadTokenAndUsernameFromCookies, openModal})(withCookies(App));

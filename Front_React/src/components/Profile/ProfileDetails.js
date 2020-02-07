@@ -27,14 +27,16 @@ class ProfileDetails extends Component {
                         {this.props.followerNum}
                     </div>
                 </Link>
-                <Link className="ui labeled button huge" tabIndex="0" to={`/followList/${this.props.username}`}>
-                    <div className="ui button">
-                        <i className="users icon big"/> Followings
-                    </div>
-                    <div className="ui basic blue left pointing label">
-                        {this.props.followingNum}
-                    </div>
-                </Link>
+                {this.props.isPersonal ?
+                    <Link className="ui labeled button huge" tabIndex="0" to={`/followList/${this.props.username}`}>
+                        <div className="ui button">
+                            <i className="users icon big"/> Followings
+                        </div>
+                        <div className="ui basic blue left pointing label">
+                            {this.props.followingNum}
+                        </div>
+                    </Link> :
+                    <span/>}
             </React.Fragment>
         );
     }
