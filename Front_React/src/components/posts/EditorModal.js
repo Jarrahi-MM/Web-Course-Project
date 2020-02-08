@@ -27,7 +27,7 @@ class EditorModal extends Component {
     }
 
     render() {
-        let {action, address, initialText} = this.props
+        let {action, address, initialText,initialPostEditTitle} = this.props
         return (
             <div>
                 <Modal
@@ -39,6 +39,7 @@ class EditorModal extends Component {
                             action,
                             address,
                             initialText,
+                            initialPostEditTitle
                         }}/>
                     </Modal.Content>
                 </Modal>
