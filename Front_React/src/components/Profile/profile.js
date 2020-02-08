@@ -12,6 +12,7 @@ import InfiniteScroll from "react-infinite-scroller";
 import PostCard from "../posts/PostCard";
 import {clearChannels, loadMoreChannelPosts} from "../../redux/action_creators/channelActions";
 import {mountedChannel, unmountedChannel} from "../../redux/action_creators/navbarActions";
+import NoContent from "../NoContent";
 
 
 const avatars = ['https://image.freepik.com/free-vector/cartoon-monster-face-avatar-halloween-monster_6996-1164.jpg'
@@ -201,11 +202,14 @@ class Profile extends Component {
                             hasMore={this.props.hasMoreItems}
                             loader={this.getLoaderComponent()}>
 
-                            {this.props.posts.map(post => {
+                            {
+                                this.props.posts.length>0 ?this.props.posts.map(post => {
                                 return (
                                     <PostCard channelId={post.channel} postNumber={post.postNumber} key={nextId()}/>
                                 )
-                            })}
+                            }) :
+                                    (this.props.hasMoreItems? [] :<NoContent/>)
+                            }
 
                         </InfiniteScroll>
                     </div>

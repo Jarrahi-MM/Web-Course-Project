@@ -8,10 +8,12 @@ import render from 'html-react-parser'
 class AlertItem extends Component {
     render() {
         let {alert} = this.props;
-
-        if (alert.isComment){
+        console.log(alert)
+        if (alert.is_comment){
+            console.log("here")
             return this.generateCommentAlert(alert);
         }else {
+            console.log("e here")
             return this.generateFollowAlert(alert);
         }
     }

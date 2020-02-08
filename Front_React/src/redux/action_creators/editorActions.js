@@ -32,7 +32,7 @@ export const saveData = (editorState) => (dispatch, getState) => {
                 body: JSON.stringify({
                     image: '',
                     text: editorState.data.toString(),
-                    postTitle: ''
+                    postTitle: editorState.post_create_title
                 })
             }).then((resp) => {
                 console.log('Created Post:' + resp);
@@ -65,7 +65,7 @@ export const saveData = (editorState) => (dispatch, getState) => {
                 body: JSON.stringify({
                     image: '',
                     text: editorState.data.toString(),
-                    postTitle: ''
+                    postTitle: editorState.post_create_title
                 })
             }).then((resp) => {
                 console.log('Edited Post:' + resp);
