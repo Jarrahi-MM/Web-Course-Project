@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 from django.db.models import Max, Min
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_headers
 from rest_framework import status, permissions
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -11,6 +13,9 @@ from ..serializers import HomepageViewSerializer
 from ..constants import paginateBy, date_time_formatter
 
 
+#increase timeout in production
+@cache_page(0)
+@vary_on_headers('Authorization')
 @api_view()
 @permission_classes((permissions.IsAuthenticated,))
 def homepage(request, tab_name):
@@ -70,7 +75,7 @@ def hasUserPaticipatedInPost(post, user):
 def recurse_comments(comment, user):
     if comment.creator == user:
         return True
-    for sub_comment in comment.subComments:
+    for sub_comment in comment.subComments.all():
         if recurse_comments(sub_comment, user):
             return True
     return False
