@@ -48,8 +48,13 @@ class Editor extends Component {
                     <Input onChange={this.handleTitleChange} className={'mb-3'}
                            defaultValue={this.state.initialPostEditTitle}/> : null}
                 {
-                    (this.props.action === 'comment_edit' || this.props.action === 'post_edit') && !this.state.editorIsLoading ?
+                    (this.props.action === 'post_edit') && !this.state.editorIsLoading ?
                         <Button onClick={this.handleDelete} className={'float-right'} size={"small"} color={'red'}>Delete</Button>
+                        : null
+                }
+                {
+                    (this.props.action === 'comment_edit') && !this.state.editorIsLoading ?
+                        <Button onClick={this.handleDelete} className={'mb-3'} size={"small"} color={'red'}>Delete</Button>
                         : null
                 }
                 <CKEditor

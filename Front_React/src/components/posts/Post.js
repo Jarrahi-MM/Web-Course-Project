@@ -267,7 +267,6 @@ class Post extends Component {
                 {/*    </div>*/}
                 {/*    <div className="ui divider"></div>*/}
                 {/*</div>*/}
-                <div>{this.state.myusername}</div>
                 <PostCard channelId={this.state.channelId} postNumber={this.state.postNum}/>
                 <Comment.Group>
                     {this.state.comments.map(comment => this.processComment('.', comment))}

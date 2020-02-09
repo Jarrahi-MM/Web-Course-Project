@@ -81,8 +81,31 @@ export const saveData = (editorState) => (dispatch, getState) => {
 export const delete_item = (editorState) => (dispatch,getState) => {
     switch (editorState.action) {
         case 'comment_edit':
-            break //todo jarrahi
+            let url = new URL('http://127.0.0.1:8000/api1/comments/')
+            url.search = new URLSearchParams({'id': editorState.address.commentId}).toString()
+            console.log(url)
+            fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': getState().auth.authorization,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                }
+            }).then((resp) => {
+                console.log('Deleted Comment:' + resp);
+            });
+            break
         case 'post_edit':
+            fetch(`http://127.0.0.1:8000/api1/post/${editorState.address.channelId}/${editorState.address.postId}/`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': getState().auth.authorization,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                }
+            }).then((resp) => {
+                console.log('Deleted Post:' + resp);
+            });
             break
 
     }
