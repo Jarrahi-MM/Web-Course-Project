@@ -30,7 +30,9 @@ class EditProfilePic extends Component {
         let fd = new FormData()
         fd.append('profilePic', event.target.files[0], this.props.username)
         let url = new URL('https://59788.cke-cs.com/token/dev/D4EUlj4fwrGlaxEwLwLqfkedrU6RZwlwhF0b1NhgtydQPokOdVxaa2FFAEz0')
-        fetch(url).then((resp) => resp.json).then((token) => {
+        fetch(url).then((resp) => {
+            return resp.text()
+        }).then((token) => {
             let url = new URL('https://59788.cke-cs.com/easyimage/upload/')
             fetch(url, {
                 method: 'POST',
@@ -44,7 +46,13 @@ class EditProfilePic extends Component {
                     console.log(resp)
                 } else {
                     resp.json().then((json) => {
-                        this.props.saveNewImageUrl(json[2])
+                        for(let reso in json){
+                            if(Number(reso)<900){
+                                this.props.saveNewImageUrl(json[reso])
+                                return
+                            }
+                        }
+                        console.log("No appropriate resolution found.")
                     })
                 }
             })
@@ -65,7 +73,7 @@ class EditProfilePic extends Component {
                         <label className="custom-file-label" htmlFor="inputGroupFile01">Choose file</label>
                     </div>
                 </div>
-                <ProfilePicture image={this.props.imagePreviewUrl}/>
+                <ProfilePicture image={'https://lh5.googleusercontent.com/proxy/wIs8-k2bUkZpQxeZIoYXpuEChdqH9XUhCVdTu9XQ5ClPMntFj-fd5dDFAjSRTEaQx06ovHZgd-LH1rY8jsRttj49vva0p0Ob85_5AJ0T7kT_JpRuzdWkb0swYw'}/>
             </div>
         );
     }
