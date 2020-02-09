@@ -108,7 +108,8 @@ class Profile extends Component {
                             this.setState({followingsNum: res.followingsNum});
                         })
                         .catch(error => console.log(error));
-                }
+                }else
+                    this.setState({proPicture:'https://lh4.googleusercontent.com/proxy/q_YiYn6c-tZFPpGv5oxtsvt7xlGdVuUnzEGaTrCzVX4pnJavOhH9wI2LOfSLdIHVhfnsTSltcryUfElLdsc0weD2Ch7eTsZGoeLtAlsiIFGrZ3QpHVk5d4QUeFrqEw'})
             })
             .catch(error => console.log(error));
 
@@ -121,7 +122,7 @@ class Profile extends Component {
             .then(res => {
                 this.setState({channels: res});
                 for (let r in res) {
-                    if (res[r].channelId === this.props.username){
+                    if (res[r].channelId === this.props.username) {
                         this.setState({myAccount: true});
                         this.setState({following: false});
                     }
