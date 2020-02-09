@@ -10,15 +10,19 @@ const imageStyle = {
     width: '250px',
     height: '250px',
     display: 'inline-block',
-    right:'20px'
+    right: '20px'
 };
+
 
 class ProfilePicture extends Component {
     render() {
         return (<div style={containStyle}>
-            <Image style={imageStyle} src={this.props.image} size='medium' circular/>
+            {this.props.image === "" ?
+                <Image style={imageStyle} src={''} size='medium' circular/> :
+                <Image style={imageStyle} src={this.props.image} size='medium' circular/>}
         </div>);
     }
+
 }
 
 export default ProfilePicture
