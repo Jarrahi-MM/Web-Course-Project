@@ -14,7 +14,6 @@ import {clearChannels, loadMoreChannelPosts} from "../../redux/action_creators/c
 import {mountedChannel, unmountedChannel} from "../../redux/action_creators/navbarActions";
 import NoContent from "../NoContent";
 
-
 const avatars = ['https://image.freepik.com/free-vector/cartoon-monster-face-avatar-halloween-monster_6996-1164.jpg'
     , 'https://image.freepik.com/free-vector/cartoon-monster-face-avatar-halloween-monster_6996-1120.jpg'
     , 'https://image.freepik.com/free-vector/cartoon-monster-face-avatar-halloween-monster_6996-1154.jpg'
@@ -29,7 +28,7 @@ class Profile extends Component {
 
     state = {
         userInfo: [],
-        proPicture: avatars[Math.floor(Math.random() * avatars.length)],
+        proPicture: "",
         myAccount: this.props.myAccount,
         isContributor: false,
         following: false,
@@ -96,17 +95,21 @@ class Profile extends Component {
                     }
                 }
                 if (this.state.userInfo.isPersonal) {
-                    fetch(`http://127.0.0.1:8000/api1/profiles/${this.props.username}`, {
+                    fetch(`http://127.0.0.1:8000/api1/profiles/${this.props.username}/`, {
                         method: 'GET',
                         headers: {
                             'Authorization': `Token ${this.state.token}`
                         }
                     }).then(response => response.json())
                         .then(res => {
+                            this.setState({proPicture: res.image});
+                            if (res.image === "")
+                                this.setState({proPicture: avatars[Math.floor(Math.random() * avatars.length)]})
                             this.setState({followingsNum: res.followingsNum});
                         })
                         .catch(error => console.log(error));
-                }
+                }else
+                    this.setState({proPicture:'https://lh4.googleusercontent.com/proxy/q_YiYn6c-tZFPpGv5oxtsvt7xlGdVuUnzEGaTrCzVX4pnJavOhH9wI2LOfSLdIHVhfnsTSltcryUfElLdsc0weD2Ch7eTsZGoeLtAlsiIFGrZ3QpHVk5d4QUeFrqEw'})
             })
             .catch(error => console.log(error));
 
@@ -119,8 +122,10 @@ class Profile extends Component {
             .then(res => {
                 this.setState({channels: res});
                 for (let r in res) {
-                    if (res[r].channelId === this.props.username)
+                    if (res[r].channelId === this.props.username) {
                         this.setState({myAccount: true});
+                        this.setState({following: false});
+                    }
                 }
             })
             .catch(error => console.log(error));
@@ -203,12 +208,12 @@ class Profile extends Component {
                             loader={this.getLoaderComponent()}>
 
                             {
-                                this.props.posts.length>0 ?this.props.posts.map(post => {
-                                return (
-                                    <PostCard channelId={post.channel} postNumber={post.postNumber} key={nextId()}/>
-                                )
-                            }) :
-                                    (this.props.hasMoreItems? [] :<NoContent/>)
+                                this.props.posts.length > 0 ? this.props.posts.map(post => {
+                                        return (
+                                            <PostCard channelId={post.channel} postNumber={post.postNumber} key={nextId()}/>
+                                        )
+                                    }) :
+                                    (this.props.hasMoreItems ? [] : <NoContent/>)
                             }
 
                         </InfiniteScroll>

@@ -73,7 +73,7 @@ class EditProfilePic extends Component {
                         <label className="custom-file-label" htmlFor="inputGroupFile01">Choose file</label>
                     </div>
                 </div>
-                <ProfilePicture image={this.props.imagePreviewUrl}/>
+                <ProfilePicture image={'https://lh5.googleusercontent.com/proxy/wIs8-k2bUkZpQxeZIoYXpuEChdqH9XUhCVdTu9XQ5ClPMntFj-fd5dDFAjSRTEaQx06ovHZgd-LH1rY8jsRttj49vva0p0Ob85_5AJ0T7kT_JpRuzdWkb0swYw'}/>
             </div>
         );
     }
