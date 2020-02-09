@@ -75,7 +75,7 @@ class EditProfile extends Component {
     saveNewImageUrl = (newUrl) => {
         this.setState({profile: {...this.state.profile, profilePic: newUrl}})
         //todo negin: profile in state is updated, save it how ever you do
-    }
+    };
 
     render() {
         return (
