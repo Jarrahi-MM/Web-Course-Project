@@ -74,6 +74,7 @@ class Profile extends Component {
 
     componentDidMount() {
         this.fetchProfileAndSetState()
+        this.props.mountedChannel(this.props.username)
     }
 
     fetchProfileAndSetState = () => {
@@ -123,21 +124,20 @@ class Profile extends Component {
                 }
             })
             .catch(error => console.log(error));
-
-        this.props.mountedChannel(this.props.username)
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.username !== this.props.username) {
+            this.props.clearChannels(); //why was it at the end?
             this.fetchProfileAndSetState();
             this.setState({myAccount: this.props.myAccount});
             this.props.mountedChannel(this.props.username);
-            this.props.clearChannels();
         }
     }
 
     componentWillUnmount() {
         this.props.unmountedChannel()
+        this.props.clearChannels()
     }
 
     createPostClicked = () => {
