@@ -46,7 +46,7 @@ class CommentView(APIView):
     @staticmethod
     def delete(request):
         try:
-            comment = Comment.objects.get(id=request.data['id'])
+            comment = Comment.objects.get(id=request.query_params['id'])
         except Comment.DoesNotExist:
             return Response('Invalid Comment', status=status.HTTP_400_BAD_REQUEST)
         if request.user.username != comment.creator.username:
