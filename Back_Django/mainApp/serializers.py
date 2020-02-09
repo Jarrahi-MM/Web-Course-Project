@@ -46,7 +46,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProfileInfo
-        fields = ('user', 'city', 'country', 'phoneNum', 'followingsNum')
+        fields = ('user', 'city', 'country', 'phoneNum', 'followingsNum', 'image')
 
 
 class CommentSerializer(serializers.ModelSerializer):

@@ -24,6 +24,8 @@ class Profiles(APIView):
             return Response("You can't edit profile", status=status.HTTP_400_BAD_REQUEST)
         if 'city' in request.data:
             profile.city = request.data['city']
+        if 'image' in request.data:
+            profile.image = request.data['image']
         if 'country' in request.data:
             profile.country = request.data['country']
         if 'phoneNum' in request.data:

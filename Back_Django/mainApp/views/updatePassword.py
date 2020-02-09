@@ -33,8 +33,6 @@ def MailPassword(newPass, email):
 
 
 class UpdatePassword(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
-
     @staticmethod
     def get(request):
         generator = random.SystemRandom()
@@ -50,6 +48,8 @@ class UpdatePassword(APIView):
 
     @staticmethod
     def put(request):
+        if request.user.is_anonymous:
+            return Response('not reset', status=status.HTTP_400_BAD_REQUEST)
         new_pass = request.data['newPass']
         try:
             MailPassword(new_pass, request.user.email)
