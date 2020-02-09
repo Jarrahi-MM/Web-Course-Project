@@ -4,7 +4,7 @@ import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import render from 'html-react-parser'
 import {Button, Input, Placeholder} from "semantic-ui-react";
-import {saveData} from "../../redux/action_creators/editorActions";
+import {delete_item, saveData} from "../../redux/action_creators/editorActions";
 import {closeModal} from "../../redux/action_creators/modalActions";
 
 class Editor extends Component {
@@ -27,6 +27,11 @@ class Editor extends Component {
         this.props.closeModal()
     }
 
+    handleDelete = () => {
+        this.props.delete_item(this.state)
+        this.props.closeModal()
+    }
+
     handleTitleChange = (e, d) => {
         this.setState({
             post_create_title: d.value
@@ -37,10 +42,16 @@ class Editor extends Component {
         return (
             <div>
                 {this.props.action === 'post_create' && !this.state.editorIsLoading ?
-                    <Input onChange={this.handleTitleChange} className={'mb-3'} placeholder='Your post title'/> : null}
+                    <Input onChange={this.handleTitleChange} className={'mb-3'}
+                           placeholder='Your post title'/> : null}
                 {this.props.action === 'post_edit' && !this.state.editorIsLoading ?
                     <Input onChange={this.handleTitleChange} className={'mb-3'}
                            defaultValue={this.state.initialPostEditTitle}/> : null}
+                {
+                    (this.props.action === 'comment_edit' || this.props.action === 'post_edit') && !this.state.editorIsLoading ?
+                        <Button onClick={this.handleDelete} className={'float-right'} size={"small"} color={'red'}>Delete</Button>
+                        : null
+                }
                 <CKEditor
                     editor={ClassicEditor}
                     data={this.state.initialText}
@@ -82,4 +93,4 @@ class Editor extends Component {
     }
 }
 
-export default connect(null, {saveData, closeModal})(Editor);
+export default connect(null, {saveData, closeModal,delete_item})(Editor);

@@ -73,3 +73,17 @@ export const saveData = (editorState) => (dispatch, getState) => {
             break
     }
 }
+
+
+//editorstate:
+//action: comment_edit, post_edit
+//address: {commentId}, {channelId,postId}
+export const delete_item = (editorState) => (dispatch,getState) => {
+    switch (editorState.action) {
+        case 'comment_edit':
+            break //todo jarrahi
+        case 'post_edit':
+            break
+
+    }
+}
