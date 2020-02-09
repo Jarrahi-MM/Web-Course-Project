@@ -9,6 +9,10 @@ from .models import Comment, Alert, Channel
 def on_new_follow(sender, instance, pk_set, **kwargs):
     instance = Channel.objects.get(channelId=instance)
     by_user = User.objects.get(id=list(pk_set)[0])
+
+    if by_user in instance.followers.all():
+        return
+
     if instance.isPersonal:
         Alert.objects.create(
             is_comment=False,

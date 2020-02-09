@@ -1,10 +1,11 @@
 import {CLOSE_MODAL, OPEN_MODAL} from "../action_creators/types";
 
 const initState = {
-    modalIsOpen:false,
-    action:'',
-    address:{},
-    initialText:''
+    modalIsOpen: false,
+    action: '',
+    address: {},
+    initialText: '',
+    initialPostEditTitle: ''
 };
 
 const modalReducer = (state = initState, action) => {

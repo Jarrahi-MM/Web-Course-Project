@@ -1,0 +1,10 @@
+asgiref==3.2.3
+Django==3.0.3
+django-cors-headers==3.2.1
+django-rest-passwordreset==1.1.0
+djangorestframework==3.11.0
+python-memcached==1.59
+pytz==2019.3
+signals==0.0.2
+six==1.14.0
+sqlparse==0.3.0

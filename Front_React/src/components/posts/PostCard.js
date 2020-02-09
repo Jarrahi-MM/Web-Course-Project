@@ -18,7 +18,6 @@ class PostCard extends Component {
     }
 
     constructor(props) {
-        console.log(props)
         super(props)
         props.loadPost(this.props.channelId, this.props.postNumber)
     }
@@ -72,7 +71,7 @@ class PostCard extends Component {
         this.props.openModal('post_edit', {
             channelId: this.props.channelId,
             postId: this.props.postNumber
-        }, this.props.post.text)
+        }, this.props.post.text,this.props.post.postTitle)
     }
 
     render() {

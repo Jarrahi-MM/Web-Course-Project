@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import render from 'html-react-parser'
-import {Button, Placeholder} from "semantic-ui-react";
+import {Button, Input, Placeholder} from "semantic-ui-react";
 import {saveData} from "../../redux/action_creators/editorActions";
 import {closeModal} from "../../redux/action_creators/modalActions";
 
@@ -14,9 +14,11 @@ class Editor extends Component {
     //initialText: the initial html(when editing)
     state = {
         data: '',
+        post_create_title: this.props.initialPostEditTitle ? this.props.initialPostEditTitle : '',
         editorIsLoading: true,
+        initialPostEditTitle: '',
         ...this.props,
-        initialText: ''
+        initialText: '',
     };
 
 
@@ -25,9 +27,20 @@ class Editor extends Component {
         this.props.closeModal()
     }
 
+    handleTitleChange = (e, d) => {
+        this.setState({
+            post_create_title: d.value
+        })
+    }
+
     render() {
         return (
             <div>
+                {this.props.action === 'post_create' && !this.state.editorIsLoading ?
+                    <Input onChange={this.handleTitleChange} className={'mb-3'} placeholder='Your post title'/> : null}
+                {this.props.action === 'post_edit' && !this.state.editorIsLoading ?
+                    <Input onChange={this.handleTitleChange} className={'mb-3'}
+                           defaultValue={this.state.initialPostEditTitle}/> : null}
                 <CKEditor
                     editor={ClassicEditor}
                     data={this.state.initialText}
@@ -36,7 +49,11 @@ class Editor extends Component {
                         this.setState({data})
                     }}
                     onInit={(editor) => {
-                        this.setState({editorIsLoading: false, initialText: this.props.initialText})
+                        this.setState({
+                            editorIsLoading: false,
+                            initialText: this.props.initialText,
+                            data: this.props.initialText
+                        })
                     }}
                     config={{
                         cloudServices: {
