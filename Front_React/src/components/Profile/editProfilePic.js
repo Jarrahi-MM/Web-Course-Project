@@ -33,6 +33,7 @@ class EditProfilePic extends Component {
         fetch(url).then((resp) => resp.json).then((token) => {
             let url = new URL('https://59788.cke-cs.com/easyimage/upload/')
             fetch(url, {
+                method: 'POST',
                 headers: {
                     Authorization: token
                 },
@@ -43,7 +44,7 @@ class EditProfilePic extends Component {
                     console.log(resp)
                 } else {
                     resp.json().then((json) => {
-                        this.props.saveNewImageUrl(json['300'])
+                        this.props.saveNewImageUrl(json[2])
                     })
                 }
             })

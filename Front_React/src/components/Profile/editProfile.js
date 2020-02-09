@@ -73,8 +73,16 @@ class EditProfile extends Component {
     };
 
     saveNewImageUrl = (newUrl) => {
-        this.setState({profile: {...this.state.profile, profilePic: newUrl}})
-        //todo negin: profile in state is updated, save it how ever you do
+        this.setState({profile: {...this.state.profile, image: newUrl}})
+        fetch(`http://127.0.0.1:8000/api1/profiles/${this.state.username}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${this.state.token}`
+            },
+            body: JSON.stringify(this.state.profile)
+        }).then(response => response.json())
+            .catch(error => console.log(error))
     };
 
     render() {
@@ -92,7 +100,7 @@ class EditProfile extends Component {
                                 <br/>
                                 <Link to={`/blockedUsers/${this.state.username}`}
                                       className="ui right labeled icon button">
-                                   BLOCKED USERS
+                                    BLOCKED USERS
                                     <i className="red ban icon"/>
                                 </Link>
                                 <br/>
