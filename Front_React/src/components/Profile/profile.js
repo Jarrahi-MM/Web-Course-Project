@@ -121,8 +121,10 @@ class Profile extends Component {
             .then(res => {
                 this.setState({channels: res});
                 for (let r in res) {
-                    if (res[r].channelId === this.props.username)
+                    if (res[r].channelId === this.props.username){
                         this.setState({myAccount: true});
+                        this.setState({following: false});
+                    }
                 }
             })
             .catch(error => console.log(error));
